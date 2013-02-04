@@ -6,13 +6,13 @@ Get people together to do good things.
 
 ## Setup instructions
 
-- Download the latest release
-- Extract the source code to a local folder
-- Configure IIS to run the site
-- Open the WeWillGather.sln file in Visual Studio (Express edition supported)
-- Build the project within Visual Studio
-- In a browser, navigate to the URL configured in IIS 
-- Following the installation instructions to configure the site
+1. Download the latest release
+2. Extract the source code to a local folder
+3. Configure IIS to run the site
+4. Open the WeWillGather.sln file in Visual Studio (Express edition supported)
+5. Build the project within Visual Studio
+6. In a browser, navigate to the URL configured in IIS 
+7. Following the installation instructions to configure the site
 
 ## Dependencies
 
