@@ -1,0 +1,414 @@
+﻿@model Gather.Web.Models.User.UserProfileModel
+@using Gather.Core
+@using Gather.Core.Domain.Common
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.CurrentMenuRoute = "HomePage";
+
+    if (!Model.MetaTitle.IsEmpty()) { Html.AddTitleParts(Model.MetaTitle); }
+    if (!Model.MetaKeywords.IsEmpty()) { Html.AddMetaKeywordParts(Model.MetaKeywords); }
+    if (!Model.MetaDescription.IsEmpty()) { Html.AddMetaDescriptionParts(Model.MetaDescription); }
+}
+
+@section HeaderScripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('a[href^="http://twitter.com/account/redirect_by_id"]').click(function () { window._gaq.push(['_trackEvent', 'Outbound Links', 'View User Social Profile', 'Twitter']); window.WaitForSeconds(0.25); });
+            $('a[href^="http://www.facebook.com/account/profile.php?id="]').click(function () { window._gaq.push(['_trackEvent', 'Outbound Links', 'View User Social Profile', 'Facebook']); window.WaitForSeconds(0.25); });
+            $('a[href^="http://www.facebook.com/profile.php?id="]').click(function () { window._gaq.push(['_trackEvent', 'Outbound Links', 'View User Social Profile', 'Facebook']); window.WaitForSeconds(0.25); });
+        });
+    </script>
+}
+
+@using (Html.BeginForm("profile", "user", FormMethod.Post, new { @class = "row" }))
+{
+    @Html.ValidationSummary()
+
+    <div class="row">
+        @if (Model.IsOwnProfile)
+        {
+            <div class="row header-edit">
+                <h1 class="h2 panel-small header-shaded">@(Model.ShowEditProfile ? " Editing..." : "Your Profile")</h1>
+                <input type="submit" id="editProfile" name="editProfile" class="button button-edit" value="Edit profile and privacy" @(Model.ShowEditProfile ? "style=display:none;" : null)/>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="panel-small header-shaded clearfix">            
+                    <h1 class="h2">Profile for @Model.User.DisplayName</h1>
+                </div>
+            </div>
+        }
+    </div>
+
+    if (Model.IsOwnProfile)
+    {
+        <div class="row form-profile-edit" id="editProfilePanel" @(!Model.ShowEditProfile ? "style=display:none;" : null)>
+            <div class="four columns row">
+                <div class="panel-small">
+                    <h3 class="row h4">Your contact details:</h3>
+                    @Html.HiddenFor(model => model.User.TwitterProfile)
+                    <p>
+                        @Html.GatherLabelFor(model => model.User.DisplayName, "Your display name:")
+                        <span>@Html.TextBoxFor(model => model.User.DisplayName)</span>
+                    </p>
+                    <p class="row">
+                        @Html.GatherLabelFor(model => model.User.Telephone, "Phone:")
+                        <span>@Html.TextBoxFor(model => model.User.Telephone)</span>
+                    </p>
+                    <p class="row">
+                        @Html.GatherLabelFor(model => model.User.Website, "Website:")
+                        <span>@Html.TextBoxFor(model => model.User.Website)</span>
+                    </p>
+                    <p class="row">
+                        @Html.GatherLabelFor(model => model.User.Email, "Email:")
+                        <span>@Html.TextBoxFor(model => model.User.Email)</span>
+                    </p>
+                </div>
+            </div>
+            <div class="four columns row">
+                <div class="panel-small">
+                    <h3 class="row h4">Your privacy settings:</h3>
+                    <p class="row">
+                        @Html.LabelFor(model => model.User.TelephoneDisclosureId, "Display my phone number to:")
+                        <span>@Html.DropDownListFor(model => model.User.TelephoneDisclosureId, Model.User.AvailableDisclosureLevels)</span>
+                    </p>
+                    <p class="row">
+                        @Html.LabelFor(model => model.User.WebsiteDisclosureId, "Display my website URL to:")
+                        <span>@Html.DropDownListFor(model => model.User.WebsiteDisclosureId, Model.User.AvailableDisclosureLevels)</span>
+                    </p>
+                    <p class="row">
+                        @Html.LabelFor(model => model.User.EmailDisclosureId, "Display my email address to:")
+                        <span>@Html.DropDownListFor(model => model.User.EmailDisclosureId, Model.User.AvailableDisclosureLevels)</span>
+                    </p>
+                </div>
+            </div>
+            <div class="four columns row">
+                <div class="panel-small">
+                    <h3 class="row h4">Your username</h3>
+                    <p>
+                        @Html.GatherLabelFor(model => model.User.UserName, "Your username:")
+                        <span>@Html.TextBoxFor(model => model.User.UserName, new { maxlength = 50 })</span>
+                    </p>
+                    
+                    <h3 class="row h4">Your linked accounts:</h3>
+                    @if (Model.User.TwitterProfile != null)
+                    {
+                        <p class="box-twitter">
+                            @Model.User.TwitterDisplayName<br />
+                            @if (Model.User.PrimaryAuthMethod == AuthenticationMethod.Twitter)
+                            {
+                                @:This is your primary account
+                            }
+                            else
+                            {
+                                @:<a class="underlined" href="@Url.RouteUrl("UserProfileChangePrimary")">Make this your main account</a>
+                            }
+                            @if (Model.User.FacebookProfile != null)
+                            {
+                                @:<a href="@Url.RouteUrl("UserProfileUnlink", new { profileType = "twitter" })" data-unlink-type="twitter" data-animation="fade" class="underlined">Unlink this account</a>
+                            }
+                        </p>
+                    }
+                    else
+                    {
+                        <p>You haven't linked a <strong>Twitter</strong> account.<br /><a href="@Url.RouteUrl("AuthenticationLink", new { action = "twitter" })" class="popup">Add one now</a></p>
+                    }
+                    
+                    @if (Model.User.FacebookProfile != null)
+                    {
+                        <p class="box-facebook">
+                            @Model.User.FacebookDisplayName<br />
+                            @if (Model.User.PrimaryAuthMethod == AuthenticationMethod.Facebook)
+                            {
+                                @:This is your primary account
+                            }
+                            else
+                            {
+                                @:<a class="underlined" href="@Url.RouteUrl("UserProfileChangePrimary")">Make this your main account</a>
+                            }
+                            @if (Model.User.TwitterProfile != null)
+                            {
+                                @: <a href="@Url.RouteUrl("UserProfileUnlink", new { profileType = "facebook" })" data-unlink-type="facebook" data-animation="fade" class="underlined">Unlink this account</a>
+                            }
+                        </p>
+                    }
+                    else
+                    {
+                        <p>You haven't linked a <strong>Facebook</strong> account.<br /><a href="@Url.RouteUrl("AuthenticationLink", new { action = "facebook" })" class="popup">Add one now</a></p>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <p class="columns nine push-three">
+                    @Html.HiddenFor(model => model.User.Id)
+                    <input type="submit" id="updateProfile" name="updateProfile" class="button button-update" value="Update your profile" />
+                    <input type="submit" id="cancelEditProfile" name="cancelEditProfile" class="button button-cancel" value="Cancel" />
+                </p>
+                <p class="columns three pull-nine">
+                    <a href="@Url.RouteUrl("UserProfileDelete")" class="button button-delete" data-reveal-id="deleteAccount" data-animation="fade">Delete your account</a>
+                </p>
+            </div>
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="four columns">
+        <div class="phone-one end">
+            <img src="@Html.ResizedImageUrl(Model.User.ProfilePicture, 298, 298)" alt="@Model.User.DisplayName" />
+        </div>	
+        <div class="phone-three row clearfix">
+            @if (Model.IsOwnProfile)
+            {
+                var className = (Model.FinishedProjects != null && Model.FinishedProjects.Count > 0 && Model.OrganisedProjects != null && Model.OrganisedProjects.Count > 0 ? "size" : "twelve");
+
+                if (Model.FinishedProjects != null && Model.FinishedProjects.Count > 0)
+                {
+                    <div class="@className columns">
+                        <div class="box-completed text-center">
+                            You've helped<br />complete
+                            <span>@Model.FinishedProjects.Count</span>
+                            action@(Model.FinishedProjects.Count > 1 ? "s" : null)
+                        </div>
+                    </div>
+                }
+                
+                if (Model.OrganisedProjects != null && Model.OrganisedProjects.Count > 0)
+                {
+                    <div class="@className columns">
+                        <div class="box-started text-center">
+                            You have started
+                            <span>@Model.OrganisedProjects.Count</span> 
+                            good thing@(Model.OrganisedProjects.Count > 1 ? "s" : null)
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                if (Model.FinishedProjects != null && Model.FinishedProjects.Count > 0)
+                {
+                    <div class="twelve columns">
+                        <div class="alert-box text-center">
+                            @Model.User.DisplayName helped complete <br />@Model.FinishedProjects.Count action@(Model.FinishedProjects.Count > 1 ? "s" : null)
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="row user-details clearfix">
+                <div class="panel-small border-lighter">
+                    @if (Model.User.FacebookProfile != null)
+                    {
+                        <a target="_blank" class="link-facebook" rel="nofollow" href="http://www.facebook.com/profile.php?id=@Model.User.FacebookProfile">@(Model.IsOwnProfile ? "Your" : null) Facebook account</a>
+                    }
+                    @if (Model.User.TwitterProfile != null)
+                    {
+                        <a target="_blank" class="link-twitter" rel="nofollow" href="http://twitter.com/account/redirect_by_id?id=@Model.User.TwitterProfile">@(Model.IsOwnProfile ? "Your" : null) Twitter </a>    
+                    }
+                </div>
+                <div class="panel-small border-lighter">
+                    <ul>
+                        <li><strong>Joined:</strong><br />@Html.DateTimeFormat("d~ MMMM, yyyy", Model.User.CreatedDate)</li>
+                
+                        @if (!string.IsNullOrEmpty(Model.User.Email) && 
+                       (Model.IsOwnProfile || Model.User.EmailDisclosureLevel == DisclosureLevel.Public ||
+                        (Model.VisitorIsVolunteer && Model.User.EmailDisclosureLevel == DisclosureLevel.VolunteersOnly)))
+                        {
+                            <li><strong>Email:</strong> <br />@Html.Raw(string.Format("<a href=\"mailto:{0}\" rel=\"nofollow\">{0}</a>", Model.User.Email.EncodeEmail()))</li>
+                        }
+                
+                        @if (!string.IsNullOrEmpty(Model.User.Telephone) &&
+                       (Model.IsOwnProfile || Model.User.TelephoneDisclosureLevel == DisclosureLevel.Public ||
+                        (Model.VisitorIsVolunteer && Model.User.TelephoneDisclosureLevel == DisclosureLevel.VolunteersOnly)))
+                        {
+                            <li><strong>Phone number:</strong> <br />@Model.User.Telephone</li>
+                        }
+                
+                        @if (!string.IsNullOrEmpty(Model.User.Website) &&
+                       (Model.IsOwnProfile || Model.User.WebsiteDisclosureLevel == DisclosureLevel.Public ||
+                        (Model.VisitorIsVolunteer && Model.User.WebsiteDisclosureLevel == DisclosureLevel.VolunteersOnly)))
+                        {
+                            <li><strong>Website:</strong> <br /><a href="@Model.User.Website" rel="nofollow">@Model.User.Website</a></li>
+                        }
+                    </ul>
+                </div>
+                @if (Model.IsOwnProfile)
+                {
+                    <div class="panel-small border-lighter">
+                        <ul>
+                            <li><a rel="nofollow" href="@Url.RouteUrl("UserProfileApi")">Want to access our API?</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="row hide-on-mobile">
+            <a href="http://www.vinspired.com" target="_blank">
+                <img src="/content/images/v-inspired-banner.jpg" alt="Visit V-Inspired - Connecting 14-25 year olds with volunteering opportunities" />
+            </a>
+        </div>
+    </div>
+    <div class="eight columns">
+        <h2>
+            @(Model.IsOwnProfile ? "Your" : Model.User.PluralDisplayName) good things:
+        </h2>
+        <div class="hider">
+            <dl class="tabs contained mobile bumped-down">
+                <dd><a href="#simpleContained1" class="active">Upcoming good things</a></dd>
+                @if (Model.IsOwnProfile)
+                {
+                    <dd><a href="#simpleContained2">Actions you started</a></dd>
+                }
+                <dd><a href="#simpleContained3">Completed actions</a></dd>
+            </dl>
+        </div>
+        <ul class="tabs-content contained">
+            <li class="active" id="simpleContained1Tab">
+                @if (Model.UpcomingProjects != null && Model.UpcomingProjects.Count > 0)
+                {
+                    <ul class="project-listing project-listing-user">
+                        @foreach (var project in Model.UpcomingProjects)
+                        {
+                            @Html.Partial("_ProjectListItem", project)
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="panel panel-yellow">
+                        @if (Model.IsOwnProfile)
+                        {
+                            <text>
+                                <h4>You don't have any upcoming actions</h4>
+                                Why not <a class="underlined" href="@Url.RouteUrl("ProjectListing")">find a good thing to join</a> now?
+                            </text>
+                        }
+                        else
+                        {
+                            <text>@Model.User.DisplayName doesn't have any upcoming actions.</text>
+                        }
+                    </div>
+                }
+            </li>
+            @if (Model.IsOwnProfile)
+            {
+                <li id="simpleContained2Tab">
+                    @if (Model.OrganisedProjects != null && Model.OrganisedProjects.Count > 0)
+                    {
+                        <ul class="project-listing project-listing-user">
+                            @foreach (var project in Model.OrganisedProjects)
+                            {
+                                @Html.Partial("_ProjectListItem", project)
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="panel panel-yellow">
+                            <h4>You haven't started any actions yet. </h4>
+                            Why not <a class="underlined" href="@Url.RouteUrl("AddProject")">start a good thing</a> now?
+                        </div>
+                    }
+                </li>
+            }
+            <li id="simpleContained3Tab">
+                @if (Model.FinishedProjects != null && Model.FinishedProjects.Count > 0)
+                {
+                    <ul class="project-listing project-listing-user">
+                        @foreach (var project in Model.FinishedProjects)
+                        {
+                            @Html.Partial("_ProjectListItem", project)
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="alert-box message">@(Model.IsOwnProfile ? "You haven't" : Model.User.DisplayName + " hasn't") helped in any good things yet.</p>
+                }
+            </li>
+        </ul>	
+    </div>
+</div>
+
+<!-- Modals -->
+
+@if (Model.IsOwnProfile)
+{
+    <div id="deleteAccount" class="reveal-modal static hider">
+        @using (Html.BeginForm())
+        {
+            <h3 class="header-shaded panel-small">Are you really sure you want to delete your account?</h3>
+            <div class="panel-modal static">
+                <p><strong>IMPORTANT: </strong> If you delete your account:</p>
+                <ul class="bumped-down">
+                    <li>All your info will be removed from the website</li>
+                    <li>You will no longer be able to login and access your good things</li>
+                    <li>You will be removed from any actions you've signed up for</li>
+                </ul>
+                <input type="submit" name="deleteProfile" value="Yes, delete my account" class="button button-arrow" /> 
+                <input type="submit" value="No, close this window" class="button close-modal-button" />
+            </div>
+            <a class="button button-cancel close-reveal-modal">Close</a>
+        }
+    </div>
+    
+    <div id="unlinkAccount" class="reveal-modal hider">
+        @using (Html.BeginForm())
+        {
+            <h3 class="header-shaded panel-small">Are you sure you want to unlink your <span class="profileTypeName"></span> account?</h3>
+            <div class="panel-modal">
+                <p>If you unlink your <span class="profileTypeName"></span> account, you will be able to sign in with your <span class="altProfileTypeName"></span> account instead.</p>
+                <input type="hidden" id="profileType" name="profileType" value="" />
+                <a href="#" id="confirmUnlink" class="button button-arrow">Yes, unlink this account</a>
+                <a href="#" class="black button medium radius close-modal-button">No, close this window</a>
+            </div>
+            <a class="close-reveal-modal button button-cancel">Close</a>
+        }
+	</div>
+}
+
+@section FooterScripts
+{
+    <script type="text/javascript">
+        $(function () {
+
+            $('a[data-unlink-type]').live('click', function () {
+                var profileType = $(this).data('unlink-type');
+                $('#profileType').val(profileType);
+
+                if (profileType == "twitter") {
+                    $('#confirmUnlink').prop('href', '@Url.RouteUrl("UserProfileUnlink", new { profileType = "twitter" })');
+                    $('.profileTypeName').html("Twitter");
+                    $('.altProfileTypeName').html("Facebook");
+                } else {
+                    $('#confirmUnlink').prop('href', '@Url.RouteUrl("UserProfileUnlink", new { profileType = "facebook" })');
+                    $('.profileTypeName').html("Facebook");
+                    $('.altProfileTypeName').html("Twitter");
+                }
+
+                $('#unlinkAccount').reveal($(this).data());
+                return false;
+            });
+
+            $('#editProfile').click(function () {
+                $(this).hide();
+                $('#editProfilePanel').slideDown();
+                $('h1').html('Editing...');
+                return false;
+            });
+
+            $('#cancelEditProfile').click(function () {
+                $('#editProfile').show();
+                $('#editProfilePanel').slideUp();
+                $('h1').html('Your Profile');
+                return false;
+            });
+
+        });
+    </script>
+}

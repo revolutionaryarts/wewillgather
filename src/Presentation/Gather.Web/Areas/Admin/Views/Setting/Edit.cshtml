@@ -1,0 +1,35 @@
+﻿@model Gather.Web.Models.Setting.SettingModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Edit Setting: \"" + Model.Name + "\"");
+    Html.Heading("Edit Setting");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="edit-panel">
+        <h2>Info</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                <div class="field">
+                    @Html.LabelFor(model => model.Name)
+                    @Html.DisplayTextFor(model => model.Name)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.Value)
+                    @Html.TextBoxFor(model => model.Value)
+                </div>
+            </div>
+        </div>
+    </div>
+}

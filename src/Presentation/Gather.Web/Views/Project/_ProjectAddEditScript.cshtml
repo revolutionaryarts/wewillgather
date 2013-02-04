@@ -1,0 +1,307 @@
+﻿@model ProjectModel
+@using Gather.Web.Framework.UI
+@using Gather.Web.Models.Project
+@{
+    ProjectLocationModel primaryLocation = null;
+    if(Model.Locations != null && Model.Locations.Count > 0)
+    {
+        primaryLocation = Model.Locations.FirstOrDefault(l => l.Primary);
+    }
+}
+
+<script type="text/javascript">
+    var marker, firstZoom = true;
+    var $spinner;
+
+    $(function () {
+
+        $('#findLocation').css('display', 'inline-block');
+        $('#noLocationFound').hide();
+        $spinner = $('.spinner');
+        $spinner.hide();
+
+        $.validator.methods.date = function (value, element, params) {
+            if (this.optional(element)) return true;
+            var ok = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy',value);
+            } catch (err) {
+                ok = false;
+            }
+            return ok;
+        };
+        
+        // Setup map
+        window.map = new L.Map('map', {
+            maxZoom: 18,
+            minZoom: 4,
+            scrollWheelZoom: false,
+            zoomControl: false
+        });
+
+        var zoom = 4;
+        @if (primaryLocation != null && primaryLocation.Location != null)
+        {
+            @:window.mapLocation = new L.LatLng(@Model.Latitude, @Model.Longitude);
+            @:zoom = 14;
+        }
+        else
+        {
+            @:window.mapLocation = new L.LatLng(55.07836723201515, -4.04296875);
+        }
+
+        window.map.setView(window.mapLocation, zoom).addLayer(window.mapTiles);
+
+        var zoomFs = new L.Control.ZoomFS();
+        window.map.addControl(zoomFs);
+
+        marker = new L.Marker(window.mapLocation, { draggable: true, icon: window.mapIcon });
+        window.map.addLayer(marker);
+        
+        marker.on('dragend', function () {
+
+            $spinner.fadeIn();
+            var latlng = marker.getLatLng();
+
+            UpdateMapLatLng(latlng["lat"], latlng["lng"]);
+            
+            $.get("@Url.Action("LocationLookup", "Common")", { latitude: latlng["lat"], longitude : latlng["lng"] }, function(response) {
+                if(response == null) {
+                    $('#@Html.FieldIdFor(model => model.LocationInput)').val("Unknown");
+                } else {
+                    $('#@Html.FieldIdFor(model => model.LocationInput)').val(response);
+                }
+                $spinner.fadeOut();
+            }, "json");
+            
+        });
+
+        $(window).resize(function() {
+            adjustMap();
+        });
+
+        adjustMap();
+
+        window.map.on('enterFullscreen', function () {
+            $('html, body').scrollTop($(window).scrollTop() + 1);
+            $('html, body').scrollTop($(window).scrollTop() - 1);
+            if (!window.map.scrollWheelZoom.enabled()) {
+                window.map.scrollWheelZoom.enable();
+            }
+        });
+        
+        ValidateProjectTimes();
+
+        $('#@Html.FieldIdFor(model => model.StartDate)').datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: 0,
+            onSelect: function (selectedDate) {
+                $("#@Html.FieldIdFor(model => model.EndDate)").datepicker("option", "minDate", selectedDate);
+                ValidateProjectTimes();
+                $(this).valid();
+            }
+        });
+
+        $('#@Html.FieldIdFor(model => model.EndDate)').datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: 0,
+            onSelect: function (selectedDate) {
+                $("#@Html.FieldIdFor(model => model.StartDate)").datepicker("option", "maxDate", selectedDate);
+                ValidateProjectTimes();
+                $(this).valid();
+            }
+        });
+
+        $('#findLocation').click(function () {
+            var search = $('#@Html.FieldIdFor(model => model.LocationInput)');
+            if(search.val().length > 0 && search.val().toLowerCase() != "location or postcode") {
+                UpdateMap();
+            } else {
+                search.focus();
+            }
+            return false;
+        });
+        
+        $('#@Html.FieldIdFor(model => model.LocationInput)').blur(function () {
+            if($(this).val().length <= 0)
+                return false;
+
+            if ($('#@Html.FieldIdFor(model => model.Latitude)').val() == 0 && $('#@Html.FieldIdFor(model => model.Longitude)').val() == 0)
+                UpdateMap();
+
+            return false;
+        });
+
+        $('#sameDayAsStart').change(function() {
+            if($(this).is(':checked')) {
+                var startDate = $('#@Html.FieldIdFor(model => model.StartDate)').val();
+                $('#@Html.FieldIdFor(model => model.EndDate)').val(startDate);
+            }
+            ValidateProjectTimes();
+        });
+
+        $('#@Html.FieldIdFor(model => model.StartHour), #@Html.FieldIdFor(model => model.StartMinutes), #@Html.FieldIdFor(model => model.EndHour)').change(function() {
+            ValidateProjectTimes();
+        });
+
+        if($('#@Html.FieldIdFor(model => model.IsRecurring)').val() == "True") {
+            $('#recurrenceOptions').show();
+            $('#recurrenceReveal').click();
+        }
+
+        $('#@Html.FieldIdFor(model => model.IsRecurring)').change(function() {
+            if($(this).val() == "True") {
+                $('#recurrenceOptions').slideDown();
+            } else {
+                $('#recurrenceOptions').slideUp();
+            }
+        });
+
+    });
+
+    function adjustMap() {
+        var $map = $('#map');
+        var windowW = $(window).width();
+        if (windowW < 767) {
+            if ($map.hasClass('leaflet-fullscreen')) {
+                $map.css({ width: parseInt(windowW) + 'px' });
+            } else {
+                $map.css({ width: (parseInt(windowW) - 40) + 'px' });
+            }
+            window.map.setView(mapLocation, 4);
+            window.map.invalidateSize();
+        }
+    }
+
+    function ValidateProjectTimes() {
+        var startDate = $('#@Html.FieldIdFor(model => model.StartDate)').val();
+        var startHour = $('#@Html.FieldIdFor(model => model.StartHour)');
+        var startMinutes = $('#@Html.FieldIdFor(model => model.StartMinutes)');
+
+        var endDate = $('#@Html.FieldIdFor(model => model.EndDate)').val();
+        var endHour = $('#@Html.FieldIdFor(model => model.EndHour)');
+        var endMinutes = $('#@Html.FieldIdFor(model => model.EndMinutes)');
+        
+        if (window.setLocalStorage) {
+            localStorage.setItem("@Html.FieldIdFor(model => model.StartDate)", $("#@Html.FieldIdFor(model => model.StartDate)").val());
+            localStorage.setItem("@Html.FieldIdFor(model => model.StartHour)", $("#@Html.FieldIdFor(model => model.StartHour)").val());
+            localStorage.setItem("@Html.FieldIdFor(model => model.StartMinutes)", $("#@Html.FieldIdFor(model => model.StartMinutes)").val());
+            localStorage.setItem("@Html.FieldIdFor(model => model.EndDate)", $("#@Html.FieldIdFor(model => model.EndDate)").val());
+            localStorage.setItem("@Html.FieldIdFor(model => model.EndHour)", $("#@Html.FieldIdFor(model => model.EndHour)").val());
+            localStorage.setItem("@Html.FieldIdFor(model => model.EndMinutes)", $("#@Html.FieldIdFor(model => model.EndMinutes)").val());
+        }
+        
+        $('option', startHour).removeAttr('disabled');
+        $('option', startMinutes).removeAttr('disabled');
+        $('option', endHour).removeAttr('disabled');
+        $('option', endMinutes).removeAttr('disabled');
+
+        var today = new Date();
+        var todaysDate = pad(today.getDate()) + "/" + pad(today.getMonth() + 1) + "/" + today.getFullYear();
+        var currentMinutes = today.getMinutes();
+
+        var targetStartHour = 0,
+            targetStartMinutes = 0,
+            targetEndHour = 0,
+            targetEndMinutes = 0;
+
+        if(startDate == todaysDate) {
+            targetStartHour = today.getHours();
+            switch(true){
+                case (currentMinutes >= 45):
+                    targetStartHour++;
+                    targetStartMinutes = 0;
+                    break;
+                case (currentMinutes >= 30 && currentMinutes < 45):
+                    targetStartMinutes = 45;
+                    break;
+                case (currentMinutes >= 15 && currentMinutes < 30):
+                    targetStartMinutes = 30;
+                    break;
+                case (currentMinutes >= 0 && currentMinutes < 15):
+                    targetStartMinutes = 15;
+                    break;
+            }
+        }
+
+        if(endDate == todaysDate && parseInt(endHour.val()) <= today.getHours()) {
+            targetEndHour = today.getHours();
+            switch (true) {
+                case (currentMinutes >= 45):
+                    targetEndHour++;
+                    targetEndMinutes = 0;
+                    break;
+                case (currentMinutes >= 30 && currentMinutes < 45):
+                    targetEndMinutes = 45;
+                    break;
+                case (currentMinutes >= 15 && currentMinutes < 30):
+                    targetEndMinutes = 30;
+                    break;
+                case (currentMinutes >= 0 && currentMinutes < 15):
+                    targetEndMinutes = 15;
+                    break;
+            }
+        }
+
+        if(startDate.length > 0 && startDate == endDate) {
+            if((startHour.val() == endHour.val() || startHour.val() == targetEndHour) && parseInt(startMinutes.val()) > targetEndMinutes) {
+                targetEndMinutes = startMinutes.val();
+            } else {
+                targetEndMinutes = 0;
+            }
+
+            targetEndHour = startHour.val();
+        }
+
+        UpdateTimeField(startHour, targetStartHour);
+        UpdateTimeField(startMinutes, targetStartMinutes);
+        UpdateTimeField(endHour, targetEndHour);
+        UpdateTimeField(endMinutes, targetEndMinutes);
+    }
+
+    function UpdateTimeField(field, value) {
+        $('option', field).each(function() {
+            if($(this).val() != value) {
+                if($(this).is(":selected")) {
+                    field.val(value);
+                }
+                $(this).attr('disabled', 'disabled');
+            } else {
+                return false;
+            }
+        });
+    }
+
+    function UpdateMap() {
+        var search = $('#@Html.FieldIdFor(model => model.LocationInput)').val();
+        if(search != null && search.length > 0 && search.toLowerCase() != "location or postcode") {
+            $spinner.fadeIn();
+            $.get("@Url.Action("LatLngLookup", "Common")", { search: search }, function(response) {
+                if (response == null) {
+                    $('#noLocationFound').slideDown();
+                    $('#noLocationFound #searchedTerm').html(search);
+                } else {
+                    $('#noLocationFound').slideUp();
+                    UpdateMapLatLng(response[0], response[1]);
+                }
+                $spinner.fadeOut();
+            }, "json");
+        }
+    }
+    
+    function UpdateMapLatLng(latitude, longitude) {
+        $('#@Html.FieldIdFor(model => model.Latitude)').val(latitude);
+        $('#@Html.FieldIdFor(model => model.Longitude)').val(longitude);
+        
+        window.mapLocation = new L.LatLng(latitude, longitude);
+        
+        if(firstZoom) {
+            window.map.setView(window.mapLocation, 15).addLayer(window.mapTiles);
+            firstZoom = false;
+        } else {
+            window.map.panTo(window.mapLocation);
+        }
+
+        marker.setLatLng(window.mapLocation);
+    }
+</script>

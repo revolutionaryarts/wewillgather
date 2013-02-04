@@ -1,0 +1,12 @@
+﻿@model Gather.Web.Models.MessageQueues.MessageQueueModel
+
+<div class="row bordered-top">
+    <div class="nine offset-by-three columns static">
+        <hgroup class="title">
+            <h1> @Model.Subject</h1>
+        </hgroup>
+        <article>
+             @Html.Raw(Model.Body)          
+        </article>
+    </div>
+</div>

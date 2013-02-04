@@ -1,0 +1,108 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using System.Web.Optimization
+@using Gather.Web.Framework.UI
+@{    
+    ViewBag.CurrentMenuRoute = "AddProject";
+    ViewContext.ClientValidationEnabled = false;
+    var primaryLocation = Model.Locations.First(l => l.Primary).Location;
+}
+
+@section HeaderScripts
+{
+    <style>
+        #map { height: 210px; width: 100%; }
+    </style>
+}
+
+<div class="header-shaded row">
+    <h1 class="h2 panel-small">Request changes or add details.</h1>				
+</div>
+
+<div class="row bordered-top">
+    <div class="four columns">
+        <div class="panel panel-green">
+            <p class="h4">Need to add more info or make changes to your good thing?</p> 
+            <p class="h4">Simply adjust the details and our moderators will review them as soon as possible.</p>
+        </div>
+    </div>
+    
+    @using (Html.BeginRouteForm("ProjectEdit", new { id = Model.Id, seoName = Model.SeoName, locationSeoName = primaryLocation.SeoName }, FormMethod.Post, new { id = "addForm", @class = "eight columns form-add-project" }))
+    {
+        @Html.ValidationSummary()
+
+        if (Model.Volunteers.Any(volunteer => Model.Owners.All(x => x.Id != volunteer.Id)) || Model.Owners.Any(owner => owner.Id != Model.CurrentUserId && owner.Id != Model.CreatedById))
+        {
+            <fieldset class="row panel-yellow add-organisers">
+                <div class="ten column centered">
+                    <h4>Good People</h4>
+                </div> 
+                       
+                @if (Model.Volunteers.Any(volunteer => Model.Owners.All(x => x.Id != volunteer.Id)))
+                {
+                    <div class="ten column centered form-field">
+                        <h5>Adding co-organisers?</h5>
+                        <p>You can add co-organisers to your action by choosing them from your list of good people:</p>
+                        <ul class="block-grid five-up user-listing user-listing-small">
+                            @foreach (var volunteer in Model.Volunteers.Where(volunteer => Model.Owners.All(x => x.Id != volunteer.Id)))
+                            {
+                                <li>
+                                    <img src="@Html.ResizedImageUrl(volunteer.ProfilePicture, 73, 73)" alt="@volunteer.DisplayName" class="imgOrgan" data-chkfor="Volunteers_@volunteer.Id"/>                                        
+                                    <input type="checkbox" id="Volunteers_@volunteer.Id" name="SelectedVolunteers" value="@volunteer.Id" class="chkOrgan"/>
+                                    <label for="Volunteers_@volunteer.Id">@volunteer.DisplayName</label>
+                                </li>
+                            }
+                        </ul>
+                        <input type="submit" class="button button-arrow" value="Add as co-organisers" name="update" />
+                    </div>
+                    <div class="clear-fix"></div>
+                }
+                @if (Model.Owners.Any(owner => owner.Id != Model.CurrentUserId && owner.Id != Model.CreatedById))
+                {
+                    <div class="ten column centered form-field">
+                        <h5>You've added the following co-organisers:</h5>
+                        <ul class="bumped-down checkbox-list">
+                            @foreach (var owner in Model.Owners.Where(owner => owner.Id != Model.CurrentUserId).Where(owner => owner.Id != Model.CreatedById))
+                            {
+                                <li>
+                                    <input type="checkbox" id="Owners_@owner.Id" name="SelectedOwners" value="@owner.Id"/>
+                                    <label for="Owners_@owner.Id">@owner.DisplayName</label>
+                                </li>
+                            }
+                        </ul>
+                        <input type="submit" class="button button-arrow" value="Remove selected co-organisers" name="update"/>
+                    </div>
+                }
+            </fieldset>
+        }
+        
+        @Html.Partial("_AddOrEdit", Model)
+
+        <fieldset class="panel-yellow row">
+            <div class="columns nine centered">
+                <input type="submit" class="button button-big" value="Update good thing" name="update" /><br />
+                <input type="reset" class="button-arrow-small text-center" value="Clear the form" name="clear" />
+            </div>    
+        </fieldset>
+    }
+</div>
+
+@section FooterScripts
+{
+    <script type="text/javascript">
+        $('.chkOrgan').hide();
+        $('.imgOrgan').click(function () {
+            var $chkBox = $('#' + $(this).attr("data-chkfor"));
+            if (!$chkBox.attr('checked')) {
+                $(this).addClass("border-green");
+                $chkBox.attr("checked", "checked");
+            }
+            else {
+                $(this).removeClass("border-green");
+                $chkBox.removeAttr("checked");
+            }
+        });
+        var setLocalStorage = false;
+    </script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/coremap.js")"></script>
+    @Html.Partial("_ProjectAddEditScript", Model)
+}                    

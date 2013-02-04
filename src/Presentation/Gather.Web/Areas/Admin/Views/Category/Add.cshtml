@@ -1,0 +1,21 @@
+﻿@model Gather.Web.Models.Category.CategoryModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.Heading("Add New Category");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <input type="submit" name="add" value="Add" class="button blue" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Html.Partial("_CreateOrUpdate", Model);
+}

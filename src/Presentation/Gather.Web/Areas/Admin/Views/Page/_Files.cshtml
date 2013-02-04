@@ -1,0 +1,53 @@
+﻿@model Gather.Web.Models.Page.PageModel
+@using Gather.Web.Areas.Admin
+@using Gather.Web.Areas.Admin.Extensions
+@using Gather.Web.Framework.UI
+@using MvcContrib.UI.Grid
+
+<div class="edit-panel">
+    <h2>File Settings</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.FileTitle, "File list heading:")            
+                @Html.TextBoxFor(model => model.FileTitle)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Files</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            @if (Model.Media.Count > 0)
+            {
+                @Html.Grid(Model.Media).Columns(column => {
+                    column.For(u => u.Name);
+                    column.Custom(GridHelper.ActionColumn).Named("Delete").Attributes(@width => "40px", @class => "col-center");
+                }).Attributes(@class => "sub-item-table").RowAttributes(model => new MvcContrib.Hash(@id => "tblRow" + model.Item.Id))
+                @Html.DeleteScript("DeleteMedia", true)
+            }
+            else
+            {
+                <p>No files have been uploaded yet.</p>
+            }
+        </div>
+        <div class="panel-actions">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MediaItem.Name, "Name:")
+                @Html.TextBoxFor(model => model.MediaItem.Name)
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MediaItem.Link, "Link:")
+                @Html.TextBoxFor(model => model.MediaItem.Link)
+            </div>
+            <div class="field">
+                <label for="uploadedFile">File:</label>
+                <input name="uploadedFile" id="uploadedFile" type="file" />
+                <em class="file-hint">Files uploaded must be either in pdf, png or jpg format and must be less than 4MB in size.</em>
+            </div>
+            <input type="submit" value="Add" name="mediaUpload" class="button blue" />
+        </div>
+    </div>
+</div>

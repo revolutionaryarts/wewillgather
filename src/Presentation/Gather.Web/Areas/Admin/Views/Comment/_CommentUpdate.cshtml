@@ -1,0 +1,43 @@
+﻿@model Gather.Web.Areas.Admin.Models.Project.ProjectCommentModerationModel
+<div class="edit-panel">
+    <h2>Complaint Information</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.LabelFor(model => model.TypeDescription, "Complaint Type")
+                @Html.DisplayTextFor(model => model.TypeDescription)
+            </div>
+            <div class="field">
+                @Html.LabelFor(model => model.ModerationQueue.CreatedByUser.DisplayName, "Complainer")
+                <a href="@Url.RouteUrl("Admin_default", new { Controller = "user", Action = "edit", id = @Model.ModerationQueue.CreatedBy })">@Html.DisplayTextFor(model => model.ModerationQueue.CreatedByUser.DisplayName)</a>
+            </div> 
+            <div class="field">
+                @Html.LabelFor(model => model.Reason)
+                @Html.DisplayTextFor(model => model.Reason)
+            </div>
+            <div class="field">
+                @Html.LabelFor(model => model.Comment.ModerationRequestCount, "Current Complaint Count")
+                @Html.DisplayTextFor(model => model.Comment.ModerationRequestCount)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="edit-panel">
+    <h2>Comment Details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.LabelFor(model => model.Comment.UserComment, "Comment")
+                @Html.DisplayTextFor(model => model.Comment.UserComment)
+            </div>
+            <div class="field">
+                @Html.LabelFor(model => model.Comment.Author.DisplayName, "Author of Comment")
+                <a href="@Url.RouteUrl("Admin_default", new { Controller = "user", Action = "edit", id = @Model.Comment.Author.Id })">@Html.DisplayTextFor(model => model.Comment.Author.DisplayName)</a>
+            </div>
+            <div class="field">
+                @Html.LabelFor(model => model.Comment.CreatedDate, "Timestamp of Comment")
+                @Html.DisplayTextFor(model => model.Comment.CreatedDate)
+            </div>
+        </div>
+    </div>
+</div>

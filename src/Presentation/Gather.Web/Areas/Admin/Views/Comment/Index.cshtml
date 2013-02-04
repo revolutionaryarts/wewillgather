@@ -1,0 +1,49 @@
+﻿@model Gather.Web.Areas.Admin.Models.Comment.CommentListModel
+@using Gather.Web.Areas.Admin
+@using Gather.Web.Areas.Admin.Extensions
+@using Gather.Web.Framework.UI
+@using Gather.Web.Framework.UI.Paging
+@using MvcContrib.UI.Grid
+@{
+    Html.Heading("Comments");
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Get))
+{
+    <div class="table-nav">
+        <div class="actions">
+            <input type="hidden" name="filter" value="@Model.Filter" />
+            <input name="search" value="@Model.Search" type="text" class="search-field" maxlength="255" />
+            <input type="submit" value="Search" class="search-button button-small blue" />
+        </div>
+        <div class="pagination">
+            @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount)
+        </div>
+    </div>   
+}
+
+@Html.Grid(Model.Comments).Columns(column =>
+{
+    column.For(u => u.CreatedDate).Named("Commented on").Attributes(@width => "12%");
+    column.Custom(@<text>
+        
+        @Html.ActionLink(item.Author.DisplayName, "edit", "user", new { id = item.Author.Id }, new{})
+                        
+    </text>).Named("Author").Attributes(@width => "12%");
+    column.For(u => u.UserComment);
+    column.Custom(@<text>
+                 
+        @if(item.InResponseTo == null)
+        {
+            @Html.ActionLink(item.Project.Name, "edit", "project", new { id = item.Project.Id }, new{})
+        }
+        else
+        {
+            @Html.ActionLink(item.InResponseTo.Project.Name, "edit", "project", new { id = item.InResponseTo.Project.Id }, new{})
+        }
+
+    </text>).Named("In Response To").Attributes(@width => "25%");
+    column.Custom(GridHelper.ActionColumn).Named("Actions").Attributes(@width => "80px");
+}).Attributes(@class => "list-table")
+    
+@Html.DeleteScript()

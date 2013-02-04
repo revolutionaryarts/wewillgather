@@ -1,0 +1,300 @@
+﻿@model Gather.Web.Areas.Admin.Models.Project.ProjectEditModel
+@using System.Globalization
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddScriptParts("../../../Areas/Admin/Scripts/tinymce/tiny_mce.js");
+
+    var recurrenceTimes = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Select", Value = "0" }
+    };
+
+    for (int i = 1; i <= 10; i++)
+    {
+        recurrenceTimes.Add(new SelectListItem { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
+    }
+
+}
+
+<div class="edit-panel">
+    <h2>Info</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.Name)
+                @Html.TextBoxFor(model => model.Project.Name)
+            </div>
+
+            @if (Model.Project.Name != Model.ParentProject.Name)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Name, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.Name)
+                </div>
+            }
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.Objective)
+                @Html.TextAreaFor(model => model.Project.Objective, new { cols = "64", rows = "5" })
+            </div>
+
+            @if (Model.Project.Objective != Model.ParentProject.Objective)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Objective, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.Objective)
+                </div>
+            }
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.GettingThere)
+                @Html.TextBoxFor(model => model.Project.GettingThere)
+            </div>
+            
+            @if (Model.Project.GettingThere != Model.ParentProject.GettingThere)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.GettingThere, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.GettingThere)
+                </div>
+            }
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.NumberOfVolunteers, "Number of good people?")
+                @Html.TextBoxFor(model => model.Project.NumberOfVolunteers)
+            </div>
+
+            @if (Model.Project.NumberOfVolunteers != Model.ParentProject.NumberOfVolunteers)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.NumberOfVolunteers, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.NumberOfVolunteers)
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Optional action details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.ChildFriendly, "Project child-friendly?")
+                @Html.BooleanDropDownListFor(model => model.Project.ChildFriendly)
+            </div>
+
+            @if (Model.Project.ChildFriendly != Model.ParentProject.ChildFriendly)
+            {          
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.ChildFriendly, "Previous Entry:")
+                    @Html.BooleanDropDownListFor(model => model.ParentProject.ChildFriendly, new { disabled = "disabled" })
+                </div>
+            }
+            
+            <div class="field">          
+                @Html.GatherLabelFor(model => model.Project.Skills, "Special skills?")
+                @Html.TextAreaFor(model => model.Project.Skills, new { cols = "64", rows = "5" })
+            </div>
+
+            @if (Model.Project.Skills != Model.ParentProject.Skills)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Skills, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.Skills)
+                </div>
+            }
+            
+            <div class="field">            
+                @Html.GatherLabelFor(model => model.Project.Equipment, "Equipment?")
+                @Html.TextAreaFor(model => model.Project.Equipment, new { cols = "64", rows = "5" })
+            </div>
+
+            @if (Model.Project.Equipment != Model.ParentProject.Equipment)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Equipment, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.Equipment)
+                </div>
+            }
+            
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.Project.VolunteerBenefits, "List any perks?")
+                @Html.TextAreaFor(model => model.Project.VolunteerBenefits, new { cols = "64", rows = "5" })
+            </div>
+
+            @if (Model.Project.VolunteerBenefits != Model.ParentProject.VolunteerBenefits)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.VolunteerBenefits, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.VolunteerBenefits)
+                </div>
+            }
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.EmailAddress)
+                @Html.TextBoxFor(model => model.Project.EmailAddress)
+            </div>
+
+            @if (Model.Project.EmailAddress != Model.ParentProject.EmailAddress)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.EmailAddress, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.EmailAddress)
+                </div>
+            }
+            
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.Project.EmailDisclosureId, "Email Disclosure Level")
+                @Html.DropDownListFor(model => model.Project.EmailDisclosureId, Model.Project.AvailableDisclosureLevels)
+            </div>
+
+            @if (Model.Project.EmailDisclosureId != Model.ParentProject.EmailDisclosureId)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.EmailDisclosureId, "Previous Entry:")
+                    @Html.DropDownListFor(model => model.ParentProject.EmailDisclosureId, Model.Project.AvailableDisclosureLevels, new { disabled = "disabled" })
+                </div>
+            }
+            
+            <div class="field">           
+                @Html.GatherLabelFor(model => model.Project.Telephone)
+                @Html.TextBoxFor(model => model.Project.Telephone)
+            </div>
+
+            @if (Model.Project.Telephone != Model.ParentProject.Telephone)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Telephone, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.Telephone)
+                </div>
+            }
+            
+            <div class="field">            
+                @Html.GatherLabelFor(model => model.Project.TelephoneDisclosureId)
+                @Html.DropDownListFor(model => model.Project.TelephoneDisclosureId, Model.Project.AvailableDisclosureLevels)
+            </div>
+
+            @if (Model.Project.TelephoneDisclosureId != Model.ParentProject.TelephoneDisclosureId)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.TelephoneDisclosureId, "Previous Entry:")
+                    @Html.DropDownListFor(model => model.ParentProject.TelephoneDisclosureId, Model.Project.AvailableDisclosureLevels, new { disabled = "disabled" })
+                </div>
+            }
+            
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.Project.Website)
+                @Html.TextBoxFor(model => model.Project.Website)
+            </div>
+
+            @if (Model.Project.Website != Model.ParentProject.Website)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Website, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.Website)
+                </div>
+            }
+            
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.Project.WebsiteDisclosureId, "Website Disclosure Level")
+                @Html.DropDownListFor(model => model.Project.WebsiteDisclosureId, Model.Project.AvailableDisclosureLevels)
+            </div>
+
+            @if (Model.Project.WebsiteDisclosureId != Model.ParentProject.WebsiteDisclosureId)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.WebsiteDisclosureId, "Previous Entry:")
+                    @Html.DropDownListFor(model => model.ParentProject.WebsiteDisclosureId, Model.Project.AvailableDisclosureLevels, new { disabled = "disabled" })
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Date and Time</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.StartDate, "Starting date")
+                @Html.TextBoxFor(model => model.Project.StartDate)
+            </div> 
+             
+            @if (Model.Project.StartDate != Model.ParentProject.StartDate)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.StartDate, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.StartDate)
+                </div>
+            }  
+                
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.EndDate, "End date")
+                @Html.TextBoxFor(model => model.Project.EndDate)
+            </div>
+
+            @if (Model.Project.EndDate != Model.ParentProject.EndDate)
+            {
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.EndDate, "Previous Entry:")
+                    @Html.DisplayTextFor(model => model.ParentProject.EndDate)
+                </div>
+            }
+
+        </div>   
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Recurrence details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.IsRecurring, "Will the action recur?")
+                @Html.BooleanDropDownListFor(model => model.Project.IsRecurring, "Yes it will", "Nope")
+            </div>
+
+            @if (Model.Project.IsRecurring != Model.ParentProject.IsRecurring)
+            {          
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.IsRecurring, "Previous Entry:")
+                    @Html.BooleanDropDownListFor(model => model.ParentProject.IsRecurring, new { disabled = "disabled" })
+                </div>
+            }
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.RecurrenceIntervalId, "How often will it recurr?")
+                @Html.DropDownListFor(model => model.Project.RecurrenceIntervalId, Model.Project.AvailableRecurrenceIntervals)
+            </div>
+
+            @if (Model.Project.RecurrenceIntervalId != Model.ParentProject.RecurrenceIntervalId)
+            {          
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.RecurrenceIntervalId, "Previous Entry:")
+                    @Html.BooleanDropDownListFor(model => model.ParentProject.RecurrenceIntervalId, new { disabled = "disabled" })
+                </div>
+            }	
+
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Project.Recurrence, "How many times will it recurr?")
+                @Html.DropDownListFor(model => model.Project.Recurrence, recurrenceTimes)
+            </div>	
+
+            @if (Model.Project.Recurrence != Model.ParentProject.Recurrence)
+            {          
+                <div class="field original">
+                    @Html.LabelFor(model => model.ParentProject.Recurrence, "Previous Entry:")
+                    @Html.BooleanDropDownListFor(model => model.ParentProject.Recurrence, new { disabled = "disabled" })
+                </div>
+            }	
+                       
+        </div>
+    </div>
+</div>

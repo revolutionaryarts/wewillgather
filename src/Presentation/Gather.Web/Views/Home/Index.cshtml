@@ -1,0 +1,170 @@
+@model Gather.Web.Models.Home.HomeModel
+@using System.Web.Optimization
+@using Gather.Web.Framework.UI
+@using Gather.Web.Models.Tweet
+@{
+    Html.AddTitleParts("#WeWillGather - Volunteering and Fundraising Ideas in the UK");
+    Html.AddMetaDescriptionParts("Start a good thing with #WeWillGather; get involved with volunteer, fundraising and community projects across the UK or tweet now to start your own project.");
+}
+
+@section MenuTagLine
+{
+    <div class="row">
+        <h1 class="column nine">Get people together to do good things.</h1>
+        <p class="column three">
+            @Html.RouteLink("Find out more", "HowItWorks", null, new { @class = "button button-arrow right" })
+        </p>
+    </div>    
+}   
+
+@section HideNoFollow {}
+
+<div class="home">
+    <div class="row row-overlay">
+        <section class="six columns">
+            <article class="panel panel-yellow panel-maincta panel-add">
+                <div class="row">
+                    <hgroup class="columns six phone-two">
+                        <h2 class="h1"><span>Start</span> a good thing</h2>
+                        <h5>Gather the people<br> you need</h5>
+                    </hgroup>
+                    <a href="@Url.Action("Add", "Project")" class="column six phone-two button-addproject">
+                        Add your action
+                    </a>
+                </div>	
+            </article>							
+            @using (Html.BeginRouteForm("ProjectListing", FormMethod.Get, new { id = "searchForm", @class = "panel panel-yellow panel-maincta panel-search" }))
+            {
+                <div class="row">	
+                    <hgroup class="columns six phone-four">
+                        <h2 class="h1 phone-two"><span>Join</span> a good thing</h2>
+                        <h5 class="phone-two">Get involved in <br>good things in your community</h5>
+                    </hgroup>	
+                    <fieldset class="six columns phone-four">
+                        <p>
+                            <label for="radius">Find Good Things to do</label>
+                            @Html.DropDownList("radius", Model.AvailableSearchRadius, new { @class = "standard-select" })
+                        </p>
+                        <label for="query">Location or postcode:</label>
+                        @Html.TextBox("query", "", new { @class = "small input-text", placeholder = "e.g. BN1 or Worthing" })
+                        <p><a href="#moreSearchOptions" class="revealer revealer-arrow" data-less="Fewer search options">More search options</a></p>
+                        <div class="row collapseMe" id="moreSearchOptions">
+                            <p>				
+                                <label for="start">Happening how soon?</label>
+                                @Html.DropDownList("start", Model.AvailableSearchStart, new { @class = "standard-select" })
+                            </p>								
+                            <p>				
+                                <label for="categories">Type of action</label> 
+                                @Html.DropDownList("categories", Model.AvailableCategories, new { @class = "standard-select" })
+                            </p>		
+                            <p>				
+                                <label for="childFriendly">Child-friendly?</label>
+                                @Html.DropDownList("childFriendly", Model.AvailableChildFriendly, new { @class = "standard-select" })
+                            </p>	
+                        </div>	
+                        <input type="submit" value="Search now" class="button button-search" />
+                    </fieldset>	
+                </div>
+            }
+        </section>	
+        <section class="six columns">
+            <div class="panel panel-blue panel-tweet">
+                <h2>Happening on Twitter</h2>
+                <section id="twitterFeed">
+                    @foreach(TweetModel tweet in Model.Tweets)
+                    {
+                        <script type="text/javascript">
+                            tweetArray.push({id : '@tweet.TwitterId', createdDate : '@tweet.CreatedDate.ToString("MM/dd/yyyy HH:mm:ss")'});
+                        </script>
+                        <article>
+                            <strong>@tweet.UserName said:</strong> 
+                            @Html.Raw(tweet.Text) <br />
+                            <span id="date_@tweet.TwitterId">@tweet.DateDifference</span>
+                            <a href="http://twitter.com/home?status=RT @Html.Raw("@")@tweet.TwitterName – @Url.Encode(tweet.Text.Length > (133 - tweet.TwitterName.Length) ? tweet.Text.Substring(0, 133 - tweet.TwitterName.Length) : tweet.Text)" class="popup">Retweet</a>
+                            <a href="http://twitter.com/home?status=@Html.Raw("@")@tweet.TwitterName+" class="popup">Reply</a>
+                        </article>
+                    }
+                </section>
+                <a href="http://www.twitter.com/wewillgather" target="_blank" class="button button-tweet">Follow</a>
+            </div>						
+        </section>					
+    </div><!--end search, add project and latest tweets-->
+
+    @if (Model.SuccessStories != null)
+    {
+        if (Model.SuccessStories.Count > 0)
+        {
+            <div class="row row-carousel">
+                <div id="nav"></div>
+                <div id="carousel">
+                    @foreach(var story in Model.SuccessStories.Select((x, i) => new { Data = x, Index = i }))
+                    {
+                        <section id="successSlider@(story.Index + 1)" class="row success-slide" style="background:url(@Url.Content("/Uploads/Media/" + @story.Data.Media.FileName)) no-repeat top left">
+                            <article class="columns six offset-by-six">
+                                <div class="panel panel-green">
+                                    <h3>@story.Data.Title</h3>
+                                    <strong>@(story.Data.CreatedDate.ToString("MMMM")) @(story.Data.CreatedDate.ToString("yyyy"))</strong>
+                                    <p>@story.Data.ShortSummary</p>
+                                    <a href="@Url.RouteUrl("SuccessStory", new { story.Data.SeName })" class="button">Read more</a>							
+                                    <a href="@Url.RouteUrl("SuccessStoryRss")" class="button button-rss" id="rssLink">Subscribe via RSS</a>
+                                </div>
+                            </article>
+                            <img src="/content/images/img-success-badge.png" alt="Success story badge" />
+                        </section>
+                    }
+                </div>	
+            </div>
+        }
+    }
+    
+    <div class="row row-overlay row-overlay-bottom">
+        <section class="six columns">
+            <div class="panel panel-yellow panel-regions">
+                <hgroup>
+                    <h3>Choose a region</h3>
+                    <p class="h5">Join a Good Thing</p>
+                </hgroup>
+                <nav class="row list-regions">
+                    <ul class="five columns">
+                        @foreach (var location in Model.Locations.Take(6))
+                        {
+                            <li><a href="@Url.RouteUrl("ProjectListingLocation", new { locationSeoName = location.SeoName })">@location.Name</a> (@location.ProjectCount)</li>
+                        }
+                    </ul>
+                    <ul class="six end columns">
+                        @foreach (var location in Model.Locations.Skip(6).Take(6))
+                        {
+                            <li><a href="@Url.RouteUrl("ProjectListingLocation", new { locationSeoName = location.SeoName })">@location.Name</a> (@location.ProjectCount)</li>
+                        }
+                    </ul>
+                </nav>						
+                <a class="button" href="@Url.RouteUrl("ProjectListing")">Map</a>
+            </div>	
+        </section>
+        <section class="six columns">
+            <div class="panel panel-green panel-howitworks">
+                <h3>#wewillgather on film</h3>
+                <iframe width="100%" height="242" src="http://www.youtube.com/embed/Dr2yDaQic_4" frameborder="0" allowfullscreen>
+                    <p>If you can see this text, your browser does not support iframes. <a href="http://www.youtube.com/watch?v=Dr2yDaQic_4">View the content of this inline frame</a> within your browser.</p>
+                </iframe>
+            </div>	
+        </section>	
+
+    </div><!--end regions and how it works-->
+</div>
+
+@section FooterScripts
+{
+    <script type="text/javascript">
+        var tweetArray = [], tweetId;
+        @if(Model.Tweets.Count > 0)
+        {
+            @:tweetId = "@Model.Tweets[0].TwitterId";
+        }
+
+        $(document).ready(function () {
+            $('#searchForm').one('submit', function () { window._gaq.push(['_trackEvent', 'Forms', 'Submit: Search']); window.WaitForSeconds(0.25); });
+        });
+    </script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/home.js")"></script>
+}

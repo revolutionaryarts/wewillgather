@@ -1,0 +1,25 @@
+﻿@model Gather.Web.Areas.Admin.Models.Common.NavigationModel
+
+<div id="navigation-back"></div>
+<div id="navigation">
+    <ul>
+        @foreach (var item in Model.Sections)
+        {
+            <li @(item.Active ? "class=active" : "")>
+                <div class="menu-image">
+                    <img src="@item.Icon" alt="" />
+                </div>
+                <a href="@item.Target">@item.Title</a>
+                @if (item.Items.Count > 0)
+                {
+                    <ul>
+                        @foreach (var subItem in item.Items)
+                        {
+                            <li><a href="@subItem.Target">@subItem.Title</a></li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+</div>

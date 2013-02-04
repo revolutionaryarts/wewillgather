@@ -1,0 +1,33 @@
+﻿@model Gather.Web.Models.Page.PageModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddScriptParts("../../../Areas/Admin/Scripts/tinymce/tiny_mce.js");
+}
+
+<div class="title-field-panel">
+    @Html.TextBoxFor(model => model.Title, new { @class = "title-input" })
+</div>
+
+<div class="content-field-panel">
+    @Html.EditorFor(model => model.Content, "RichEditor")
+</div>
+
+<div class="edit-panel">
+    <h2>Meta Details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MetaTitle)
+                @Html.TextBoxFor(model => model.MetaTitle)
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MetaKeywords)
+                @Html.TextAreaFor(model => model.MetaKeywords, new { cols = "64", rows = "5" })
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MetaDescription)
+                @Html.TextAreaFor(model => model.MetaDescription, new { cols = "64", rows = "5" })
+            </div>
+        </div>
+    </div>
+</div>

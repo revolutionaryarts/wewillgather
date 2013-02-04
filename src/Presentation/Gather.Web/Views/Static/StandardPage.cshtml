@@ -1,0 +1,48 @@
+﻿@model Gather.Web.Models.Page.PageModel
+@using Gather.Core.Domain.MediaFile
+@using Gather.Web.Framework.UI
+@{
+    if (!Model.MetaTitle.IsEmpty()) { Html.AddTitleParts(Model.MetaTitle); }
+    if (!Model.MetaKeywords.IsEmpty()) { Html.AddMetaKeywordParts(Model.MetaKeywords); }
+    if (!Model.MetaDescription.IsEmpty()) { Html.AddMetaDescriptionParts(Model.MetaDescription); }
+}
+
+<div class="row bordered-top">
+    <div class="nine push-three columns static">
+        <hgroup class="title">
+            <h1>@Model.Title</h1>
+        </hgroup>
+        <article>
+            @Html.Raw(Model.Content)            
+        </article>
+    </div>
+    <div class="three pull-nine columns">
+        @if (Model.Media.Any())
+        {
+            if (!string.IsNullOrEmpty(Model.FileTitle))
+            {
+                <h2 class="h4">@Model.FileTitle</h2>
+            }
+            foreach (var media in Model.Media)
+            {
+                if (media.FileType == FileType.Image)
+                {
+                    <div class="cleared clearfix bumped-down">
+                        <a href="@media.Link" rel="nofollow" target="_blank"><img src="/uploads/media/@media.FileName" alt="@media.Name" class="support-image" /></a>
+                    </div>
+                }
+                else if (media.FileType == FileType.PDF)
+                {
+                    <div class="cleared clearfix bumped-down">
+                        <a href="/uploads/media/@media.FileName" class="clearfix" target="_blank">
+                            <span class="three columns">
+                                <img src="/content/images/pdf.png" alt="PDF" />
+                            </span>
+                            <h5 class="six end columns">@media.Name</h5>
+                        </a>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

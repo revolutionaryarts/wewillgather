@@ -1,0 +1,573 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E854CB32-A013-4AE0-8266-20A1F799FF8B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gather.Data</RootNamespace>
+    <AssemblyName>Gather.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stage|AnyCPU'">
+    <OutputPath>bin\Stage\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OpenSource|AnyCPU'">
+    <OutputPath>bin\OpenSource\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.Web.Optimization.1.0.0-beta\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\..\packages\System.Web.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EfDataProvider.cs" />
+    <Compile Include="EfRepository.cs" />
+    <Compile Include="GatherObjectContext.cs" />
+    <Compile Include="IDbContext.cs" />
+    <Compile Include="IEfDataProvider.cs" />
+    <Compile Include="Initializers\CreateDatabaseIfNotExists.cs" />
+    <Compile Include="Initializers\CreateTablesIfNotExist.cs" />
+    <Compile Include="Mapping\Api\ApiAuthenticationMap.cs" />
+    <Compile Include="Mapping\Categories\CategoryMap.cs" />
+    <Compile Include="Mapping\Comments\CommentMap.cs" />
+    <Compile Include="Mapping\Locations\LocationMap.cs" />
+    <Compile Include="Mapping\Logging\LogMap.cs" />
+    <Compile Include="Mapping\MediaFile\MediaMap.cs" />
+    <Compile Include="Mapping\Message\MessageQueueMap.cs" />
+    <Compile Include="Mapping\ModerationQueues\ProjectCommentModerationMap.cs" />
+    <Compile Include="Mapping\ModerationQueues\ProjectWithdrawalMap.cs" />
+    <Compile Include="Mapping\ModerationQueues\ModerationQueueMap.cs" />
+    <Compile Include="Mapping\ModerationQueues\ProjectChangeRequestMap.cs" />
+    <Compile Include="Mapping\ModerationQueues\ProjectApprovalMap.cs" />
+    <Compile Include="Mapping\ModerationQueues\ProjectModerationMap.cs" />
+    <Compile Include="Mapping\Pages\PageMap.cs" />
+    <Compile Include="Mapping\Profanities\ProfanityMap.cs" />
+    <Compile Include="Mapping\Projects\ProjectLocationMap.cs" />
+    <Compile Include="Mapping\Projects\ProjectUserHistoryMap.cs" />
+    <Compile Include="Mapping\Projects\ProjectMap.cs" />
+    <Compile Include="Mapping\Security\PermissionRecordMap.cs" />
+    <Compile Include="Mapping\Settings\SettingMap.cs" />
+    <Compile Include="Mapping\Slugs\SlugMap.cs" />
+    <Compile Include="Mapping\SuccessStories\SuccessStoryMap.cs" />
+    <Compile Include="Mapping\Tasks\ScheduledTaskMap.cs" />
+    <Compile Include="Mapping\Tweets\TweetMap.cs" />
+    <Compile Include="Mapping\Users\UserMap.cs" />
+    <Compile Include="Mapping\Users\UserRoleMap.cs" />
+    <Compile Include="Migrations\201205240943247_RemoveColumnLocation.cs" />
+    <Compile Include="Migrations\201205240943247_RemoveColumnLocation.Designer.cs">
+      <DependentUpon>201205240943247_RemoveColumnLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205241021230_NullableColumnLocation.cs" />
+    <Compile Include="Migrations\201205241021230_NullableColumnLocation.Designer.cs">
+      <DependentUpon>201205241021230_NullableColumnLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205241449386_AddPageTable.cs" />
+    <Compile Include="Migrations\201205241449386_AddPageTable.Designer.cs">
+      <DependentUpon>201205241449386_AddPageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205280906027_AddUserRoleDeletedColumn.cs" />
+    <Compile Include="Migrations\201205280906027_AddUserRoleDeletedColumn.Designer.cs">
+      <DependentUpon>201205280906027_AddUserRoleDeletedColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205281122230_AddFieldPageIsSystem.cs" />
+    <Compile Include="Migrations\201205281122230_AddFieldPageIsSystem.Designer.cs">
+      <DependentUpon>201205281122230_AddFieldPageIsSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205281127176_AddFieldNullableCreatedBy.cs" />
+    <Compile Include="Migrations\201205281127176_AddFieldNullableCreatedBy.Designer.cs">
+      <DependentUpon>201205281127176_AddFieldNullableCreatedBy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205281556132_AddUserRoleCreatedByFields.cs" />
+    <Compile Include="Migrations\201205281556132_AddUserRoleCreatedByFields.Designer.cs">
+      <DependentUpon>201205281556132_AddUserRoleCreatedByFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205281557506_RemoveNullableUserRoleCreatedDate.cs" />
+    <Compile Include="Migrations\201205281557506_RemoveNullableUserRoleCreatedDate.Designer.cs">
+      <DependentUpon>201205281557506_RemoveNullableUserRoleCreatedDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205290925079_updatingSettingTable.cs" />
+    <Compile Include="Migrations\201205290925079_updatingSettingTable.Designer.cs">
+      <DependentUpon>201205290925079_updatingSettingTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205300902322_AddProjectTable.cs" />
+    <Compile Include="Migrations\201205300902322_AddProjectTable.Designer.cs">
+      <DependentUpon>201205300902322_AddProjectTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205301606149_AddModerationQueue.cs" />
+    <Compile Include="Migrations\201205301606149_AddModerationQueue.Designer.cs">
+      <DependentUpon>201205301606149_AddModerationQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205310752009_UpdateModerationQueue.cs" />
+    <Compile Include="Migrations\201205310752009_UpdateModerationQueue.Designer.cs">
+      <DependentUpon>201205310752009_UpdateModerationQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205310815363_AddProjectApproval.cs" />
+    <Compile Include="Migrations\201205310815363_AddProjectApproval.Designer.cs">
+      <DependentUpon>201205310815363_AddProjectApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201205310820559_UpdateProjectApproval.cs" />
+    <Compile Include="Migrations\201205310820559_UpdateProjectApproval.Designer.cs">
+      <DependentUpon>201205310820559_UpdateProjectApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206011315390_EditProjectTable.cs" />
+    <Compile Include="Migrations\201206011315390_EditProjectTable.Designer.cs">
+      <DependentUpon>201206011315390_EditProjectTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206060744220_AddProjectRecurrenceFields.cs" />
+    <Compile Include="Migrations\201206060744220_AddProjectRecurrenceFields.Designer.cs">
+      <DependentUpon>201206060744220_AddProjectRecurrenceFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206061046301_AddProjectChildFriendlyField.cs" />
+    <Compile Include="Migrations\201206061046301_AddProjectChildFriendlyField.Designer.cs">
+      <DependentUpon>201206061046301_AddProjectChildFriendlyField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206061336207_UpdateModerationQueue1.cs" />
+    <Compile Include="Migrations\201206061336207_UpdateModerationQueue1.Designer.cs">
+      <DependentUpon>201206061336207_UpdateModerationQueue1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206061347476_UpdateModerationQueueNullModerator.cs" />
+    <Compile Include="Migrations\201206061347476_UpdateModerationQueueNullModerator.Designer.cs">
+      <DependentUpon>201206061347476_UpdateModerationQueueNullModerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206071134475_AddCoordinateFields.cs" />
+    <Compile Include="Migrations\201206071134475_AddCoordinateFields.Designer.cs">
+      <DependentUpon>201206071134475_AddCoordinateFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206071539491_AddScheduledTask.cs" />
+    <Compile Include="Migrations\201206071539491_AddScheduledTask.Designer.cs">
+      <DependentUpon>201206071539491_AddScheduledTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206081328364_AddProjectChangeRequestTable.cs" />
+    <Compile Include="Migrations\201206081328364_AddProjectChangeRequestTable.Designer.cs">
+      <DependentUpon>201206081328364_AddProjectChangeRequestTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206111633401_UpdateChangeRequest.cs" />
+    <Compile Include="Migrations\201206111633401_UpdateChangeRequest.Designer.cs">
+      <DependentUpon>201206111633401_UpdateChangeRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206112056287_AddCommentsTable.cs" />
+    <Compile Include="Migrations\201206112056287_AddCommentsTable.Designer.cs">
+      <DependentUpon>201206112056287_AddCommentsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206120742228_ChangePostcodeLatLngPrecision.cs" />
+    <Compile Include="Migrations\201206120742228_ChangePostcodeLatLngPrecision.Designer.cs">
+      <DependentUpon>201206120742228_ChangePostcodeLatLngPrecision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206120751586_UpdateCommentsModerationTable.cs" />
+    <Compile Include="Migrations\201206120751586_UpdateCommentsModerationTable.Designer.cs">
+      <DependentUpon>201206120751586_UpdateCommentsModerationTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206120802563_UpdateCommentsModerationTableV2.cs" />
+    <Compile Include="Migrations\201206120802563_UpdateCommentsModerationTableV2.Designer.cs">
+      <DependentUpon>201206120802563_UpdateCommentsModerationTableV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206120804085_UpdateCommentsModerationTableV3.cs" />
+    <Compile Include="Migrations\201206120804085_UpdateCommentsModerationTableV3.Designer.cs">
+      <DependentUpon>201206120804085_UpdateCommentsModerationTableV3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206120935469_ChangeProjectPostcodeAssociation.cs" />
+    <Compile Include="Migrations\201206120935469_ChangeProjectPostcodeAssociation.Designer.cs">
+      <DependentUpon>201206120935469_ChangeProjectPostcodeAssociation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206121005337_ChangeProjectLatLngToNotNull.cs" />
+    <Compile Include="Migrations\201206121005337_ChangeProjectLatLngToNotNull.Designer.cs">
+      <DependentUpon>201206121005337_ChangeProjectLatLngToNotNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206121010100_ChangeProjectLatLngPrecision.cs" />
+    <Compile Include="Migrations\201206121010100_ChangeProjectLatLngPrecision.Designer.cs">
+      <DependentUpon>201206121010100_ChangeProjectLatLngPrecision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206121342264_AddingVolunteersToProject.cs" />
+    <Compile Include="Migrations\201206121342264_AddingVolunteersToProject.Designer.cs">
+      <DependentUpon>201206121342264_AddingVolunteersToProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206121500592_UpdateCommentsModerationTableV4.cs" />
+    <Compile Include="Migrations\201206121500592_UpdateCommentsModerationTableV4.Designer.cs">
+      <DependentUpon>201206121500592_UpdateCommentsModerationTableV4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206121508148_UpdateCommentsModerationTableV5.cs" />
+    <Compile Include="Migrations\201206121508148_UpdateCommentsModerationTableV5.Designer.cs">
+      <DependentUpon>201206121508148_UpdateCommentsModerationTableV5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206121621547_AddProjectModerationTable.cs" />
+    <Compile Include="Migrations\201206121621547_AddProjectModerationTable.Designer.cs">
+      <DependentUpon>201206121621547_AddProjectModerationTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206130847266_UpdateModerationTableName.cs" />
+    <Compile Include="Migrations\201206130847266_UpdateModerationTableName.Designer.cs">
+      <DependentUpon>201206130847266_UpdateModerationTableName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206131006541_AddProjectWithdrawalQueue.cs" />
+    <Compile Include="Migrations\201206131006541_AddProjectWithdrawalQueue.Designer.cs">
+      <DependentUpon>201206131006541_AddProjectWithdrawalQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206131551303_AddMessageQueue.cs" />
+    <Compile Include="Migrations\201206131551303_AddMessageQueue.Designer.cs">
+      <DependentUpon>201206131551303_AddMessageQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206131552343_UpdateMessageQueue.cs" />
+    <Compile Include="Migrations\201206131552343_UpdateMessageQueue.Designer.cs">
+      <DependentUpon>201206131552343_UpdateMessageQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206131620516_UpdateMessageQueueV2.cs" />
+    <Compile Include="Migrations\201206131620516_UpdateMessageQueueV2.Designer.cs">
+      <DependentUpon>201206131620516_UpdateMessageQueueV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206131946307_UpdateMessageQueueV3.cs" />
+    <Compile Include="Migrations\201206131946307_UpdateMessageQueueV3.Designer.cs">
+      <DependentUpon>201206131946307_UpdateMessageQueueV3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206140843548_MessageServiceEmailAccount.cs" />
+    <Compile Include="Migrations\201206140843548_MessageServiceEmailAccount.Designer.cs">
+      <DependentUpon>201206140843548_MessageServiceEmailAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206140846391_UpdateEmailAccount.cs" />
+    <Compile Include="Migrations\201206140846391_UpdateEmailAccount.Designer.cs">
+      <DependentUpon>201206140846391_UpdateEmailAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206140923408_UpdateMessageQueue1.cs" />
+    <Compile Include="Migrations\201206140923408_UpdateMessageQueue1.Designer.cs">
+      <DependentUpon>201206140923408_UpdateMessageQueue1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206141006445_UpdateMessageQueue2.cs" />
+    <Compile Include="Migrations\201206141006445_UpdateMessageQueue2.Designer.cs">
+      <DependentUpon>201206141006445_UpdateMessageQueue2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206141114299_AddCommentResponses.cs" />
+    <Compile Include="Migrations\201206141114299_AddCommentResponses.Designer.cs">
+      <DependentUpon>201206141114299_AddCommentResponses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206151047175_UpdateProjectWithdrawalModerationTable.cs" />
+    <Compile Include="Migrations\201206151047175_UpdateProjectWithdrawalModerationTable.Designer.cs">
+      <DependentUpon>201206151047175_UpdateProjectWithdrawalModerationTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206151242588_RemovePostcodeEntity.cs" />
+    <Compile Include="Migrations\201206151242588_RemovePostcodeEntity.Designer.cs">
+      <DependentUpon>201206151242588_RemovePostcodeEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206171859330_UpdateProjectOwner.cs" />
+    <Compile Include="Migrations\201206171859330_UpdateProjectOwner.Designer.cs">
+      <DependentUpon>201206171859330_UpdateProjectOwner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206172048224_AddUserPrimaryAuthMethod.cs" />
+    <Compile Include="Migrations\201206172048224_AddUserPrimaryAuthMethod.Designer.cs">
+      <DependentUpon>201206172048224_AddUserPrimaryAuthMethod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206172139131_AddUserProfilePictureField.cs" />
+    <Compile Include="Migrations\201206172139131_AddUserProfilePictureField.Designer.cs">
+      <DependentUpon>201206172139131_AddUserProfilePictureField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206181356071_AddUserSeoDisplayNameField.cs" />
+    <Compile Include="Migrations\201206181356071_AddUserSeoDisplayNameField.Designer.cs">
+      <DependentUpon>201206181356071_AddUserSeoDisplayNameField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206181441095_UpdateMessageQueue3.cs" />
+    <Compile Include="Migrations\201206181441095_UpdateMessageQueue3.Designer.cs">
+      <DependentUpon>201206181441095_UpdateMessageQueue3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206181912422_AddLogTable.cs" />
+    <Compile Include="Migrations\201206181912422_AddLogTable.Designer.cs">
+      <DependentUpon>201206181912422_AddLogTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206192238237_AddUserSocialProfileDisplayNames.cs" />
+    <Compile Include="Migrations\201206192238237_AddUserSocialProfileDisplayNames.Designer.cs">
+      <DependentUpon>201206192238237_AddUserSocialProfileDisplayNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206200903210_RemoveUserDeletedFlag.cs" />
+    <Compile Include="Migrations\201206200903210_RemoveUserDeletedFlag.Designer.cs">
+      <DependentUpon>201206200903210_RemoveUserDeletedFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206200928338_MakingCommentAuthorOptional.cs" />
+    <Compile Include="Migrations\201206200928338_MakingCommentAuthorOptional.Designer.cs">
+      <DependentUpon>201206200928338_MakingCommentAuthorOptional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206201302013_UpdateMessageQueue4.cs" />
+    <Compile Include="Migrations\201206201302013_UpdateMessageQueue4.Designer.cs">
+      <DependentUpon>201206201302013_UpdateMessageQueue4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206201332209_MakingCommentAuthorRequired.cs" />
+    <Compile Include="Migrations\201206201332209_MakingCommentAuthorRequired.Designer.cs">
+      <DependentUpon>201206201332209_MakingCommentAuthorRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206201913112_UpdateSiteOwner.cs" />
+    <Compile Include="Migrations\201206201913112_UpdateSiteOwner.Designer.cs">
+      <DependentUpon>201206201913112_UpdateSiteOwner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206211504223_AddSlugTable.cs" />
+    <Compile Include="Migrations\201206211504223_AddSlugTable.Designer.cs">
+      <DependentUpon>201206211504223_AddSlugTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206220919266_RemoveMessageQueue.cs" />
+    <Compile Include="Migrations\201206220919266_RemoveMessageQueue.Designer.cs">
+      <DependentUpon>201206220919266_RemoveMessageQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206220920020_AddMessageQueue1.cs" />
+    <Compile Include="Migrations\201206220920020_AddMessageQueue1.Designer.cs">
+      <DependentUpon>201206220920020_AddMessageQueue1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206221056367_AddMediaTable.cs" />
+    <Compile Include="Migrations\201206221056367_AddMediaTable.Designer.cs">
+      <DependentUpon>201206221056367_AddMediaTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206261613122_AddTwitterIdToProject.cs" />
+    <Compile Include="Migrations\201206261613122_AddTwitterIdToProject.Designer.cs">
+      <DependentUpon>201206261613122_AddTwitterIdToProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206261614297_maxLengthForTwitterId.cs" />
+    <Compile Include="Migrations\201206261614297_maxLengthForTwitterId.Designer.cs">
+      <DependentUpon>201206261614297_maxLengthForTwitterId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206261618342_AddLocationSeoNameField.cs" />
+    <Compile Include="Migrations\201206261618342_AddLocationSeoNameField.Designer.cs">
+      <DependentUpon>201206261618342_AddLocationSeoNameField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206271123370_AddNameToMedia.cs" />
+    <Compile Include="Migrations\201206271123370_AddNameToMedia.Designer.cs">
+      <DependentUpon>201206271123370_AddNameToMedia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206280918074_AddPdfTitleToPage.cs" />
+    <Compile Include="Migrations\201206280918074_AddPdfTitleToPage.Designer.cs">
+      <DependentUpon>201206280918074_AddPdfTitleToPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206280920387_RenameFileTitleToPage.cs" />
+    <Compile Include="Migrations\201206280920387_RenameFileTitleToPage.Designer.cs">
+      <DependentUpon>201206280920387_RenameFileTitleToPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206281314420_AddTwitterTable.cs" />
+    <Compile Include="Migrations\201206281314420_AddTwitterTable.Designer.cs">
+      <DependentUpon>201206281314420_AddTwitterTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206281413545_idOnTweetsChangedToULong.cs" />
+    <Compile Include="Migrations\201206281413545_idOnTweetsChangedToULong.Designer.cs">
+      <DependentUpon>201206281413545_idOnTweetsChangedToULong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206281554280_AddingUsernameToTweets.cs" />
+    <Compile Include="Migrations\201206281554280_AddingUsernameToTweets.Designer.cs">
+      <DependentUpon>201206281554280_AddingUsernameToTweets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206281618492_DropTweet.cs" />
+    <Compile Include="Migrations\201206281618492_DropTweet.Designer.cs">
+      <DependentUpon>201206281618492_DropTweet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201206281619292_reinsertTweet.cs" />
+    <Compile Include="Migrations\201206281619292_reinsertTweet.Designer.cs">
+      <DependentUpon>201206281619292_reinsertTweet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207030802137_UpdateProjectTable.cs" />
+    <Compile Include="Migrations\201207030802137_UpdateProjectTable.Designer.cs">
+      <DependentUpon>201207030802137_UpdateProjectTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207031625271_UpdateProjectTable1.cs" />
+    <Compile Include="Migrations\201207031625271_UpdateProjectTable1.Designer.cs">
+      <DependentUpon>201207031625271_UpdateProjectTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207051310232_AddLocationRegionFlag.cs" />
+    <Compile Include="Migrations\201207051310232_AddLocationRegionFlag.Designer.cs">
+      <DependentUpon>201207051310232_AddLocationRegionFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207060812237_UpdateMessageQueueToAddTwitterProfileTable.cs" />
+    <Compile Include="Migrations\201207060812237_UpdateMessageQueueToAddTwitterProfileTable.Designer.cs">
+      <DependentUpon>201207060812237_UpdateMessageQueueToAddTwitterProfileTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207060851596_UpdateMessageQueueToAddTwitterNameTable.cs" />
+    <Compile Include="Migrations\201207060851596_UpdateMessageQueueToAddTwitterNameTable.Designer.cs">
+      <DependentUpon>201207060851596_UpdateMessageQueueToAddTwitterNameTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207090757427_UpdateProjectToHaveModeratorNotes.cs" />
+    <Compile Include="Migrations\201207090757427_UpdateProjectToHaveModeratorNotes.Designer.cs">
+      <DependentUpon>201207090757427_UpdateProjectToHaveModeratorNotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207092007147_UpdateProjectsNameLengthTable.cs" />
+    <Compile Include="Migrations\201207092007147_UpdateProjectsNameLengthTable.Designer.cs">
+      <DependentUpon>201207092007147_UpdateProjectsNameLengthTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207100929580_UpdateProjectsNameLengthTableto140.cs" />
+    <Compile Include="Migrations\201207100929580_UpdateProjectsNameLengthTableto140.Designer.cs">
+      <DependentUpon>201207100929580_UpdateProjectsNameLengthTableto140.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207101153000_AddProjectAddressNameField.cs" />
+    <Compile Include="Migrations\201207101153000_AddProjectAddressNameField.Designer.cs">
+      <DependentUpon>201207101153000_AddProjectAddressNameField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207101652539_AddProjectUserHistoryTable.cs" />
+    <Compile Include="Migrations\201207101652539_AddProjectUserHistoryTable.Designer.cs">
+      <DependentUpon>201207101652539_AddProjectUserHistoryTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207101801008_UpdateProjectUserHistoryAddActionId.cs" />
+    <Compile Include="Migrations\201207101801008_UpdateProjectUserHistoryAddActionId.Designer.cs">
+      <DependentUpon>201207101801008_UpdateProjectUserHistoryAddActionId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207101812202_TryToFixModerationQueue.cs" />
+    <Compile Include="Migrations\201207101812202_TryToFixModerationQueue.Designer.cs">
+      <DependentUpon>201207101812202_TryToFixModerationQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207101813331_TryToFixModerationQueueV2.cs" />
+    <Compile Include="Migrations\201207101813331_TryToFixModerationQueueV2.Designer.cs">
+      <DependentUpon>201207101813331_TryToFixModerationQueueV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207101838002_TryToFixMessageQueue.cs" />
+    <Compile Include="Migrations\201207101838002_TryToFixMessageQueue.Designer.cs">
+      <DependentUpon>201207101838002_TryToFixMessageQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207111532178_AddLongLatToLocation.cs" />
+    <Compile Include="Migrations\201207111532178_AddLongLatToLocation.Designer.cs">
+      <DependentUpon>201207111532178_AddLongLatToLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207231121369_AddPageTypeField.cs" />
+    <Compile Include="Migrations\201207231121369_AddPageTypeField.Designer.cs">
+      <DependentUpon>201207231121369_AddPageTypeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207231131564_AddMediaLinkField.cs" />
+    <Compile Include="Migrations\201207231131564_AddMediaLinkField.Designer.cs">
+      <DependentUpon>201207231131564_AddMediaLinkField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207231513095_AddMediaFileTypeField.cs" />
+    <Compile Include="Migrations\201207231513095_AddMediaFileTypeField.Designer.cs">
+      <DependentUpon>201207231513095_AddMediaFileTypeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207241729453_AddTwitterName.cs" />
+    <Compile Include="Migrations\201207241729453_AddTwitterName.Designer.cs">
+      <DependentUpon>201207241729453_AddTwitterName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207311116489_AddAccessTokensToAUser.cs" />
+    <Compile Include="Migrations\201207311116489_AddAccessTokensToAUser.Designer.cs">
+      <DependentUpon>201207311116489_AddAccessTokensToAUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207311149595_ExtendAccessTokensSize.cs" />
+    <Compile Include="Migrations\201207311149595_ExtendAccessTokensSize.Designer.cs">
+      <DependentUpon>201207311149595_ExtendAccessTokensSize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207311427204_AddAccessTokensSecret.cs" />
+    <Compile Include="Migrations\201207311427204_AddAccessTokensSecret.Designer.cs">
+      <DependentUpon>201207311427204_AddAccessTokensSecret.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201207311748179_AddProfanityTable.cs" />
+    <Compile Include="Migrations\201207311748179_AddProfanityTable.Designer.cs">
+      <DependentUpon>201207311748179_AddProfanityTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208011011307_AddApiAuthenticationTable.cs" />
+    <Compile Include="Migrations\201208011011307_AddApiAuthenticationTable.Designer.cs">
+      <DependentUpon>201208011011307_AddApiAuthenticationTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208021111214_AddPriorityToPages.cs" />
+    <Compile Include="Migrations\201208021111214_AddPriorityToPages.Designer.cs">
+      <DependentUpon>201208021111214_AddPriorityToPages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208021158182_AddProjectLocationMappingTable.cs" />
+    <Compile Include="Migrations\201208021158182_AddProjectLocationMappingTable.Designer.cs">
+      <DependentUpon>201208021158182_AddProjectLocationMappingTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208042310157_IncreaseMetaDescriptionMaxLength.cs" />
+    <Compile Include="Migrations\201208042310157_IncreaseMetaDescriptionMaxLength.Designer.cs">
+      <DependentUpon>201208042310157_IncreaseMetaDescriptionMaxLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208051816169_AddUserUsernameField.cs" />
+    <Compile Include="Migrations\201208051816169_AddUserUsernameField.Designer.cs">
+      <DependentUpon>201208051816169_AddUserUsernameField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208052201332_RemovePageTypeField.cs" />
+    <Compile Include="Migrations\201208052201332_RemovePageTypeField.Designer.cs">
+      <DependentUpon>201208052201332_RemovePageTypeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208081339162_RemoveProjectAddressName.cs" />
+    <Compile Include="Migrations\201208081339162_RemoveProjectAddressName.Designer.cs">
+      <DependentUpon>201208081339162_RemoveProjectAddressName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201208150749503_RemoveSiteOwnerTable.cs" />
+    <Compile Include="Migrations\201208150749503_RemoveSiteOwnerTable.Designer.cs">
+      <DependentUpon>201208150749503_RemoveSiteOwnerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201210050848123_AddUserContactUsFields.cs" />
+    <Compile Include="Migrations\201210050848123_AddUserContactUsFields.Designer.cs">
+      <DependentUpon>201210050848123_AddUserContactUsFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201210230835189_AddScheduledTaskRunOnLoad.cs" />
+    <Compile Include="Migrations\201210230835189_AddScheduledTaskRunOnLoad.Designer.cs">
+      <DependentUpon>201210230835189_AddScheduledTaskRunOnLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gather.Core\Gather.Core.csproj">
+      <Project>{11D9B153-FFBF-447D-8180-B156354745EF}</Project>
+      <Name>Gather.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

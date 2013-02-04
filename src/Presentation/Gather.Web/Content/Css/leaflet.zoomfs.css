@@ -1,0 +1,25 @@
+﻿#map.leaflet-fullscreen {
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    z-index: 100;
+}
+
+#map.leaflet-fullscreen .leaflet-tile {
+    z-index: 1;
+}
+
+#map.leaflet-fullscreen .leaflet-map-pane {
+    z-index: -10;
+}
+
+#map.leaflet-fullscreen .leaflet-tile-pane {
+    z-index: -10 !important;
+}
+    
+.leaflet-control-fullscreen {
+    background-image: url(../images/maps/icon-fullscreen.png);
+    margin-bottom: 5px;
+}

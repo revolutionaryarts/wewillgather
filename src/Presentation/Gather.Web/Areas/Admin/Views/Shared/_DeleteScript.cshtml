@@ -1,0 +1,22 @@
+﻿@model Gather.Web.Areas.Admin.Models.Common.DeleteScriptModel
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+
+        $('.list-table .delete-link, .sub-item-table .delete-link').click(function () {
+
+            $.get("@Url.Action("Delete", "Common", new { area = "Admin" })", { controllerName: "@Model.ControllerName", actionName: "@Model.ActionName", search: "@Model.Search", page: "@Model.Page", additionalControllerName: "@Model.AdditionalControllerName", additionalActionName: "@Model.AdditionalActionName", additionalData: JSON.stringify(@Html.Raw(Json.Encode(Model.RouteValues))), ajax: "@Model.Ajax", id: $(this).data('id') }, function (result) {
+                $('.delete-modal').remove();
+                $('body').append(result);
+                $('.delete-modal').dialog({
+                    modal: true,
+                    width: 365
+                });
+            });
+
+            return false;
+
+        });
+
+    });
+</script>

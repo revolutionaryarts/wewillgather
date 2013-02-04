@@ -1,0 +1,13 @@
+﻿@model Gather.Web.Models.Location.LocationFilterModel
+<li>
+    <a href="@Model.Link" data-location="@Model.Id">@Model.Name</a> (@Model.ProjectCount)
+    @if (Model.ChildrenLocations != null && Model.ChildrenLocations.Count > 0)
+    {
+        <ul class="listing-filters">
+            @foreach (var location in Model.ChildrenLocations)
+            {
+                @Html.Partial("_ProjectListRegions", location)
+            }
+        </ul>
+    }
+</li>

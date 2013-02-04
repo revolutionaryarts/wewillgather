@@ -1,0 +1,47 @@
+﻿@model Gather.Web.Areas.Admin.Models.Common.DeleteConfirmationModel
+
+<div class="delete-modal">
+    @using (Html.BeginForm(Model.ActionName, Model.ControllerName, new { id = Model.Id, search = Model.Search, page = Model.Page }))
+    {
+        if(!string.IsNullOrEmpty(Model.AdditionalControllerName) && !string.IsNullOrEmpty(Model.AdditionalActionName))
+        {
+            @Html.Action(Model.AdditionalActionName, Model.AdditionalControllerName, new { id = Model.Id })
+        }
+        <p>Are you sure you want to delete this item? Please enter 'delete' into the below input to confirm.</p>
+        <input type="text" value="" id="confirm-delete-input" autocomplete="off" maxlength="6" />
+        <input type="submit" value="Confirm Delete" id="confirm-delete-button" class="button blue" />
+        <span id="cancel-delete-link" class="button grey">Cancel</span>
+    }
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+
+        $('#confirm-delete-button').click(function () {
+            var value = $('#confirm-delete-input').val().toLowerCase();
+            if (value == "delete")
+                @if (Model.Ajax)
+                {
+                    <text>
+                        $.post("/admin/@Model.ControllerName/@Model.ActionName", { id: '@Model.Id', additionalData: '@Html.Raw(Model.AdditionalData)' }, function(result) {
+                            if(result){
+                                $("#tblRow" + @Model.Id).remove();
+                                $('.delete-modal').dialog('close');
+                            }
+                        });
+                    </text>
+                }
+                else
+                {
+                    @:return true;
+                }
+            $('#confirm-delete-input').addClass('error').focus();
+            return false;
+        });
+
+        $('#cancel-delete-link').click(function () {
+            $('.delete-modal').dialog('close');
+        });
+
+    });
+</script>

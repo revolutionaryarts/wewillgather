@@ -1,0 +1,1059 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3053DB42-C273-40EF-82C3-92147E912D73}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gather.Web</RootNamespace>
+    <AssemblyName>Gather.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stage|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OpenSource|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>..\..\packages\Facebook.6.0.16\lib\net40-client\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\..\packages\FluentValidation.3.3.1.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>..\..\packages\FluentValidation.MVC3.3.3.1.0\lib\Net40\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\..\packages\ImageResizer.3.2.1\lib\ImageResizer.dll</HintPath>
+      <Aliases>ir</Aliases>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc">
+      <HintPath>..\..\packages\Mvc3Futures.3.0.20105.0\lib\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib">
+      <HintPath>..\..\packages\MvcContrib.Mvc3-ci.3.0.100.0\lib\MvcContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.Formatting.4.0.20126.16343\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebApi.Core.4.0.20126.16343\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebApi.4.0.20126.16343\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetMvc.4.0.20126.16343\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.Web.Optimization.1.0.0-beta\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\..\packages\System.Web.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetRazor.Core.2.0.20126.16343\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Twitterizer2">
+      <HintPath>..\..\packages\twitterizer.2.4.1.1\lib\net40\Twitterizer2.dll</HintPath>
+    </Reference>
+    <Reference Include="Twitterizer2.Asynchronous">
+      <HintPath>..\..\packages\twitterizer.2.4.1.1\lib\net40\Twitterizer2.Asynchronous.dll</HintPath>
+    </Reference>
+    <Reference Include="Twitterizer2.Streaming">
+      <HintPath>..\..\packages\twitterizer.2.4.1.1\lib\net40\Twitterizer2.Streaming.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommonController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ModerationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LocationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ModuleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProjectController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SuccessStoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserRoleController.cs" />
+    <Compile Include="Areas\Admin\Extensions\HtmlExtensions.cs" />
+    <Compile Include="Areas\Admin\Extensions\NavigationExtensions.cs" />
+    <Compile Include="Areas\Admin\GridHelper.cs" />
+    <Compile Include="Areas\Admin\Models\BaseAdminListModel.cs" />
+    <Compile Include="Areas\Admin\Models\BaseModel.cs" />
+    <Compile Include="Areas\Admin\Models\Category\AdditionalDeleteModel.cs" />
+    <Compile Include="Areas\Admin\Models\Category\CategoryListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Comment\CommentListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Common\DeleteConfirmationModel.cs" />
+    <Compile Include="Areas\Admin\Models\Common\DeleteScriptModel.cs" />
+    <Compile Include="Areas\Admin\Models\Common\NavigationModel.cs" />
+    <Compile Include="Areas\Admin\Models\Location\LocationListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Page\PageListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Project\ProjectWithdrawalModel.cs" />
+    <Compile Include="Areas\Admin\Models\Project\ProjectModerationModel.cs" />
+    <Compile Include="Areas\Admin\Models\Project\ProjectCommentModerationModel.cs" />
+    <Compile Include="Areas\Admin\Models\Project\ProjectEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\Project\ProjectListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Setting\SettingListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Setting\SiteOwnerModel.cs" />
+    <Compile Include="Areas\Admin\Models\SuccessStory\SuccessStoryListModel.cs" />
+    <Compile Include="Areas\Admin\Models\User\UserEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\User\UserListModel.cs" />
+    <Compile Include="Areas\Admin\Models\User\UserRoleListModel.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Controllers\SiteMapController.cs" />
+    <Compile Include="Controllers\KeepAliveController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="Models\Api\ApiAuthenticationModel.cs" />
+    <Compile Include="Models\BasePageModel.cs" />
+    <Compile Include="Models\Category\CategoryModel.cs" />
+    <Compile Include="Models\Category\CategoryFilterModel.cs" />
+    <Compile Include="Models\Comment\CommentModel.cs" />
+    <Compile Include="Models\Common\FlickrWidgetModel.cs" />
+    <Compile Include="Models\Common\GoogleAnalyticsTrackingModel.cs" />
+    <Compile Include="Models\Common\LoginStatusModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Common\LoggedInStateModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Common\NotificationModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Contact\ContactModel.cs" />
+    <Compile Include="Models\Home\HomeModel.cs" />
+    <Compile Include="Models\Install\StepTwoModel.cs" />
+    <Compile Include="Models\Install\StepFourModel.cs" />
+    <Compile Include="Models\Install\StepOneModel.cs" />
+    <Compile Include="Models\Install\StepThreeModel.cs" />
+    <Compile Include="Models\Location\LocationFilterModel.cs" />
+    <Compile Include="Models\Location\LocationModel.cs" />
+    <Compile Include="Areas\Admin\Models\ModerationQueue\ModerationQueueListModel.cs" />
+    <Compile Include="Models\Media\MediaModel.cs" />
+    <Compile Include="Models\MessageQueues\MessageQueueModel.cs" />
+    <Compile Include="Models\Project\ProjectLocationModel.cs" />
+    <Compile Include="Models\Project\ProjectModerationDisputeModel.cs" />
+    <Compile Include="Models\ModerationQueue\ModerationQueueModel.cs" />
+    <Compile Include="Models\Page\PageModel.cs" />
+    <Compile Include="Models\Project\BaseProjectModel.cs" />
+    <Compile Include="Models\Project\ProjectUserHistoryModel.cs" />
+    <Compile Include="Models\Project\ProjectNextResultsModel.cs" />
+    <Compile Include="Models\Project\ProjectDetailModel.cs" />
+    <Compile Include="Models\Project\ProjectListingModel.cs" />
+    <Compile Include="Models\Project\ProjectListPagedModel.cs" />
+    <Compile Include="Models\Project\ProjectModel.cs" />
+    <Compile Include="Models\Project\ProjectRefineListingModel.cs" />
+    <Compile Include="Models\Security\PermissionRecordModel.cs" />
+    <Compile Include="Models\Setting\SettingModel.cs" />
+    <Compile Include="Models\SiteMap\SiteMapXmlModel.cs" />
+    <Compile Include="Models\SiteMap\SiteMapModel.cs" />
+    <Compile Include="Models\SuccessStory\SuccessStoryListingModel.cs" />
+    <Compile Include="Models\SuccessStory\SuccessStoryModel.cs" />
+    <Compile Include="Models\Tweet\TweetModel.cs" />
+    <Compile Include="Models\User\UserApiModel.cs" />
+    <Compile Include="Models\User\UserModel.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\SuccessStoryController.cs" />
+    <Compile Include="Controllers\StaticController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\RouteProvider.cs" />
+    <Compile Include="Models\Account\AccountModels.cs" />
+    <Compile Include="Models\Authentication\AuthenticationModel.cs" />
+    <Compile Include="Models\User\UserProfileModel.cs" />
+    <Compile Include="Models\User\UserRoleModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Routing\LegacySitemapHandler.cs" />
+    <Compile Include="Validators\BaseProject\BaseProjectValidator.cs" />
+    <Compile Include="Validators\SuccessStory\SuccessStoryValidator.cs" />
+    <Compile Include="Validators\User\UserValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\locations.txt" />
+    <Content Include="App_Data\profanity.txt" />
+    <Content Include="App_Data\StoredProcedures.sql" />
+    <Content Include="Areas\Admin\Content\images\crown.png" />
+    <Content Include="Areas\Admin\Content\images\menu-cart.png" />
+    <Content Include="Areas\Admin\Content\images\menu-comments.png" />
+    <Content Include="Areas\Admin\Content\images\menu-dashboard.png" />
+    <Content Include="Areas\Admin\Content\images\menu-discounts.png" />
+    <Content Include="Areas\Admin\Content\images\menu-flag.png" />
+    <Content Include="Areas\Admin\Content\images\menu-gallery.png" />
+    <Content Include="Areas\Admin\Content\images\menu-inbox.png" />
+    <Content Include="Areas\Admin\Content\images\menu-locations.png" />
+    <Content Include="Areas\Admin\Content\images\menu-lock.png" />
+    <Content Include="Areas\Admin\Content\images\menu-pages.png" />
+    <Content Include="Areas\Admin\Content\images\menu-projects.png" />
+    <Content Include="Areas\Admin\Content\images\menu-receipt.png" />
+    <Content Include="Areas\Admin\Content\images\menu-review.png" />
+    <Content Include="Areas\Admin\Content\images\menu-settings.png" />
+    <Content Include="Areas\Admin\Content\images\menu-user.png" />
+    <Content Include="Areas\Admin\Content\images\menu-users.png" />
+    <Content Include="Areas\Admin\Content\images\ui-icons.png" />
+    <Content Include="Areas\Admin\Scripts\jquery\combobox.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\globalize.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\jquery-ui-1.8.20.min.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\langs\en.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\license.txt" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advhr\css\advhr.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advhr\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advhr\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advhr\js\rule.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advhr\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advhr\rule.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\css\advimage.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\image.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\img\sample.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\js\image.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advimage\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlink\css\advlink.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlink\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlink\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlink\js\advlink.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlink\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlink\link.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlist\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\advlist\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autolink\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autolink\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autoresize\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autoresize\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autosave\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autosave\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\autosave\langs\en.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\bbcode\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\bbcode\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\contextmenu\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\contextmenu\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\directionality\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\directionality\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\emotions.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-cool.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-cry.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-embarassed.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-foot-in-mouth.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-frown.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-innocent.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-kiss.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-laughing.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-money-mouth.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-sealed.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-smile.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-surprised.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-tongue-out.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-undecided.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-wink.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\img\smiley-yell.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\js\emotions.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\emotions\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\dialog.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\img\example.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\js\dialog.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\langs\en.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example_dependency\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\example_dependency\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullpage\css\fullpage.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullpage\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullpage\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullpage\fullpage.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullpage\js\fullpage.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullpage\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullscreen\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullscreen\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\fullscreen\fullscreen.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\iespell\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\iespell\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\alert.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\button.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\buttons.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\confirm.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\corners.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\horizontal.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\img\vertical.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\skins\clearlooks2\window.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\inlinepopups\template.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\insertdatetime\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\insertdatetime\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\layer\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\layer\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\legacyoutput\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\legacyoutput\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\lists\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\lists\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\css\media.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\js\embed.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\js\media.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\media.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\media\moxieplayer.swf" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\css\dialog.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\css\fileuploader.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\arrow.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\bin.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\folder-horizontal-open.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\folder-horizontal.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\loading.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\pencil.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\plus.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\sample.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\splitter.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\tinymce-insertimage.png" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\img\ui.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\js\dialog.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\js\fileuploader.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\js\jquery-ui.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\js\jquery.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\js\jquery.layout.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\netadvimage\langs\en.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\nonbreaking\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\nonbreaking\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\noneditable\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\noneditable\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\pagebreak\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\pagebreak\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\js\pastetext.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\js\pasteword.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\pastetext.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\paste\pasteword.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\preview\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\preview\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\preview\example.html" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\preview\jscripts\embed.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\preview\preview.html" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\print\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\print\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\save\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\save\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\searchreplace\css\searchreplace.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\searchreplace\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\searchreplace\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\searchreplace\js\searchreplace.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\searchreplace\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\searchreplace\searchreplace.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\spellchecker\css\content.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\spellchecker\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\spellchecker\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\spellchecker\img\wline.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\style\css\props.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\style\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\style\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\style\js\props.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\style\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\style\props.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\tabfocus\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\tabfocus\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\cell.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\css\cell.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\css\row.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\css\table.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\js\cell.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\js\merge_cells.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\js\row.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\js\table.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\merge_cells.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\row.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\table\table.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\blank.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\css\template.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\js\template.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\template\template.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\visualchars\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\visualchars\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\wordcount\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\wordcount\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\abbr.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\acronym.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\attributes.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\cite.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\css\attributes.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\css\popup.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\del.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\editor_plugin.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\editor_plugin_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\ins.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\abbr.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\acronym.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\attributes.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\cite.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\del.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\element_common.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\js\ins.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\plugins\xhtmlxtras\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\about.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\anchor.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\charmap.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\color_picker.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\editor_template.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\editor_template_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\image.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\colorpicker.jpg" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\flash.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\icons.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\iframe.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\pagebreak.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\quicktime.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\realmedia.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\shockwave.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\trans.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\video.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\img\windowsmedia.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\about.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\anchor.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\charmap.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\color_picker.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\image.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\link.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\js\source_editor.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\langs\en.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\langs\en_dlg.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\link.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\shortcuts.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\content.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\dialog.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\img\buttons.png" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\img\items.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\img\menu_arrow.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\img\menu_check.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\img\progress.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\img\tabs.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\default\ui.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\highcontrast\content.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\highcontrast\dialog.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\highcontrast\ui.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\content.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\dialog.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\img\button_bg.png" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\img\button_bg_black.png" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\img\button_bg_silver.png" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\ui.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\ui_black.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\skins\o2k7\ui_silver.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\advanced\source_editor.htm" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\editor_template.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\editor_template_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\img\icons.gif" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\langs\en.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\skins\default\content.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\skins\default\ui.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\skins\o2k7\content.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\skins\o2k7\img\button_bg.png" />
+    <Content Include="Areas\Admin\Scripts\tinymce\themes\simple\skins\o2k7\ui.css" />
+    <Content Include="Areas\Admin\Scripts\tinymce\tiny_mce.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\tiny_mce_popup.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\tiny_mce_src.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\utils\editable_selects.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\utils\form_utils.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\utils\mctabs.js" />
+    <Content Include="Areas\Admin\Scripts\tinymce\utils\validate.js" />
+    <Content Include="Areas\Admin\Content\images\ajax-loader.gif" />
+    <Content Include="Areas\Admin\Content\images\cms-logo.png" />
+    <Content Include="Areas\Admin\Content\images\document-tree.png" />
+    <Content Include="Areas\Admin\Content\images\edit-panel-down.png" />
+    <Content Include="Areas\Admin\Content\images\folder-tree.png" />
+    <Content Include="Areas\Admin\Content\images\footer-shadow.png" />
+    <Content Include="Areas\Admin\Content\images\icon-basket.png" />
+    <Content Include="Areas\Admin\Content\images\icon-cart.png" />
+    <Content Include="Areas\Admin\Content\images\icon-contact.png" />
+    <Content Include="Areas\Admin\Content\images\icon-cross.png" />
+    <Content Include="Areas\Admin\Content\images\icon-delete.png" />
+    <Content Include="Areas\Admin\Content\images\icon-edit.png" />
+    <Content Include="Areas\Admin\Content\images\icon-pencil.png" />
+    <Content Include="Areas\Admin\Content\images\icon-report.png" />
+    <Content Include="Areas\Admin\Content\images\icon-round-tick-grey.png" />
+    <Content Include="Areas\Admin\Content\images\icon-round-tick.png" />
+    <Content Include="Areas\Admin\Content\images\icon-tick.png" />
+    <Content Include="Areas\Admin\Content\images\icon-user.png" />
+    <Content Include="Areas\Admin\Content\images\icon-users.png" />
+    <Content Include="Areas\Admin\Content\images\login-back.png" />
+    <Content Include="Areas\Admin\Content\images\menu-shadow.png" />
+    <Content Include="Areas\Admin\Content\images\sitemap-application-blue.png" />
+    <Content Include="Areas\Admin\Content\images\sitemap-application.png" />
+    <Content Include="Areas\Admin\Content\images\sitemap-image.png" />
+    <Content Include="Areas\Admin\Content\images\sitemap.png" />
+    <Content Include="Areas\Admin\Content\styles.css" />
+    <Content Include="Areas\Admin\Scripts\jquery\jquery-1.6.2.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\jquery.validate.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\Css\app.css" />
+    <Content Include="Content\Css\fb-widget.css" />
+    <Content Include="Content\Css\foundation.css" />
+    <Content Include="Content\Css\ie.css" />
+    <Content Include="Content\Css\jquery-ui-1.8.21.css" />
+    <Content Include="Content\Css\leaflet.css" />
+    <Content Include="Content\Css\leaflet.zoomfs.css" />
+    <Content Include="Content\Css\normalize.css" />
+    <Content Include="Content\Css\orbit.css" />
+    <Content Include="Content\Css\styles.css" />
+    <Content Include="Content\Fonts\Bevan-webfont.svg" />
+    <Content Include="Content\Fonts\Chunkfive-webfont.svg" />
+    <Content Include="Content\Fonts\KOMIKAX_-webfont.svg" />
+    <Content Include="Content\Fonts\PTS55F-webfont.svg" />
+    <Content Include="Content\Fonts\PTS75F-webfont.svg" />
+    <Content Include="Content\Images\1335907366_pdf.png" />
+    <Content Include="Content\Images\bg-addproject-over.png" />
+    <Content Include="Content\Images\bg-addproject.png" />
+    <Content Include="Content\Images\bg-arrow-mobile-2x.png" />
+    <Content Include="Content\Images\bg-arrow-mobile.png" />
+    <Content Include="Content\Images\bg-arrow.png" />
+    <Content Include="Content\Images\bg-comments.png" />
+    <Content Include="Content\Images\bg-search.png" />
+    <Content Include="Content\Images\bg-twitter.png" />
+    <Content Include="Content\Images\dan.jpg" />
+    <Content Include="Content\Images\favicon.ico" />
+    <Content Include="Content\Images\favicons\apple-touch-icon-114x114-precomposed.png" />
+    <Content Include="Content\Images\favicons\apple-touch-icon-144x144-precomposed.png" />
+    <Content Include="Content\Images\favicons\apple-touch-icon-57x57-precomposed.png" />
+    <Content Include="Content\Images\favicons\apple-touch-icon-72x72-precomposed.png" />
+    <Content Include="Content\Images\favicons\favicon.ico" />
+    <Content Include="Content\Images\img-or-mobile-2x.png" />
+    <Content Include="Content\Images\img-or-mobile.png" />
+    <Content Include="Content\Images\img-or.png" />
+    <Content Include="Content\Images\img-success-badge.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\Images\jquery-ui\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\Images\jquery-ui\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Images\jquery-ui\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\Images\jquery-ui\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\Images\jquery-ui\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\Images\jquery-ui\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Images\lloyd.jpg" />
+    <Content Include="Content\Images\logo-freshegg.png" />
+    <Content Include="Content\Images\logo-ra-madeby.png" />
+    <Content Include="Content\Images\logo-ra.jpg" />
+    <Content Include="Content\Images\logo-ra.png" />
+    <Content Include="Content\Images\logo-secondary-mobile-2x.png" />
+    <Content Include="Content\Images\logo-secondary-mobile.png" />
+    <Content Include="Content\Images\logo-secondary.png" />
+    <Content Include="Content\Images\logo-serverstream.png" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\map.jpg" />
+    <Content Include="Content\Images\maps\icon-fullscreen.png" />
+    <Content Include="Content\Images\maps\layers.png" />
+    <Content Include="Content\Images\maps\marker-shadow.png" />
+    <Content Include="Content\Images\maps\marker.png" />
+    <Content Include="Content\Images\maps\popup-close.png" />
+    <Content Include="Content\Images\maps\zoom-in.png" />
+    <Content Include="Content\Images\maps\zoom-out.png" />
+    <Content Include="Content\Images\misc\button-gloss.png" />
+    <Content Include="Content\Images\misc\button-overlay.png" />
+    <Content Include="Content\Images\misc\custom-form-sprites.png" />
+    <Content Include="Content\Images\misc\input-bg-outset.png" />
+    <Content Include="Content\Images\misc\input-bg.png" />
+    <Content Include="Content\Images\misc\modal-gloss.png" />
+    <Content Include="Content\Images\misc\table-sorter.png" />
+    <Content Include="Content\Images\orbit\bullets.jpg" />
+    <Content Include="Content\Images\orbit\left-arrow.png" />
+    <Content Include="Content\Images\orbit\loading.gif" />
+    <Content Include="Content\Images\orbit\mask-black.png" />
+    <Content Include="Content\Images\orbit\pause-black.png" />
+    <Content Include="Content\Images\orbit\right-arrow.png" />
+    <Content Include="Content\Images\orbit\rotator-black.png" />
+    <Content Include="Content\Images\orbit\timer-black.png" />
+    <Content Include="Content\Images\pdf.png" />
+    <Content Include="Content\Images\placeholder-success.jpg" />
+    <Content Include="Content\Images\placeholder.jpg" />
+    <Content Include="Content\Images\sophie.jpg" />
+    <Content Include="Content\Images\spinner.gif" />
+    <Content Include="Content\Images\sprite-badges-2x.png" />
+    <Content Include="Content\Images\sprite-badges.png" />
+    <Content Include="Content\Images\sprite-icons-2x.png" />
+    <Content Include="Content\Images\sprite-icons.png" />
+    <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\Images\sprites-social-2x.png" />
+    <Content Include="Content\Images\sprites-social.png" />
+    <Content Include="Content\Images\v-inspired-banner.jpg" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="robots.txt" />
+    <Content Include="Scripts\jquery-cookie.js" />
+    <Content Include="Scripts\leaflet.zoomfs.js" />
+    <Content Include="Scripts\PerPage\core-maps.js" />
+    <Content Include="Scripts\css3-mediaqueries.js" />
+    <Content Include="Scripts\foundation.js" />
+    <Content Include="Scripts\jquery.ba-bbq.min.js" />
+    <Content Include="Scripts\jQuery\jquery-1.7.2-vsdoc.js" />
+    <Content Include="Scripts\jQuery\jquery-1.7.2.js" />
+    <Content Include="Scripts\jQuery\jquery-ui-1.8.21.min.js" />
+    <Content Include="Scripts\jquery.cycle.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\knockout-2.0.0.debug.js" />
+    <Content Include="Scripts\knockout-2.0.0.js" />
+    <Content Include="Scripts\leaflet.xclusterer.js" />
+    <Content Include="Scripts\leaflet.js" />
+    <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
+    <Content Include="Scripts\PerPage\home.js" />
+    <Content Include="Scripts\PerPage\project-detail.js" />
+    <Content Include="Scripts\PerPage\project-listing.js" />
+    <Content Include="Scripts\sprintf-0.6.js" />
+    <Content Include="Uploads\Media\install-post.jpg" />
+    <Content Include="Views\Authentication\Login.cshtml" />
+    <Content Include="Views\Authentication\Redirect.cshtml" />
+    <Content Include="Views\Templates\EmailTemplate.htm" />
+    <Content Include="Views\User\ProfileApi.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scripts\AjaxLogin.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Uploads\Profile\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Common\_Navigation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Authentication\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Error\Error403.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Error\Error404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Error\Error500.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Gather.Core\Gather.Core.csproj">
+      <Project>{11D9B153-FFBF-447D-8180-B156354745EF}</Project>
+      <Name>Gather.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Gather.Data\Gather.Data.csproj">
+      <Project>{E854CB32-A013-4AE0-8266-20A1F799FF8B}</Project>
+      <Name>Gather.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Gather.Services\Gather.Services.csproj">
+      <Project>{542E4B78-2BCF-41E8-96F1-017C4652256F}</Project>
+      <Name>Gather.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gather.Web.Framework\Gather.Web.Framework.csproj">
+      <Project>{1F013649-7D45-4160-AE4A-6D1035ABDB8A}</Project>
+      <Name>Gather.Web.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\User\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Location\List.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\SuccessStory\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Common\_Notifications.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Category\_CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Category\Add.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Location\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\SuccessStory\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\SuccessStory\_CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\SuccessStory\Add.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Common\_Delete.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Page\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\RichEditor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\_DeleteScript.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\UserRole\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\UserRole\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Page\_CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Page\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Page\Add.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Category\_AdditionalDelete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\UserRole\Add.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\UserRole\_CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Setting\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Common\AccessDenied.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\_CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Common\_AdminBar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Moderation\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Project\Add.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Common\_Breadcrumbs.cshtml" />
+    <Content Include="Views\Common\_LoginStatus.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\Change.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\_ChangeUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Project\Detail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Comment\Comment.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Comment\_CommentUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\Moderation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\_ReadOnlyProject.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Project\Confirmation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\Withdrawal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Project\_ProjectVolunteers.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Profile.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Project\_Comment.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Comment\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Comment\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Project\_OrganiserContact.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\Contact.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\Bevan-webfont.eot" />
+    <Content Include="Content\Fonts\Bevan-webfont.ttf" />
+    <Content Include="Content\Fonts\Bevan-webfont.woff" />
+    <Content Include="Content\Fonts\Chunkfive-webfont.eot" />
+    <Content Include="Content\Fonts\Chunkfive-webfont.ttf" />
+    <Content Include="Content\Fonts\Chunkfive-webfont.woff" />
+    <Content Include="Content\Fonts\KOMIKAX_-webfont.eot" />
+    <Content Include="Content\Fonts\KOMIKAX_-webfont.ttf" />
+    <Content Include="Content\Fonts\KOMIKAX_-webfont.woff" />
+    <Content Include="Views\User\_ProjectListItem.cshtml" />
+    <Content Include="Views\SuccessStory\Detail.cshtml" />
+    <Content Include="Views\SuccessStory\Listing.cshtml" />
+    <Content Include="Views\Contact\ContactThanks.cshtml" />
+    <Content Include="Views\Common\_GoogleAnalyticsTracking.cshtml" />
+    <Content Include="Views\Templates\Contact.cshtml" />
+    <Content Include="Views\Static\StandardPage.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\Project\Listing.cshtml" />
+    <Content Include="Views\Project\_ProjectListItem.cshtml" />
+    <Content Include="Views\Project\_ProjectListRegions.cshtml" />
+    <Content Include="Views\Project\_ProjectListPaged.cshtml" />
+    <Content Include="Views\Common\_LoggedInState.cshtml" />
+    <Content Include="Content\Fonts\PTS55F-webfont.eot" />
+    <Content Include="Content\Fonts\PTS55F-webfont.ttf" />
+    <Content Include="Content\Fonts\PTS55F-webfont.woff" />
+    <Content Include="Content\Fonts\PTS75F-webfont.eot" />
+    <Content Include="Content\Fonts\PTS75F-webfont.ttf" />
+    <Content Include="Content\Fonts\PTS75F-webfont.woff" />
+    <Content Include="Areas\Admin\Views\Project\DisputeOwnership.cshtml" />
+    <Content Include="Areas\Admin\Views\Project\_ProjectCategories.cshtml" />
+    <Content Include="Areas\Admin\Views\Page\_Files.cshtml" />
+    <Content Include="Areas\Admin\Views\SuccessStory\_Files.cshtml" />
+    <Content Include="Areas\Admin\Views\Location\Import.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\SiteOwner.cshtml" />
+    <Content Include="Views\SiteMap\SiteMap.cshtml" />
+    <Content Include="Views\User\Message.cshtml" />
+    <Content Include="Views\Common\_FacebookWidget.cshtml" />
+    <Content Include="Views\Common\_FlickrWidget.cshtml" />
+    <Content Include="Views\Project\Edit.cshtml" />
+    <Content Include="Views\Shared\_Popup.cshtml" />
+    <Content Include="Views\Project\_ProjectAddEditScript.cshtml" />
+    <Content Include="Views\Shared\_Installation.cshtml" />
+    <Content Include="Views\Install\StepOne.cshtml" />
+    <Content Include="Views\Api\Index.cshtml" />
+    <Content Include="Views\User\ProfileApiEdit.cshtml" />
+    <Content Include="Views\Project\_AddOrEdit.cshtml" />
+    <Content Include="Views\Install\StepTwo.cshtml" />
+    <Content Include="Views\Install\StepThree.cshtml" />
+    <Content Include="Views\Install\StepFour.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Browsers\generic.browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\_UserContact.cshtml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49976</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://wewillgather.freshegg.lom</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

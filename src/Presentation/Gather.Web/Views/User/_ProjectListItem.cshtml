@@ -1,0 +1,51 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using Gather.Web.Framework.UI
+@{
+    var primary = Model.Locations.FirstOrDefault(l => l.Primary);
+    var primaryLocation = primary == null ? null : primary.Location;
+    bool pending = false;
+    string liClass = "row";
+    if (Model.StatusId == (int) Gather.Core.Domain.Common.ProjectStatus.PendingApproval)
+    {
+        liClass = "row pendingApproval";
+        pending = true;
+    }
+}
+<li class="@liClass">
+    <div class="nine columns">
+            @if (pending)
+            {
+                <h3 class="pending-header">@Model.Name</h3>
+            }
+            else
+            {
+                <h3><a href="@Url.RouteUrl("ProjectDetail", new { locationSeoName = primaryLocation.SeoName, seoName = Model.SeoName, id = Model.Id })">@Model.Name</a></h3>
+            }
+        </h3>
+        <p>
+            @if (Model.StartDate != null)
+            {
+                <text>Date: <strong>@Html.DateTimeFormat("d~ MMMM, yyyy", Model.StartDate.Value)</strong><br /></text>
+            }
+            @if (Model.Categories != null && Model.Categories.Count > 0)
+            {
+                @:Category:
+                foreach (var category in Model.Categories.Select((x, i) => new { Data = x, Index = i }))
+                {
+                    <strong>@category.Data.Name</strong>
+                    @(category.Index < Model.Categories.Count - 1 ? ", " : null)
+                }
+                if (pending) {
+                    <text><br>Status:
+                        <strong>Pending approval</strong></text>
+                }
+            }
+        </p>
+    </div>
+    <div class="three columns">
+        @if (!pending)
+        {
+            <a href="@Url.RouteUrl("ProjectDetail", new { locationSeoName = primaryLocation.SeoName, seoName = Model.SeoName, id = Model.Id })" class="blue radius small button right hide-on-phones">View details</a>
+        }
+    </div>
+</li>

@@ -1,0 +1,38 @@
+﻿@model Gather.Web.Models.Location.LocationModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.Heading("Edit Location: " + Model.Name);
+}
+
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        <tr>
+                            <td>Registered Date:</td>
+                            <td>@Model.CreatedDate</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Info</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.HashTag)
+                    @Html.TextBoxFor(model => model.HashTag)
+                </div>
+            </div>
+        </div>
+    </div>
+}

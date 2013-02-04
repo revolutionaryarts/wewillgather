@@ -1,0 +1,37 @@
+﻿@model PageListModel
+@using Gather.Web.Areas.Admin
+@using Gather.Web.Areas.Admin.Extensions
+@using Gather.Web.Areas.Admin.Models.Page;
+@using Gather.Web.Framework.UI;
+@using Gather.Web.Framework.UI.Paging;
+@using MvcContrib.UI.Grid;
+@{    
+    Html.AddTitleParts("Pages");
+    Html.Heading("Pages");
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Get))
+{
+    <div class="table-nav">
+        <div class="actions">
+            <input name="search" value="@Model.Search" type="text" class="search-field" maxlength="255" />
+            <input type="submit" value="Search" class="search-button button-small blue" />
+        </div>
+        <div class="pagination">
+            @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount)
+        </div>
+    </div>   
+}
+
+@using (Html.BeginForm())
+{
+    @Html.Grid(Model.Pages).Columns(column =>
+    {
+        column.For(u => u.Title);
+        column.For(u => u.Active).Attributes(@width => "10%");
+        column.For(u => u.CreatedDate).Attributes(@width => "15%");
+        column.Custom(GridHelper.ActionColumn).Named("Actions").Attributes(@width => "80px");
+    }).Attributes(@class => "list-table")
+}
+    
+@Html.DeleteScript()

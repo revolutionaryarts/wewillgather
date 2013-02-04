@@ -1,0 +1,14 @@
+﻿@model Dictionary<string, string>
+@{
+    var counter = 0;
+}
+
+@foreach (var link in Model)
+{
+    <text>
+        <span @(link.Key == "Call" ? "class=show-on-phones-inline" : null)>
+	        @(counter > 0 ?  "| " : "")@Html.Raw(string.Format("<a href=\"{0}\">{1}</a>", link.Value, link.Key))
+	    </span>
+    </text>
+    counter++;
+}

@@ -1,0 +1,75 @@
+﻿@model Gather.Web.Models.SuccessStory.SuccessStoryModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddScriptParts("../../../Areas/Admin/Scripts/tinymce/tiny_mce.js");
+}
+
+<div class="edit-panel">
+    <h2>Info</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Title)
+                @Html.TextBoxFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.AuthorId, "Author")
+                @Html.DropDownListFor(model => model.AuthorId, new SelectList(Model.Authors, "Id", "DisplayName", Model.AuthorId), new { @id = "storyAuthor" })
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.ShortSummary)
+                @Html.TextAreaFor(model => model.ShortSummary, new { cols = "64", rows = "5" })
+                @Html.ValidationMessageFor(model => model.ShortSummary)
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Article)            
+                @Html.EditorFor(model => model.Article, "RichEditor")
+                @Html.ValidationMessageFor(model => model.Article)
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="edit-panel">
+    <h2>File</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.UploadedFile)
+                <input name="UploadedFile" id="UploadedFile" type="file"/>
+                @Html.ValidationMessageFor(model => model.UploadedFile)
+                @if(Model.Media != null)
+                {
+                    @:Current Image: @Model.Media.FileName
+                }
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="edit-panel">
+    <h2>Meta Details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MetaTitle)
+                @Html.TextBoxFor(model => model.MetaTitle)
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MetaKeywords)
+                @Html.TextAreaFor(model => model.MetaKeywords, new { cols = "64", rows = "5" })
+            </div>
+            <div class="field">
+                @Html.GatherLabelFor(model => model.MetaDescription)
+                @Html.TextAreaFor(model => model.MetaDescription, new { cols = "64", rows = "5" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#storyAuthor").combobox();
+    });
+</script>

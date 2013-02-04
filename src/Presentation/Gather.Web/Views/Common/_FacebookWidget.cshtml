@@ -1,0 +1,12 @@
+﻿@model string
+@using Gather.Core.Domain.Common
+@using Gather.Core.Infrastructure
+@{
+    string domain = EngineContext.Current.Resolve<CoreSettings>().Domain;
+    if (!domain.EndsWith("/"))
+    {
+        domain += "/";
+    }
+}
+<h4>Facebook likers</h4>
+<fb:fan profile_id="@Model" stream="0" connections="8" logobar="0" width="250" height="200" css="@(domain)Content/Css/fb-widget.css?v=4"></fb:fan>

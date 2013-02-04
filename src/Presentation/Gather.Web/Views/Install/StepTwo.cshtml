@@ -1,0 +1,59 @@
+﻿@model Gather.Web.Models.Install.StepTwoModel
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.Title = "StepTwo";
+    Layout = "~/Views/Shared/_Installation.cshtml";
+}
+
+<div class="row">
+    <h1 class="column eight push-two h2">#wewillgather Installation Step 2</h1>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("steptwo", "install", FormMethod.Post, new { @class = "column eight push-two bumped-down" }))
+    {
+        @Html.ValidationSummary()
+
+        <fieldset class="bumped-down">
+            
+            <h4 class="border-dashed">Social Integration Details</h4>
+            
+            <p>We now need the details from your Facebook and Twitter apps, we use this information to allow users to login to your site using Facebook or Twitter.</p>
+            <p><strong>Not sure where to setup the apps?</strong> You can get started at the <a href="https://developers.facebook.com/apps" target="_Blank">Facebook developer portal</a> and the <a href="https://dev.twitter.com/apps" target="_Blank">Twitter developer portal</a>, click the link to "Add a new application" and follow the instructions.</p>
+            <p><strong>Please Note:</strong> Your Twitter App must have a Callback URL of {Your domain}/Authentication/Twitter and must have "Read and Write" access.</p>
+
+            <div class="row">
+                @Html.GatherLabelFor(model => model.FacebookAppId, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.FacebookAppId, new { @class = "input-text" })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.GatherLabelFor(model => model.FacebookAppSecret, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.FacebookAppSecret, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.TwitterConsumerKey, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.TwitterConsumerKey, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.TwitterConsumerSecret, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.TwitterConsumerSecret, new { @class = "input-text" })
+                </div>
+            </div>
+        
+        </fieldset>
+        
+        <div class="columns nine centered">
+            <input type="submit" class="button button-big" value="Continue" />
+        </div>
+    }
+</div>

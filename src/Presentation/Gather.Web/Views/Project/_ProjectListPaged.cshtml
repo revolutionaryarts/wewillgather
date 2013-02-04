@@ -1,0 +1,20 @@
+﻿@model Gather.Web.Models.Project.ProjectListPagedModel
+@using Gather.Web.Framework.UI.Paging
+
+<div class="pagination panel-small show-on-desktops">
+    @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount, Model.AdditionalPagerValues)
+</div>
+<ul class="project-listing">
+    @foreach (var project in Model.Projects)
+    {
+        @Html.Partial("_ProjectListItem", project)
+    }
+</ul>
+<div class="pagination show-on-desktops">
+    @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount, Model.AdditionalPagerValues)
+</div>
+
+@if (Model.MobileNextResultCount > 0)
+{
+    <a href="#" id="loadNextResults" class="hide-on-desktops" data-page="@(Model.PageIndex + 1)">Load next @Model.MobileNextResultCount result@(Model.MobileNextResultCount > 1 ? "s" : null)</a>
+}

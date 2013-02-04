@@ -1,0 +1,161 @@
+﻿@model Gather.Web.Areas.Admin.Models.User.UserEditModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.Heading("Edit User: " + Model.User.DisplayName);
+}
+
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+
+                    <table class="info-table">
+                        <tr>
+                            <td>Registered Date:</td>
+                            <td>@Model.User.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td>Last Login Date:</td>
+                            <td>@Model.User.LastLoginDate</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                    <input type="submit" name="block" value="@(Model.User.Active ? "Block" : "Unblock")" class="button grey" />
+                
+                    @Html.HiddenFor(model => model.User.Id)
+                    @Html.HiddenFor(model => model.User.TwitterProfile)
+                
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Info</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+            
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.UserName)
+                    @Html.TextBoxFor(model => model.User.UserName, new { maxlength = 50 })
+                    @Html.ValidationMessageFor(model => model.User.UserName)
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.DisplayName)
+                    @Html.TextBoxFor(model => model.User.DisplayName)
+                    @Html.ValidationMessageFor(model => model.User.DisplayName)
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.Email)
+                    @Html.TextBoxFor(model => model.User.Email)
+                    @Html.ValidationMessageFor(model => model.User.Email)
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.EmailDisclosureId)
+                    @Html.DropDownListFor(model => model.User.EmailDisclosureId, Model.User.AvailableDisclosureLevels)
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.Telephone)
+                    @Html.TextBoxFor(model => model.User.Telephone)
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.TelephoneDisclosureId)
+                    @Html.DropDownListFor(model => model.User.TelephoneDisclosureId, Model.User.AvailableDisclosureLevels)
+                </div>
+            
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.Website)
+                    @Html.TextBoxFor(model => model.User.Website)
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.WebsiteDisclosureId)
+                    @Html.DropDownListFor(model => model.User.WebsiteDisclosureId, Model.User.AvailableDisclosureLevels)
+                </div>
+                
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.ShowOnContactUs)
+                    @Html.CheckBoxFor(model => model.User.ShowOnContactUs, new { @class = "checkbox" })
+                    <span class="contactUsBioField">
+                        @Html.ValidationMessageFor(model => model.User.ContactUsBio)
+                    </span>
+                </div>
+                
+                <div class="field contactUsBioField" style="display:none;">
+                    @Html.GatherLabelFor(model => model.User.ContactUsBio)
+                    @Html.TextAreaFor(model => model.User.ContactUsBio, new { cols = "64", rows = "5" })
+                </div>
+            
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Authentication Methods</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.FacebookProfile)
+                    @(!string.IsNullOrEmpty(Model.User.FacebookProfile) ? Model.User.FacebookProfile : "N/A")
+                </div>
+            
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.User.TwitterProfile)
+                    @(!string.IsNullOrEmpty(Model.User.TwitterProfile) ? Model.User.TwitterProfile : "N/A")
+                </div>
+               
+            </div>
+        </div>
+    </div>       
+    
+    if (Model.CanEditRoles)
+    {
+        <div class="edit-panel">
+            <h2>Roles</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+            
+                    @foreach (var role in Model.User.AvailableUserRoles)
+                    {
+                        var assigned = Model.User.UserRoles.Any(x => x.Id == role.Id);
+                        <div class="field">
+                            <label for="role_@role.Id">@role.Name</label>
+                            <input id="role_@role.Id" name="roles" class="checkbox" value="@role.Id" type="checkbox" @(assigned ? " checked=checked" : null) @((assigned || !Model.IsSiteOwner) && role.IsSiteOwnerRole ? " disabled=disabled" : null) />
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        if ($('#@Html.FieldIdFor(model => model.User.ShowOnContactUs)').is(':checked')) {
+            $('.contactUsBioField').show();
+        }
+
+        $('#@Html.FieldIdFor(model => model.User.ShowOnContactUs)').change(function () {
+            if ($(this).is(':checked')) {
+                $('.contactUsBioField').slideDown();
+            } else {
+                $('.contactUsBioField').slideUp();
+            }
+        });
+
+    });
+</script>

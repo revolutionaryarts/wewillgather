@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "StepThree";
+    Layout = "~/Views/Shared/_Installation.cshtml";
+}
+
+<div class="row">
+    <h1 class="column eight push-two h2">#wewillgather Installation Step 3</h1>
+</div>
+
+<div class="row">
+    <div class="column eight push-two bumped-down">
+    
+        <p>To continue installation, we need you to login using either Facebook or Twitter by clicking one of the links below. We use this to pre-populate your user information on the site.</p>
+        <p>It doesn't matter which one you use, you can always add additional profiles to your account once the site is installed.</p>
+
+        @Html.RouteLink("Sign in with Twitter", "AuthenticationSetupLogin", new { action = "twitter", returnUrl = Request.QueryString["returnUrl"] }, new { @class = "button twitter-login popup bumped-down" })
+        @Html.RouteLink("Sign in with Facebook", "AuthenticationSetupLogin", new { action = "facebook", returnUrl = Request.QueryString["returnUrl"] }, new { @class = "button fbook-login popup bumped-down" })
+    
+        <p><a href="@Url.Action("steptwo", "install")">Return to previous step</a></p>
+
+    </div>
+</div>

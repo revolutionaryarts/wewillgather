@@ -1,0 +1,51 @@
+﻿@model Gather.Web.Models.Authentication.AuthenticationModel
+@using Gather.Core.Data
+@{
+    var siteIsInstalled = DataSettingsHelper.SiteIsInstalled;
+    if(!string.IsNullOrEmpty(Model.Layout))
+    {
+        Layout = Model.Layout;
+    }
+}
+
+<section class="row">
+    <section class="twelve columns">
+
+        <hgroup class="title">
+            <h1>
+                @if (Model.ErrorTitle != null)
+                {
+                    @Model.ErrorTitle
+                }
+                else
+                {
+                    @:An error occurred during authentication
+                }
+            </h1>
+        </hgroup>
+
+        <p>@Model.ErrorDescription</p>
+        @if (siteIsInstalled)
+        {
+            <p>Please <a href="@(Model.TryAgainLink ?? Url.Action("login", "authentication"))">click here</a> to try again or <a href="@Url.Action("Index", "Home")">return to the homepage</a>.</p>
+        }
+        else
+        {
+            <p>Are you sure the application keys you provided are correct?</p>
+        }
+
+    </section>
+</section>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('a').click(function () {
+            var href = $(this).attr('href');
+            window.opener.location.href = href;
+            self.close();
+            return false;
+        });
+
+    });
+</script>

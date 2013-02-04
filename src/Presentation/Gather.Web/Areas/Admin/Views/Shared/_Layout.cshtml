@@ -1,0 +1,86 @@
+@using Gather.Web.Framework.UI
+@using Gather.Web.Framework.UI.Breadcrumbs
+@using Gather.Web.Framework.UI.Tabbing
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8" />
+    <title>@Html.Title()</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/areas/admin/content/core.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/areas/admin/scripts/core.js")"></script>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body class="with-side-panel">
+
+    <div id="wrapper">
+
+        @Html.Action("AdminBar", "Common")
+
+        @Html.Action("Navigation", "Common")
+
+        <div id="content">
+            
+            <div id="content-header">
+                <div id="header-text">
+                    
+                    <ul id="breadcrumb">
+                        <li>You are here:</li>
+                        @Html.Breadcrumbs()
+                    </ul>
+                    
+                    <h1>@Html.Heading()</h1>
+
+                    @if (Html.LinkActive())
+                    {
+                        <a href="@Html.LinkTarget()" class="button blue">@Html.LinkText()</a>
+                    }
+                    
+                    <div class="branding">
+                        <img src="@Url.Content("~/Areas/Admin/Content/images/cms-logo.png")" alt="Fresh Egg" />
+                        <h3>Content Management System</h3>
+                    </div>
+                    
+                    <div class="cleared"></div>
+                    
+                </div>
+            </div>
+
+            <div id="content-wrap">
+                
+                @Html.Tabs()
+                                
+                <div id="content-body">
+
+                    @Html.Action("Notifications", "Common", new { area = "" })
+                
+                    @RenderBody()
+                
+                </div>
+
+            </div>
+
+        </div>
+        
+        <div class="cleared"></div>
+            
+    </div>
+
+    @Html.GatherScripts()
+
+    <script type="text/javascript">
+        $(function () {
+
+            Globalize.culture("en-GB");
+            $.validator.methods.date = function (value, element, params) {
+                if (Globalize.parseDate(value, 'dd/MM/yyyy HH:mm:ss')) {
+                    return true;
+                }
+                return false;
+            };
+
+        });
+    </script>
+
+</body>
+</html>

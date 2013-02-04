@@ -1,0 +1,124 @@
+﻿@model Gather.Web.Models.Install.StepFourModel
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.Title = "StepFour";
+    Layout = "~/Views/Shared/_Installation.cshtml";
+}
+
+<div class="row">
+    <h1 class="column eight push-two h2">#wewillgather Installation Step 4</h1>
+</div>
+
+<div class="row">   
+    @using (Html.BeginForm("stepfour", "install", FormMethod.Post, new { @class = "column eight push-two bumped-down" }))
+    {
+        @Html.ValidationSummary()
+
+        <fieldset class="bumped-down">
+            
+            <h4 class="border-dashed">Site owner details</h4>
+            
+            <div class="row">
+                <label class="column four">Authentication Method:</label>
+                <div class="column six end"><p>@Model.AuthenticationMethod <a href="@Url.Action("steptwo", "install")">Change method</a></p></div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.UserName, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "input-text" })
+                    <em>Your unique username. This will be used to build your personal profile URL, e.g. wewillgather.co.uk/user/{username}</em>
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.GatherLabelFor(model => model.DisplayName, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.DisplayName, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.Email, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "input-text" })
+                </div>
+            </div>
+            
+        </fieldset>
+        
+        <fieldset class="bumped-down">
+            
+            <h4 class="border-dashed">Twitter details</h4>
+            <p>To send tweets out from the site, we need the access token and access token secret from Twitter that authorises your chosen account with the app you created during step one of the site installation.</p>
+            <p>The access tokens can be generated within the <a href="https://dev.twitter.com/apps">Twitter Developer Portal</a> under "Your access token" within the "Details" tab of your application.</p>
+
+            <div class="row">
+                @Html.GatherLabelFor(model => model.TwitterAccessToken, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.TwitterAccessToken, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.TwitterAccessTokenSecret, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.TwitterAccessTokenSecret, new { @class = "input-text" })
+                </div>
+            </div>
+
+        </fieldset>
+        
+        <fieldset class="bumped-down">
+            
+            <h4 class="border-dashed">Mail details</h4>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.MailFromEmail, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.MailFromEmail, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.MailFromDisplayName, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.MailFromDisplayName, new { @class = "input-text" })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.GatherLabelFor(model => model.MailHost, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.MailHost, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.MailPort, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.MailPort, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.MailUsername, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.MailUsername, new { @class = "input-text" })
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.MailPassword, new { @class = "column four" })
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.MailPassword, new { @class = "input-text" })
+                </div>
+            </div>
+
+        </fieldset>
+        
+        <div class="columns nine centered">
+            <input type="submit" class="button button-big" value="Finish" />
+        </div>
+    }
+</div>

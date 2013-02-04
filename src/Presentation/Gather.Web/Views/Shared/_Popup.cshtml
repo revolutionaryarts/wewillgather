@@ -1,0 +1,43 @@
+﻿@using System.Web.Optimization
+@using Gather.Web.Framework.UI
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" xmlns:fb="http://ogp.me/ns/fb#"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
+	<title>@Html.Title()</title>
+
+    <!-- Include CSS Files -->
+    <link rel="stylesheet" href="@BundleTable.Bundles.ResolveBundleUrl("~/content/css/core.css")" />  
+    <link rel="shortcut icon" href="/content/images/favicon.ico" />
+    <link rel="apple-touch-icon" href="/content/images/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/content/images/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/content/images/apple-touch-icon-114x114.png" />
+
+    <!-- Include jQuery Files -->
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/jquery.js")"></script>
+    <!--[if lt IE 9]>
+		<link rel="stylesheet" href="/Content/Css/ie.css">
+	<![endif]-->
+	<!-- IE Fix for HTML5 Tags -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <link rel="apple-touch-icon" sizes="72x72" href="/scripts/css3-mediaqueries.js">
+    <![endif]-->
+
+    @Html.Action("GoogleAnalyticsTracking", "Common")
+
+</head>
+<body>
+
+    <!-- container -->
+    <div class="container">
+        @RenderBody()
+    </div>
+
+</body>
+</html>

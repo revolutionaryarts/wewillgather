@@ -1,0 +1,81 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.CurrentMenuRoute = "AddProject";
+}
+
+<div class="row">
+    <h1 class="panel-small header-shaded h2">Thanks for putting your good thing on #wewillgather</h1>
+</div>
+
+<div class="row bordered-top">
+    <div class="four columns">
+        <div class="panel panel-green panel-taller">
+            <h2 class="h3">Good thing:</h2>
+            <h3 class="h4 border-yellow-dashed">@Model.Name</h3>
+            <div class="row">
+                @if (Model.StartDate != null && Model.EndDate != null)
+                {
+                    <p><strong>Start:</strong> @Html.DateTimeFormat("d~ MMMM yyyy, h:mmTT", Model.StartDate.Value)</p>
+                    <p><strong>End:</strong> @Html.DateTimeFormat("d~ MMMM yyyy, h:mmTT", Model.EndDate.Value)</p>
+                }
+                <p class="border-yellow-dashed"><strong>Good people needed:</strong> @Model.NumberOfVolunteers</p>
+            </div>
+            <p>
+                <strong>Type of good thing:</strong><br />
+                @if (Model.Categories.Count == 1)
+                {
+                    @Model.Categories[0].Name
+                }
+                else
+                {
+                    @Model.Categories.Aggregate("", (current, category) => current + " " + category.Name + ",").TrimEnd(',')
+                }
+            </p>
+        </div>
+    </div>
+    <div class="eight columns">
+        <div class="panel panel-yellow">
+            <h4>What next?</h4>
+            <p>Your action will be mulled over by a moderator in the next 24 hours.<br>
+            You'll get a lovely email or direct message on Twitter (if you're following us) when it's live.</p>
+        </div>
+        <div class="panel panel-yellow">
+            <h4>Want to change something or broken-heartedly cancel altogether?</h4>
+            <p>When we've said yes you can add more good thing owners, make changes or cancel from 
+            <a href="@Url.RouteUrl("UserProfile", new { userName = Model.Owners[0].UserName })">your profile 
+                page</a>.
+            <p>Thank you, you good person you.</p>
+        </div>	
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('document').ready(function () {
+        try {
+            localStorage.setItem("@Html.FieldIdFor(model => model.Name)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.Objective)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.GettingThere)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.LocationInput)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.NumberOfVolunteers)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.ChildFriendly)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.Skills)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.Equipment)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.VolunteerBenefits)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.EmailAddress)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.Telephone)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.Website)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.StartDate)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.StartHour)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.StartMinutes)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.EndDate)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.EndHour)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.EndMinutes)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.IsRecurring)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.RecurrenceIntervalId)", "");
+            localStorage.setItem("@Html.FieldIdFor(model => model.Recurrence)", "");
+            @foreach (var category in Model.AvailableCategories)
+            { <text>localStorage.setItem("Categories_@category.Id", "false");</text> }
+        } catch(e) {} 
+    });	
+</script> 

@@ -1,0 +1,259 @@
+@using System.Web.Optimization
+@using Gather.Core.Domain.Common
+@using Gather.Core.Infrastructure
+@using Gather.Web.Framework.UI;
+@{
+    var siteSettings = EngineContext.Current.Resolve<SiteSettings>();
+}
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" xmlns:fb="http://ogp.me/ns/fb#"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>@Html.Title()</title>
+    <meta name="description" content="@Html.MetaDescription()" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="language" content="English" />
+
+    @if (!string.IsNullOrEmpty(Html.MetaKeywords().ToString()))
+    {
+        <meta name="keywords" content="@Html.MetaKeywords()" />
+    } 
+    else 
+    {
+        <meta name="keywords" content="" />
+	}
+    
+    @Html.MetaTags()
+    @Html.LinkTags()
+    @Html.CanonicalUrls()
+    
+    <!-- Include CSS Files -->
+    <link rel="stylesheet" href="@BundleTable.Bundles.ResolveBundleUrl("~/content/css/core.css")" />
+    <link rel="icon" href="/content/images/favicons/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/content/images/favicons/apple-touch-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/content/images/favicons/apple-touch-icon-114x114-precomposed.png" />
+
+    <!-- Include jQuery Files -->
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/jquery.js")"></script>
+
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="/Content/Css/ie.css">
+    <![endif]-->
+    
+    <!-- IE Fix for HTML5 Tags -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <link rel="apple-touch-icon" sizes="72x72" href="/scripts/css3-mediaqueries.js">
+    <![endif]-->
+
+    @Html.Action("GoogleAnalyticsTracking", "Common")
+    <script type="text/javascript">
+
+        function WaitForSeconds(interval) {
+            var s = interval * 1000;
+            var t = new Date().getTime();
+            while ((new Date().getTime() - t) < s) { var x = 0 >> 1; }
+        }
+
+        $(document).ready(function () {
+            $('a[href^="/auth/login/twitter"]').click(function () { window._gaq.push(['_trackSocial', 'Twitter', 'Login']); WaitForSeconds(0.25); });
+            $('a[href^="/auth/login/facebook"]').click(function () { window._gaq.push(['_trackSocial', 'Facebook', 'Login']); WaitForSeconds(0.25); });
+            $('a[href^="/auth/logout"]').click(function () { window._gaq.push(['_trackSocial', 'Twitter / Facebook', 'Logout']); WaitForSeconds(0.25); });
+            $('a[href^="http://www.twitter.com/wewillgather"]').click(function () { window._gaq.push(['_trackSocial', 'Twitter', 'Visit']); WaitForSeconds(0.25); });
+            $('a[href^="http://www.flickr.com/groups/2043503@N22/"]').click(function () { window._gaq.push(['_trackSocial', 'Flickr', 'Visit']); WaitForSeconds(0.25); });
+            $('a[href^="http://www.facebook.com/pages/We-Will-Gather"]').click(function () { window._gaq.push(['_trackSocial', 'Facebook', 'Visit']); WaitForSeconds(0.25); });
+            $('a[href^="http://www.youtube.com/user/DanThompson33"]').click(function() {
+                window._gaq.push(['_trackSocial', 'YouTube', 'Visit']);
+                WaitForSeconds(0.25);
+            });
+            $('a[href^="mailto:"]').click(function () {
+                var r = new RegExp('mailto:([^?]+).*$');
+                var m = r.exec($(this).attr('href'));
+                if (m !== null) { window._gaq.push(['_trackEvent', 'Send E-Mail', m[1], location.pathname]); WaitForSeconds(0.25); }
+            });
+        });
+
+    </script>
+
+    @if (IsSectionDefined("HeaderScripts"))
+    {
+        @RenderSection("HeaderScripts")
+    }
+    
+</head>
+<body>
+        
+    <div id="fb-root"></div>
+    <script type="text/javascript">
+        window.fbAsyncInit = function () {
+            window.FB.init({
+                appId: '@siteSettings.FacebookAppId', // App ID
+                status: true, // check login status
+                cookie: true, // enable cookies to allow the server to access the session
+                xfbml: true  // parse XFBML
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=@siteSettings.FacebookAppId";
+            fjs.parentNode.insertBefore(js, fjs);
+        } (document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- container -->
+    <div id="cookieNotice" style="display:none">
+        By continuing to use the site, you agree to the use of cookies. You can change this and find out more by following @Html.RouteLink("this link", "CookiePolicy") | <a id="acceptCookies" class="button-cookie" href="JavaScript:;">Accept cookies</a>
+    </div>    
+    
+    <div class="container">
+        <nav id="mobileNav" class="nav-bar show-on-phones clearfix">
+            <div class="has-flyout"> 
+                <a href="#" class="flyout-toggle main">Menu</a>
+                <span class="right">@Html.Action("LoginStatus", "Common")</span>	
+                <div class="flyout" style="display: none;">
+                    <ul>
+                        <li>@Html.MenuItem("Home", "HomePage")</li>
+                        <li>@Html.MenuItem("Live actions", "ProjectListing")</li>
+                        <li>@Html.MenuItem("Start a good thing", "AddProject")</li>
+                        <li>@Html.MenuItem("About", "About")</li>
+                        <li>@Html.MenuItem("How it works", "HowItWorks")</li>
+                        <li>@Html.MenuItem("Be safe", "BeSafe")</li>
+                        <li>@Html.MenuItem("Blog", "SuccessStoryListing")</li>
+                        <li>@Html.MenuItem("Our supporters", "OurSupporters")</li>
+                        <li>@Html.MenuItem("Contact us", "Contact")</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <nav class="nav-register show-on-phones clearfix">
+            @Html.Action("LoggedInState", "Common")
+        </nav>	
+        <header class="row">
+            <a class="logo columns three phone-one" href="@Url.Action("Index", "Home")"><img src="/content/images/logo.png" alt="We will gather" /></a>
+            <div class="columns nine header-cta phone-three">				
+                <nav class="hide-on-phones nav-register clearfix">
+                    @Html.Action("LoggedInState", "Common")
+                    @Html.Action("LoginStatus", "Common")
+                </nav>			
+                <nav class="hide-on-phones nav-main clearfix">		
+                    <ul>
+                        <li>@Html.MenuItem("Home", "HomePage")</li>
+                        <li>@Html.MenuItem("Live actions", "ProjectListing")</li>
+                        <li>@Html.MenuItem("Start a good thing", "AddProject")</li>
+                        <li>@Html.MenuItem("How it works", "HowItWorks")</li>
+                        <li>@Html.MenuItem("Be safe", "BeSafe")</li>
+                        <li>@Html.MenuItem("Contact us", "Contact")</li>
+                    </ul>
+                </nav>
+                <nav class="hide-on-phones nav-sub">      
+                    <ul>
+                        <li>@Html.MenuItem("About", "About")</li>
+                        <li>@Html.MenuItem("Blog", "SuccessStoryListing")</li>
+                        <li>@Html.MenuItem("Our supporters", "OurSupporters")</li>
+                    </ul>
+                </nav>
+                @Html.Action("Breadcrumbs", "Common")
+                @if (IsSectionDefined("MenuTagLine"))
+                {
+                    @RenderSection("MenuTagLine")
+                }
+            </div>
+        </header>
+        <!-- row -->
+        @Html.Action("Notifications", "Common")
+        @RenderBody()
+        <footer class="row footer-friends">
+            <section class="column four">
+                <div class="panel">
+                    @Html.Action("FacebookWidget", "Common")
+                </div>
+            </section>
+            <section class="column four">
+                <div class="panel">
+                    <h4>We're supported by</h4>
+                    <ul class="list-supporters clearfix">
+                        <li class="icon-nesta">
+                            <a href="http://www.nesta.org.uk/" target="_blank" rel="nofollow">NESTA</a>
+                        </li>
+                        <li class="icon-ocs">
+                            <a href="http://www.cabinetoffice.gov.uk/big-society/" target="_blank" rel="nofollow">OCS</a>
+                        </li>
+                        <li class="icon-vinspired">
+                            <a href="http://vinspired.com/" target="_blank" rel="nofollow">vinspired.com</a>
+                        </li>
+                        <li class="icon-rsa">
+                            <a href="http://www.thersa.org/" target="_blank" rel="nofollow">RSA</a>
+                        </li>
+                    </ul>
+                    @Html.RouteLink("Learn more about our supporters", "OurSupporters", null, new { @class = "button" })
+                </div>
+            </section>
+            <section class="column four">
+                <div class="panel">
+                    @Html.Action("FlickrWidget", "Common")
+                </div>
+            </section>
+        </footer>
+        <footer class="row footer-bottom">
+            <section class="columns four push-eight bumped-down">
+                <ul class="nav-social">
+                    <li class="icon-twitter">
+                        <a href="http://www.twitter.com/wewillgather" target="_blank">Follow us on Twitter</a>
+                    </li>
+                    <li class="icon-facebook">
+                        <a href="http://www.facebook.com/pages/We-Will-Gather/237935356308765" target="_blank">Find us on Facebook</a>
+                    </li>
+                    <li class="icon-youtube">
+                        <a href="http://www.youtube.com/user/DanThompson33?feature=mhee" target="_blank">Find us on YouTube</a>
+                    </li>
+                    <li class="icon-flickr">
+                        <a href="http://www.flickr.com/groups/wewillgather/pool/" target="_blank">Find us on Flickr</a>
+                    </li>
+                </ul>
+            </section>
+            <section class="columns eight pull-four bumped-down">
+                <ul class="nav-footer clearfix">
+                    <li>@Html.RouteLink("About", "About", null, new { @class = "anything" })</li>
+                    <li>@Html.RouteLink("Contact Us", "Contact")</li>
+                    <li>@Html.RouteLink("Terms and Conditions", "TermsAndConditions")</li>
+                    <li>@Html.RouteLink("Privacy", "Privacy")</li>
+                    <li>@Html.RouteLink("Be Safe", "BeSafe")</li>
+                    <li>@Html.RouteLink("Site Map", "SiteMap")</li>
+                    <li>@Html.MenuItem("Developers", "Developers")</li>
+                    <li>@Html.RouteLink("Cookie Policy", "CookiePolicy")</li>
+                </ul>
+            </section>
+            <section class="row footer-credits">
+                <small class="column six row">
+                    <span class="logo-footer">
+                        <a href="http://www.revolutionaryarts.co.uk" target="_blank"><img src="/content/images/logo-ra.png" alt="Revolutionary Arts logo"></a>
+                        <span>Made by <a href="http://www.revolutionaryarts.co.uk" class="underlined" target="_blank"><br>Revolutionary Arts</a></span>
+                    </span>        
+                    <span class="logo-footer logo-footer-fe">
+                        <a href="http://www.freshegg.com" rel="nofollow" target="_blank"><img src="/content/images/logo-freshegg.png" alt="Fresh Egg logo"></a>
+                        <span>Website by <br><a href="http://www.freshegg.com/" rel="nofollow" class="underlined" target="_blank" @(IsSectionDefined("HideNoFollow") ? RenderSection("HideNoFollow").ToString() : "rel=nofollow")>Fresh Egg</a></span>
+                    </span>
+                </small>
+                <small class="column six">
+                    <a target="_blank" rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons Licence" style="border-width:0;" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a>
+                    <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">#wewillgather</span> by <a xmlns:cc="http://creativecommons.org/ns#" target="_blank" href="http://www.revolutionaryarts.co.uk/" property="cc:attributionName" rel="cc:attributionURL">Revolutionary Arts</a> is licensed under a <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>
+                </small>
+            </section>
+
+        </footer>
+    </div>
+    
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/core.js")"></script>
+    @if (IsSectionDefined("FooterScripts"))
+    {
+        @RenderSection("FooterScripts")
+    }
+
+</body>
+</html>

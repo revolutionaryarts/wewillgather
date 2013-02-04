@@ -1,0 +1,39 @@
+﻿@model Gather.Web.Areas.Admin.Models.Project.ProjectCommentModerationModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Comment Moderation Request");
+    Html.Heading("Comment Moderation Request");
+}
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        <tr>
+                            <td>Complaint Date:</td>
+                            <td>@Model.ModerationQueue.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.ModerationQueue.Notes, "Author Message (this will be included on the response back to the author of the comment about the removal)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.ModerationQueue.Notes, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.UserMessage, "User Message (this will be included on the response back to the user who flagged the comment)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.UserMessage, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="Remove" value="Remove Comment" class="button blue" />
+                    <input type="submit" name="Remove" value="Reject Complaint" class="button grey" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_CommentUpdate", Model)
+}

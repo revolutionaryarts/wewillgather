@@ -1,0 +1,9 @@
+﻿@model Gather.Web.Areas.Admin.Models.Category.AdditionalDeleteModel
+
+<p>Blurb</p>
+@Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Categories, "Id", "Name", Model.CategoryId), new { @id = "categoryAdditionalDelete" })
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#categoryAdditionalDelete").combobox();
+    });
+</script>

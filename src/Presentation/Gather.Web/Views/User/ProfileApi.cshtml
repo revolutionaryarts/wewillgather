@@ -1,0 +1,91 @@
+﻿@model Gather.Web.Models.User.UserApiModel
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.CurrentMenuRoute = "HomePage";
+
+    if (!Model.MetaTitle.IsEmpty()) { Html.AddTitleParts(Model.MetaTitle); }
+    if (!Model.MetaKeywords.IsEmpty()) { Html.AddMetaKeywordParts(Model.MetaKeywords); }
+    if (!Model.MetaDescription.IsEmpty()) { Html.AddMetaDescriptionParts(Model.MetaDescription); }
+
+    ViewContext.ClientValidationEnabled = false;
+}
+
+@using (Html.BeginForm("ProfileApi", "user", FormMethod.Post))
+{
+    @Html.ValidationSummary()
+
+    <div class="row">
+        <div class="panel-small header-shaded clearfix">            
+            <h1 class="h2">Manage your API access</h1>
+        </div>
+    </div>
+
+    <div class="row bumped-down" id="editProfilePanel">
+        <div class="panel-small panel-yellow">
+            <h3 class="row h4 border-dashed">Request new API key:</h3>
+            @if (Model.ShowToken)
+            {
+                <div class="alert-box">
+                    Your new API key:<br><strong>@Model.ApiAuthentication.AccessToken</strong><br>
+                    <!--<a href="#">Copy to clipboard</a>-->
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="column three">
+                        @Html.GatherLabelFor(model => model.ApiAuthentication.NameOfApplication, new {@class = "required"}, "Website name:")
+                        @Html.TextBoxFor(model => model.ApiAuthentication.NameOfApplication, new {@class = "input-text"})
+                    </div>
+                    <div class="column three">
+                        @Html.GatherLabelFor(model => model.ApiAuthentication.WebsiteAddress, new {@class = "required"}, "Website URL:")
+                        @Html.TextBoxFor(model => model.ApiAuthentication.WebsiteAddress, new {@class = "input-text"})
+                    </div>
+                    <div class="column three">
+                        @Html.GatherLabelFor(model => model.ApiAuthentication.Description, new {@class = "required"}, "Reason for request:")
+                        @Html.TextBoxFor(model => model.ApiAuthentication.Description, new {@class = "input-text"})
+                    </div>
+                    <div class="column three">
+                        <input type="submit" id="GenerateAPIkey" name="GenerateAPIkey" class="button button-api" value="Generate API key" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.CurrentApiAuthentication.Count > 0)
+{
+    <div class="row panel-dashed" id="editProfilePanel">
+        <div class="panel-small">
+            <h3 class="row h4 border-dashed">Manage your API keys:</h3>
+            @foreach (var api in Model.CurrentApiAuthentication)
+            {
+                using (Html.BeginForm("ProfileApi", "user", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => api.Id)
+                    <div class="row border-dashed">
+                        <h4 class="h5 row">
+                            Access Token: <br><strong>@api.AccessToken</strong>
+                        </h4>  
+                        <div class="row">
+                            <div class="column three">
+                                Website name:<br><strong>@api.NameOfApplication</strong>
+                            </div>
+                            <div class="column three">
+                                Website URL:<br><strong>@api.WebsiteAddress</strong>
+                            </div>                   
+                            <div class="column three">
+                                Reason for request:<br><strong>@api.Description</strong>
+                            </div>
+                            <div class="column three">
+                                <a href="@Url.RouteUrl("UserProfileApiEdit", new { id = api.Id})" class="button button-arrow" data-animation="fade">Edit</a>
+                                <input type="submit" id="Deletekey" name="Deletekey" class="button button-cancel" value="Delete key" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            }                
+        </div>
+    </div>
+}

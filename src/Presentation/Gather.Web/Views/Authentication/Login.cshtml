@@ -1,0 +1,27 @@
+﻿@model Gather.Web.Models.Account.LoginModel
+
+<div class="row">
+	<h1 class="header-shaded panel-small h2">Sign in with Twitter or Facebook</h1>
+</div>
+			
+<div class="row">
+	<section class="seven columns">
+        <div class="panel panel-yellow">
+            <p class="h4 text-center bumped-down">To sign into #wewillgather, sign in<br /> with your Twitter or Facebook account</p>
+            <div class="row columns ten centered">
+                <div class="column six">
+            	    @Html.RouteLink("Sign in with Twitter", "AuthenticationSocialLogin", new { action = "twitter", returnUrl = Request.QueryString["returnUrl"] }, new { @class = "button twitter-login popup bumped-down" })
+                </div>
+                <div class="column six">
+            	    @Html.RouteLink("Sign in with Facebook", "AuthenticationSocialLogin", new { action = "facebook", returnUrl = Request.QueryString["returnUrl"] }, new { @class = "button fbook-login popup bumped-down" })
+                </div>
+            </div>
+        </div>
+	</section>
+    <aside class="columns five">
+        <div class="panel panel-green panel-fatter">
+            <h4>Why Facebook or Twitter?</h4>
+            <p>Twitter and Facebook are where the good people hang out, so we're using them to power local actions. Signing in with them is quick, free and easy.</p>
+        </div>
+    </aside>
+</div>

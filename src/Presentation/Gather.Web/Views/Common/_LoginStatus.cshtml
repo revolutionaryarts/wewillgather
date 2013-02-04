@@ -1,0 +1,8 @@
+﻿@model Gather.Web.Models.Common.LoginStatusModel
+
+@if (Request.IsAuthenticated && Model.CurrentUser != null)
+{
+    <text>
+        @Html.RouteLink("Log off", "AuthenticationLogout", null, new { @class = "logout-link"})
+    </text>
+}

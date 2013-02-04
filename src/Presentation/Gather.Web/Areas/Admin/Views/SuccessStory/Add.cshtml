@@ -1,0 +1,25 @@
+﻿@model Gather.Web.Models.SuccessStory.SuccessStoryModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Add New Story");
+    Html.Heading("Add New Story");
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <input type="submit" name="add" value="Publish" class="button blue" />
+                    <input type="submit" name="add" value="Save as draft" class="button grey" />
+                </div>
+            </div>
+        </div>
+        
+        @Html.Partial("_Files", Model)
+    </div>
+    
+    @Html.Partial("_CreateOrUpdate", Model)
+}

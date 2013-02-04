@@ -1,0 +1,23 @@
+﻿@model Gather.Web.Models.SuccessStory.SuccessStoryModel
+@using Gather.Web.Framework.UI
+<div class="edit-panel">
+    <h2>File</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                
+                <input name="UploadedFile" id="UploadedFile" type="file" />
+                <em class="file-hint">Images must be 1000 pixels by 600 pixels.</em>
+                <em class="file-hint">Files uploaded must be in either png or jpg formats and must be less than 4MB in size.</em>
+                @Html.ValidationMessageFor(model => model.UploadedFile)
+
+                @if(Model.Media != null)
+                {
+                    <label style="margin-top:5px;">Current Image:</label>
+                    <img src="@Html.ResizedImageUrl("/uploads/media/" + Model.Media.FileName, 278, 168)" alt="Current image" />
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>

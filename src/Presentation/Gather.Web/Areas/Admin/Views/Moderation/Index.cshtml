@@ -1,0 +1,35 @@
+﻿@model Gather.Web.Areas.Admin.Models.ModerationQueue.ModerationQueueListModel
+@using Gather.Web.Areas.Admin
+@using Gather.Web.Areas.Admin.Extensions
+@using Gather.Web.Framework.UI;
+@using Gather.Web.Framework.UI.Paging;
+@using MvcContrib.UI.Grid;
+@{    
+    Html.AddTitleParts("Moderation Queue");
+    Html.Heading("Moderation Queue");
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Get))
+{
+    <div class="table-nav">
+        <div class="actions">
+            <input name="search" value="@Model.Search" type="text" class="search-field" maxlength="255" />
+            <input type="submit" value="Search" class="search-button button-small blue" />
+        </div>
+        <div class="pagination">
+            @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount)
+        </div>
+    </div>   
+}
+
+@Html.Grid(Model.ModerationQueue).Columns(column => {
+    column.For(u => u.RequestTypeDescription).Attributes(@width => "18%");
+    column.For(u => u.RelatedProject).Named("Action Title");
+    column.For(u => u.RelatedLocation).Named("Action Location");
+    column.For(u => u.RelatedDate).Named("Action Start Date");
+    column.For(u => u.StatusType).Attributes(@width => "8%");
+    column.For(u => u.CreatedDate).Attributes(@width => "12%"); 
+    column.Custom(GridHelper.ActionColumn).Named("Actions").Attributes(@width => "60px");
+}).Attributes(@class => "list-table")
+
+@Html.DeleteScript()

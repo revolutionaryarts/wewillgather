@@ -1,0 +1,20 @@
+﻿@model Gather.Web.Models.Common.LoggedInStateModel
+
+@if (Request.IsAuthenticated && Model.CurrentUser != null)
+{
+    <text>
+    	<span>
+            <span>Hi @Model.CurrentUser.DisplayName</span>
+            @if(Model.IsAdmin)
+            {
+                @Html.ActionLink("Admin", "index", "home", new { area = "Admin" }, new {}) @:
+            }
+            @Html.RouteLink("Your profile", "UserProfile", new { userName = Model.CurrentUser.UserName }, new { @class = "profile-link" })
+        </span>
+    </text>
+}
+else
+{
+    @Html.RouteLink("Sign in with Twitter", "AuthenticationSocialLogin", new { action = "twitter" }, new { @class = "icon twitter-login popup" })
+    @Html.RouteLink("Sign in with Facebook", "AuthenticationSocialLogin", new { action = "facebook" }, new { @class = "icon fbook-login popup" })
+}

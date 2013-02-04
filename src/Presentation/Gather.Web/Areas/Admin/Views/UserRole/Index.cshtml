@@ -1,0 +1,35 @@
+﻿@model Gather.Web.Areas.Admin.Models.User.UserRoleListModel
+@using Gather.Web.Areas.Admin
+@using Gather.Web.Areas.Admin.Extensions
+@using Gather.Web.Framework.UI
+@using Gather.Web.Framework.UI.Paging
+@using Gather.Web.Models.User
+@using MvcContrib.UI.Grid
+@{
+    Html.Heading("User Roles");
+    Html.LinkText("Add New");
+    Html.LinkTarget(Url.Action("Add"));
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Get))
+{
+    <div class="table-nav">
+        <div class="actions">
+            <input name="search" value="@Model.Search" type="text" class="search-field" maxlength="255" />
+            <input type="submit" value="Search" class="search-button button-small blue" />
+        </div>
+        <div class="pagination">
+            @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount)
+        </div>
+    </div>   
+}
+
+@Html.Grid(Model.Roles).Columns(column => {
+        column.For(u => u.Name);
+        column.For(u => u.SystemName).Attributes(@width => "15%");
+        column.For(u => u.IsSystemRole).Attributes(@width => "10%");
+        column.For(u => u.Active).Attributes(@width => "10%");
+        column.Custom(GridHelper.ActionColumn).Named("Actions").Attributes(@width => "80px");
+    }).Attributes(@class => "list-table")
+    
+@Html.DeleteScript()

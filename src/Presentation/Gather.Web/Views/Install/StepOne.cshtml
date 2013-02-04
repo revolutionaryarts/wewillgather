@@ -1,0 +1,88 @@
+﻿@model Gather.Web.Models.Install.StepOneModel
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Installation.cshtml";
+}
+
+<div class="row">
+    <h1 class="column eight push-two h2">#wewillgather Installation Step 1</h1>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("stepone", "install", FormMethod.Post, new { @class = "column eight push-two bumped-down" }))
+    {
+        @Html.ValidationSummary()
+
+        <fieldset class="bumped-down">
+            
+            <h4 class="border-dashed">Database details</h4>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.DatabaseServerName, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.DatabaseServerName, new {@class = "input-text"})
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.DatabaseName, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.TextBoxFor(model => model.DatabaseName, new {@class = "input-text"})
+                </div>
+            </div>
+            
+            <div class="row">
+                @Html.GatherLabelFor(model => model.DatabaseAuthenticationMethod, new {@class = "column four"})
+                <div class="column six end">
+                    @Html.DropDownListFor(model => model.DatabaseAuthenticationMethod, Model.AvailableAuthenticationMethods)
+                </div>
+            </div>
+            
+            <div id="sqlAuthFields">
+            
+                <div class="row">
+                    @Html.GatherLabelFor(model => model.DatabaseUsername, new {@class = "column four"})
+                    <div class="column six end">
+                        @Html.TextBoxFor(model => model.DatabaseUsername, new {@class = "input-text"})
+                    </div>
+                </div>
+            
+                <div class="row">
+                    @Html.GatherLabelFor(model => model.DatabasePassword, new {@class = "column four"})
+                    <div class="column six end">
+                        @Html.PasswordFor(model => model.DatabasePassword, new {@class = "input-text"})
+                    </div>
+                </div>
+            
+            </div>
+
+        </fieldset>
+        
+        <div class="columns nine centered">
+            <input type="submit" class="button button-big" value="Continue" />
+        </div>
+    }
+</div>
+
+@section FooterScripts
+{
+	<script type="text/javascript">
+	    $('document').ready(function () {
+	        var $sqlAuth = $('#sqlAuthFields');
+	        var $dbAuthMethod = $('#@Html.FieldIdFor(model => model.DatabaseAuthenticationMethod)');
+
+	        $dbAuthMethod.change(function () {
+	            if ($(this).val() == "10") {
+	                $sqlAuth.slideDown();
+	            } else {
+	                $sqlAuth.slideUp();
+	            }
+	        });
+
+	        if ($dbAuthMethod.val() != "10") {
+	            $sqlAuth.hide();
+	        }
+	    });
+    </script>
+}

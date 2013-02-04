@@ -1,0 +1,11 @@
+﻿@model bool
+@using Gather.Web.Framework.UI.Breadcrumbs
+
+@if (!Model)
+{
+    <div class="row">
+        <ul class="breadcrumbs">
+            @Html.Breadcrumbs()
+        </ul>
+    </div>
+}

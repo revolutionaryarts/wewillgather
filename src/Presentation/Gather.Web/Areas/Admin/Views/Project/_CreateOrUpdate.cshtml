@@ -1,0 +1,147 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using System.Globalization
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddScriptParts("../../../Areas/Admin/Scripts/tinymce/tiny_mce.js");
+
+    var recurrenceTimes = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Select", Value = "0" }
+    };
+
+    for (int i = 1; i <= 10; i++)
+    {
+        recurrenceTimes.Add(new SelectListItem { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
+    }
+}
+
+<div class="edit-panel">
+    <h2>Complaint Info</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name)
+            </div>
+
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Objective)
+                @Html.TextAreaFor(model => model.Objective, new { cols = "64", rows = "5" })
+            </div>
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.GettingThere)
+                @Html.TextBoxFor(model => model.GettingThere)
+            </div>
+
+            <div class="field">
+                @Html.GatherLabelFor(model => model.NumberOfVolunteers, "Number of good people?")
+                @Html.TextBoxFor(model => model.NumberOfVolunteers)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Optional action details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.ChildFriendly, "Project child-friendly?")
+                @Html.BooleanDropDownListFor(model => model.ChildFriendly)
+            </div>
+
+            <div class="field">          
+                @Html.GatherLabelFor(model => model.Skills, "Special skills?")
+                @Html.TextAreaFor(model => model.Skills, new { cols = "64", rows = "5" })
+            </div>
+
+            <div class="field">            
+                @Html.GatherLabelFor(model => model.Equipment, "Equipment?")
+                @Html.TextAreaFor(model => model.Equipment, new { cols = "64", rows = "5" })
+            </div>
+
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.VolunteerBenefits, "List any perks?")
+                @Html.TextAreaFor(model => model.VolunteerBenefits, new { cols = "64", rows = "5" })
+            </div>
+
+            <div class="field">
+                @Html.GatherLabelFor(model => model.EmailAddress)
+                @Html.TextBoxFor(model => model.EmailAddress)
+            </div>
+
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.EmailDisclosureId, "Email Disclosure Level")
+                @Html.DropDownListFor(model => model.EmailDisclosureId, Model.AvailableDisclosureLevels)
+            </div>
+
+            <div class="field">           
+                @Html.GatherLabelFor(model => model.Telephone)
+                @Html.TextBoxFor(model => model.Telephone)
+            </div>
+
+            <div class="field">            
+                @Html.GatherLabelFor(model => model.TelephoneDisclosureId)
+                @Html.DropDownListFor(model => model.TelephoneDisclosureId, Model.AvailableDisclosureLevels)
+            </div>
+
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.Website)
+                @Html.TextBoxFor(model => model.Website)
+            </div>
+
+            <div class="field">                    
+                @Html.GatherLabelFor(model => model.WebsiteDisclosureId, "Website Disclosure Level")
+                @Html.DropDownListFor(model => model.WebsiteDisclosureId, Model.AvailableDisclosureLevels)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Date and Time</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.StartDate, "Start date")
+                @Html.TextBoxFor(model => model.StartDate)
+            </div> 
+                   
+            <div class="field">
+                @Html.GatherLabelFor(model => model.EndDate, "End date")
+                @Html.TextBoxFor(model => model.EndDate)
+            </div>	
+            	                
+        </div>   
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Recurrence details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.IsRecurring, "Will the action recur?")
+                @Html.BooleanDropDownListFor(model => model.IsRecurring, "Yes it will", "Nope")
+            </div>  
+                             
+            <div class="field">
+                @Html.GatherLabelFor(model => model.RecurrenceIntervalId, "How often will it recur?")
+                @Html.DropDownListFor(model => model.RecurrenceIntervalId, Model.AvailableRecurrenceIntervals)
+            </div>	
+
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Recurrence, "How many times will it recur?")
+                @Html.DropDownListFor(model => model.Recurrence, recurrenceTimes)
+            </div>	
+
+        </div>
+    </div>
+</div>

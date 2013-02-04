@@ -1,0 +1,164 @@
+﻿@model Gather.Web.Models.Project.ProjectListingModel
+@using System.Web.Optimization
+@using Gather.Web.Framework.UI
+@{
+    if (Model.MetaTitle.IsEmpty()) { Model.MetaTitle = "Volunteer to do a good thing | #WeWillGather Community"; }
+    Html.AddTitleParts(Model.MetaTitle);
+    if (!Model.MetaKeywords.IsEmpty()) { Html.AddMetaKeywordParts(Model.MetaKeywords); }
+    if (!Model.MetaDescription.IsEmpty()) { Html.AddMetaDescriptionParts(Model.MetaDescription); }
+
+    if (Model.PagedModel.PageIndex <= 1)
+    {
+        Html.AddAlternateTag((Model.Location != null && !string.IsNullOrEmpty(Model.Location.Name) ? Model.Location.Name + " " : "") + "Volunteer Projects RSS 2.0 Feed", Model.RssLink, "application/rss+xml");
+    }
+
+    if (Model.CanonicalUrl != null)
+    {
+        Html.AddCanonicalUrlParts(Model.CanonicalUrl);
+    }
+}
+
+@section HeaderScripts
+{
+    <style>
+        #map { height: 682px; width: 639px; }
+    </style>
+}
+
+<div class="row">
+    <h1 class="h3 columns eight offset-by-four">We've found <span id="totalCount">@(Model.TotalCount <= 10 ? Model.TotalCount.NumberToWords() : Model.TotalCount.ToString()) good thing@(Model.TotalCount != 1 ? "s" : null)</span><br> you can be a part of.</h1>   
+</div>
+<div class="row show-on-phones">
+    <a href="#projectFilters" data-less="Hide filters" class="revealer revealer-arrow">Filter your search</a>
+</div>
+
+<div class="row">
+    <div class="four columns project-filters collapse-on-phones" id="projectFilters">
+        <section class="row">
+            <h3>Refine your search</h3>
+            @using (Html.BeginRouteForm("ProjectListing", FormMethod.Get))
+            {
+                <fieldset class="panel-small">
+                    <p>
+                        <label for="radius">Find an action within</label>
+                        @Html.DropDownList("radius", Model.AvailableSearchRadius)
+                    </p>
+                    <p>
+                        <label for="query">of location or postcode:</label>
+                        @Html.TextBox("query")
+                    </p>
+                    <a data-less="Fewer search options" class="revealer revealer-arrow" href="#moreSearchOptions">More search options</a>
+                    <div class="collapseMe" id="moreSearchOptions">
+                        <p>
+                            <label for="start">Happening how soon?</label>
+                            @Html.DropDownList("start", Model.AvailableSearchStart)
+                        </p>
+                        <p>
+                            <label for="childFriendly">Child-friendly?</label>
+                            @Html.DropDownList("childFriendly", Model.AvailableChildFriendly)
+                        </p>                        
+                    </div>
+                    <input type="submit" id="refine" value="Refine" class="button" />
+                </fieldset>
+            }
+            <div id="refineListings" @(Model.TotalCount == 0 ? "class=hide" : null)>
+                <h3>Refine by region</h3>
+                <ul class="location-filters listing-filters">
+                    @Html.Partial("_ProjectListRegions", Model.LocationFilters)
+                </ul>
+                <h3>Refine by category</h3>
+                <ul class="panel checkbox-list category-filters">
+                    @foreach (var category in Model.CategoryFilters)
+                    {
+                        <li>
+                            <input type="checkbox" id="category_@category.Id" name="categories" value="@category.Id" class="checkbox hider" @(category.IsChecked ? " checked=checked" : null) @(!category.IsEnabled ? " disabled=disabled" : null) />
+                            <label for="category_@category.Id" class="hider">@category.Name (@category.ProjectCount)</label>
+                            <a href="@category.AddLink">@category.Name (@category.ProjectCount)</a>
+                            @if (category.IsChecked)
+                            {
+                                @:<a href="@category.RemoveLink">X</a>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </section>
+    </div>   
+    <div class="eight columns">
+        <div id="searchResults" @(Model.TotalCount == 0 ? "class=hide" : null)>
+            <dl class="tabs contained tabs-projects hider" id="listTabs">
+                <dd><a href="#simpleContained1" class="active">On a map</a></dd>
+                <dd><a href="#simpleContained2">As a list</a></dd>
+            </dl>
+            <ul class="tabs-content contained" id="listTabContent">
+                <!-- Map Tab -->
+                <li class="active hider" id="simpleContained1Tab">
+                    <div class="row">
+                        <div class="mapView" id="mapView">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </li>
+                <!-- Map Tab -->
+
+                <!-- List Tab -->
+                <li id="simpleContained2Tab">
+                    @using (Html.BeginForm("Listing", "Project", FormMethod.Get, new { @class = "row form-sort" }))
+                    {
+                        <div class="twelve columns">
+                            <fieldset class="panel-small">
+                                <div class="two columns">
+                                    <span class="label">Sort by:</span>
+                                </div>
+                                <div class="four columns">
+                                	<label class="labelHidden" for="sortType">Sort by type</label>
+                                    @Html.DropDownList("sortType", Model.AvailableSortTypes)
+                                </div>
+                                <div class="four columns">
+									<label class="labelHidden" for="sortDirection">Sort by start date</label>
+                                    @Html.DropDownList("sortDirection", Model.AvailableSortDirections)
+                                </div>
+                                <div class="two columns sort-button-column">
+                                    <input type="submit" value="Sort" class="button hider-js" />
+                                </div>
+                            </fieldset>
+                        </div>
+                    }
+                    <div id="pagedResults">
+                        @Html.Partial("_ProjectListPaged", Model.PagedModel)
+                    </div>
+                </li>
+                <!-- /List tab -->
+            </ul>
+        </div>
+        <a href="@Model.RssLink" class="button button-rss bumped-down" id="rssLink">Subscribe via RSS</a>
+        <div id="noSearchResults" @(Model.TotalCount > 0 || !Model.IsSearch ? "class=hide" : null)>
+            <p>We weren't able to find any actions matching your search criteria - try searching again?</p>
+        </div>
+        <div id="noLocationResults" @(Model.TotalCount > 0 || Model.IsSearch ? "class=hide" : null)>
+            <p>We weren't able to find any actions looking for good people in this location - try expanding your search or, you could <a href="@Url.RouteUrl("AddProject")" class="underlined">start your own project</a> for this location.</p>
+        </div>
+    </div>
+</div>
+
+@section FooterScripts
+{
+    <script type="text/javascript">
+        var loadNextResultsUrl = '@Url.Action("LoadNextResults", "Project")';
+        var mapLatitude = @Model.MapLatitude;
+        var mapLongitude = @Model.MapLongitude;
+        var mapZoomLevel = @Model.MapZoomLevel;
+        var locationId = @(Model.Location != null ? Model.Location.Id : 0);
+        var mapProjects = [];
+
+        $(function() {
+            @if (Model.TotalCount > 0 && Model.MapProjects != null && Model.MapProjects.Any())
+            {
+                @:mapProjects = @Html.Raw(Model.MapProjects);
+            }
+            initMap();
+        });
+    </script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/coremap.js")"></script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/projectlisting.js")"></script>
+}

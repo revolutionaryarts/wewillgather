@@ -1,0 +1,36 @@
+﻿@model Gather.Web.Models.Page.PageModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.Heading("Edit Page: " + (Model.Title.Length > 15 ? Model.Title.Substring(0, 15) + "..." : Model.Title));
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    
+                    <table class="info-table">
+                        <tr>
+                            <td>Registered Date:</td>
+                            <td>@Model.CreatedDate</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                    @if (!Model.IsSystemPage)
+                    {
+                        <input type="submit" name="hide" value="@(Model.Active ? "Hide" : "Show")" class="button grey" />
+                    }   
+
+                </div>
+            </div>
+        </div>
+        
+        @Html.Partial("_Files", Model)
+
+    </div>
+    
+    @Html.Partial("_CreateOrUpdate", Model)
+}

@@ -1,0 +1,217 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using System.Web.Optimization
+@using Gather.Web.Framework.UI
+@{    
+    ViewBag.CurrentMenuRoute = "AddProject";
+    var route = (Model.Id > 0 ? "AddTemporaryProject" : "AddProject");
+}
+
+@section HeaderScripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#addForm').one('submit', function () { window._gaq.push(['_trackEvent', 'Forms', 'Submit: Add Project']); window.WaitForSeconds(0.25); });
+        });
+    </script>
+    
+    <style>
+        #map { height: 210px; width: 100%; }
+    </style>
+}
+
+<div class="row">
+    <h1 class="header-shaded panel-small h2">Tell us a bit more about what you want to start.</h1>				
+</div>
+<div class="row bordered-top">
+    <div class="four columns">
+        <div class="panel panel-green">
+            @if (Model.Id > 0)
+            {
+                <p class="h4">Hi! Thanks for telling #wewillgather about the good thing you wish to start.</p>
+            }
+            else
+            {
+                <p class="h4">Hi! Thanks for wanting to start a good thing on #wewillgather.</p>
+            }
+            <p class="h4">We just need a few things to get started.</p>
+        </div>
+    </div>
+    
+    @using (Html.BeginRouteForm(route, FormMethod.Post, new { id = "addForm", @class = "eight columns form-add-project" }))
+    {
+        @Html.ValidationSummary()
+
+        @Html.Partial("_AddOrEdit", Model)
+
+        <fieldset class="panel-yellow row">
+            <div class="columns nine centered">
+                <input type="submit" class="button button-big" value="Submit good thing" /><br />
+                <input type="reset" class="button-arrow-small text-center" value="Clear the form" name="clear" />
+            </div>    
+        </fieldset>
+    }
+</div>
+
+@section FooterScripts 
+{
+    @if (Model.ReloadFromLocalStorage)
+    {
+        <script type="text/javascript">
+            var setLocalStorage = true;
+        </script>
+    }
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/content/coremap.js")"></script>
+    @Html.Partial("_ProjectAddEditScript", Model)
+    @if (Model.ReloadFromLocalStorage)
+    {
+        <script type="text/javascript">
+            $(function() {
+                try {
+                    // Store changes in local storage
+                    $("#@Html.FieldIdFor(model => model.Name)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Name)", $("#@Html.FieldIdFor(model => model.Name)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.Objective)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Objective)", $("#@Html.FieldIdFor(model => model.Objective)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.LocationInput)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.LocationInput)", $("#@Html.FieldIdFor(model => model.LocationInput)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.GettingThere)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.GettingThere)", $("#@Html.FieldIdFor(model => model.GettingThere)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.NumberOfVolunteers)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.NumberOfVolunteers)", $("#@Html.FieldIdFor(model => model.NumberOfVolunteers)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.ChildFriendly)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.ChildFriendly)", $("#@Html.FieldIdFor(model => model.ChildFriendly)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.Skills)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Skills)", $("#@Html.FieldIdFor(model => model.Skills)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.Equipment)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Equipment)", $("#@Html.FieldIdFor(model => model.Equipment)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.VolunteerBenefits)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.VolunteerBenefits)", $("#@Html.FieldIdFor(model => model.VolunteerBenefits)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.EmailAddress)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.EmailAddress)", $("#@Html.FieldIdFor(model => model.EmailAddress)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.Telephone)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Telephone)", $("#@Html.FieldIdFor(model => model.Telephone)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.Website)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Website)", $("#@Html.FieldIdFor(model => model.Website)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.StartDate)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.StartDate)", $("#@Html.FieldIdFor(model => model.StartDate)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.IsRecurring)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.IsRecurring)", $("#@Html.FieldIdFor(model => model.IsRecurring)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.RecurrenceIntervalId)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.RecurrenceIntervalId)", $("#@Html.FieldIdFor(model => model.RecurrenceIntervalId)").val());
+                    });
+                    $("#@Html.FieldIdFor(model => model.Recurrence)").blur(function() {
+                        localStorage.setItem("@Html.FieldIdFor(model => model.Recurrence)", $("#@Html.FieldIdFor(model => model.Recurrence)").val());
+                    });
+                    @foreach (var category in Model.AvailableCategories)
+                    {
+                        <text>
+                            $("#Categories_@category.Id").bind('click', function () {
+                                if (this.checked) {
+                                    localStorage.setItem("Categories_@category.Id", "true");
+                                } else {
+                                    localStorage.setItem("Categories_@category.Id", "false");
+                                }
+                            });
+                        </text>
+                    }
+
+                    // Reset fields
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.Name)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Name)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Name)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.Objective)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Objective)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Objective)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.LocationInput)") != "") {
+                        $("#@Html.FieldIdFor(model => model.LocationInput)").val(localStorage.getItem("@Html.FieldIdFor(model => model.LocationInput)"));
+                        window.UpdateMap();
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.NumberOfVolunteers)") != "") {
+                        $("#@Html.FieldIdFor(model => model.NumberOfVolunteers)").val(localStorage.getItem("@Html.FieldIdFor(model => model.NumberOfVolunteers)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.GettingThere)") != "") {
+                        $("#@Html.FieldIdFor(model => model.GettingThere)").val(localStorage.getItem("@Html.FieldIdFor(model => model.GettingThere)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.ChildFriendly)") != "") {
+                        $("#@Html.FieldIdFor(model => model.ChildFriendly)").val(localStorage.getItem("@Html.FieldIdFor(model => model.ChildFriendly)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.Skills)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Skills)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Skills)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.Equipment)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Equipment)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Equipment)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.VolunteerBenefits)") != "") {
+                        $("#@Html.FieldIdFor(model => model.VolunteerBenefits)").val(localStorage.getItem("@Html.FieldIdFor(model => model.VolunteerBenefits)"));
+                    }
+                    if ($("#@Html.FieldIdFor(model => model.EmailAddress)").val().length == 0 && localStorage.getItem("@Html.FieldIdFor(model => model.EmailAddress)") != "") {
+                        $("#@Html.FieldIdFor(model => model.EmailAddress)").val(localStorage.getItem("@Html.FieldIdFor(model => model.EmailAddress)"));
+                    }
+                    if ($("#@Html.FieldIdFor(model => model.Telephone)").val().length == 0 && localStorage.getItem("@Html.FieldIdFor(model => model.Telephone)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Telephone)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Telephone)"));
+                    }
+                    if ($("#@Html.FieldIdFor(model => model.Website)").val().length == 0 && localStorage.getItem("@Html.FieldIdFor(model => model.Website)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Website)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Website)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.StartDate)") != "") {
+                        $("#@Html.FieldIdFor(model => model.StartDate)").val(localStorage.getItem("@Html.FieldIdFor(model => model.StartDate)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.StartHour)") != "") {
+                        $("#@Html.FieldIdFor(model => model.StartHour)").val(localStorage.getItem("@Html.FieldIdFor(model => model.StartHour)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.StartMinutes)") != "") {
+                        $("#@Html.FieldIdFor(model => model.StartMinutes)").val(localStorage.getItem("@Html.FieldIdFor(model => model.StartMinutes)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.EndDate)") != "") {
+                        $("#@Html.FieldIdFor(model => model.EndDate)").val(localStorage.getItem("@Html.FieldIdFor(model => model.EndDate)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.EndHour)") != "") {
+                        $("#@Html.FieldIdFor(model => model.EndHour)").val(localStorage.getItem("@Html.FieldIdFor(model => model.EndHour)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.EndMinutes)") != "") {
+                        $("#@Html.FieldIdFor(model => model.EndMinutes)").val(localStorage.getItem("@Html.FieldIdFor(model => model.EndMinutes)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.IsRecurring)") != "") {
+                        var isRecurring = localStorage.getItem("@Html.FieldIdFor(model => model.IsRecurring)");
+                        $("#@Html.FieldIdFor(model => model.IsRecurring)").val(isRecurring);
+                        if(isRecurring == "True") {
+                            $('#recurrenceOptions').show();
+                            $('#recurrenceReveal').click();
+                        }
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.RecurrenceIntervalId)") != "") {
+                        $("#@Html.FieldIdFor(model => model.RecurrenceIntervalId)").val(localStorage.getItem("@Html.FieldIdFor(model => model.RecurrenceIntervalId)"));
+                    }
+                    if (localStorage.getItem("@Html.FieldIdFor(model => model.Recurrence)") != "") {
+                        $("#@Html.FieldIdFor(model => model.Recurrence)").val(localStorage.getItem("@Html.FieldIdFor(model => model.Recurrence)"));
+                    }
+                    @foreach (var category in Model.AvailableCategories)
+                    {
+                        <text>                    
+                            if (localStorage.getItem("Categories_@category.Id") == "true") {
+                                $("#Categories_@category.Id").attr('checked','checked')
+                            }
+                        </text>
+                    }
+                    $('.counter-input').each(function() {
+                        UpdateCounterValue($(this));
+                    });
+                } catch (e) { }
+            });	
+        </script>
+    }
+}

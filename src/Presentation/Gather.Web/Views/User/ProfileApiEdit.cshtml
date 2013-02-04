@@ -1,0 +1,51 @@
+﻿@model Gather.Web.Models.Api.ApiAuthenticationModel
+@using Gather.Web.Framework.UI
+@{
+    ViewBag.CurrentMenuRoute = "HomePage";
+    ViewContext.ClientValidationEnabled = false;
+}
+
+@using (Html.BeginForm("ProfileApiEdit", "user", new {id = Model.Id}, FormMethod.Post))
+{
+    @Html.ValidationSummary()
+
+    <div class="row">
+        <div class="panel-small header-shaded clearfix">            
+            <h1 class="h2">Edit your API access</h1>
+        </div>
+    </div>
+
+    <div class="row bumped-down" id="editProfilePanel">
+        <div class="panel-small panel-yellow">
+            <h3 class="row h4 border-dashed">Edit API key:</h3>
+            @if (Model.ShowToken)
+            {
+                <div class="alert-box">
+                    Your API key is:<br><strong>@Model.AccessToken</strong><br>    
+                    <a href="@Url.RouteUrl("UserProfileApi")" class="button button-arrow" data-animation="fade">Back to API List</a>                
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="column three">
+                        @Html.GatherLabelFor(model => model.NameOfApplication, new {@class = "required"}, "Website name:")
+                        @Html.TextBoxFor(model => model.NameOfApplication, new {@class = "input-text"})
+                    </div>
+                    <div class="column three">
+                        @Html.GatherLabelFor(model => model.WebsiteAddress, new {@class = "required"}, "Website URL:")
+                        @Html.TextBoxFor(model => model.WebsiteAddress, new {@class = "input-text"})
+                    </div>
+                    <div class="column three">
+                        @Html.GatherLabelFor(model => model.Description, new {@class = "required"}, "Reason for request:")
+                        @Html.TextBoxFor(model => model.Description, new {@class = "input-text"})
+                    </div>
+                    <div class="column three">
+                        <a href="@Url.RouteUrl("UserProfileApi")" class="button button-arrow" data-animation="fade">Cancel</a>
+                        <input type="submit" id="UpdateAPIkey" name="UpdateAPIkey" class="button button-cancel" value="Update API key" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

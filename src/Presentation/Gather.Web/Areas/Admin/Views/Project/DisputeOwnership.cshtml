@@ -1,0 +1,142 @@
+﻿@model Gather.Web.Models.Project.ProjectModerationDisputeModel
+@using Gather.Web.Areas.Admin
+@using Gather.Web.Areas.Admin.Extensions
+@using MvcContrib.UI.Grid
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Project Content Moderation Request");
+    Html.Heading("Project Content Moderation Request");
+}
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Action Notes</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <div class="field">                        
+                        @Html.TextAreaFor(model => model.Project.ModerationNotes, new { cols = "42", rows = "10" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        @if (Model.CreatedByUser != null)
+                        {
+                            <tr>
+                                <td>Created By:</td>
+                                <td>
+                                    @Html.ActionLink(Model.CreatedByUser.DisplayName, "edit", "user", new { id = Model.CreatedByUser.Id }, null)
+                                    @if (!string.IsNullOrEmpty(Model.CreatedByUser.TwitterProfile) && !string.IsNullOrEmpty(Model.CreatedByUser.TwitterDisplayName))
+                                    {
+                                        @:(@Html.Raw("@" + Model.CreatedByUser.TwitterDisplayName))
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>Complaint Date:</td>
+                            <td>@Model.ModerationQueue.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.ModerationQueue.Notes, "Dispute Message (this will be included on the response back to the user who is disputing ownership)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.ModerationQueue.Notes, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="Dispute" value="Approve Dispute" class="button blue" />
+                    <input type="submit" name="Dispute" value="Reject Dispute" class="button grey" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Complaint Information</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                
+                <div class="field">
+                    @Html.LabelFor(model => model.TypeDescription, "Complaint Type")
+                    @Html.DisplayTextFor(model => model.TypeDescription)
+                </div>  
+                   
+                <div class="field">
+                    @Html.LabelFor(model => model.ModerationQueue.CreatedByUser.DisplayName)
+                    <a href="@Url.RouteUrl("Admin_default", new { Controller = "user", Action = "edit", id = @Model.ModerationQueue.CreatedBy })">@Html.DisplayTextFor(model => model.ModerationQueue.CreatedByUser.DisplayName)</a>
+                </div> 
+
+                <div class="field">
+                    @Html.LabelFor(model => model.Reason)
+                    @Html.DisplayTextFor(model => model.Reason)
+                </div>  
+                     
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Project Details</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                
+                <div class="field">
+                    @Html.LabelFor(model => model.Project.Owners, "Project Creator")
+                    @if (Model.CreatedByUser == null)
+                    {
+                        <text>There is no project creator</text>
+                    }
+                    else
+                    {
+                        <a href="@Url.RouteUrl("Admin_default", new { Controller = "user", Action = "edit", id = Model.CreatedByUser.Id })">@Html.DisplayTextFor(model => Model.CreatedByUser.DisplayName)</a>
+                    }
+                </div>
+
+                <div class="field">
+                    @Html.LabelFor(model => model.Project.Name, "Name")
+                    @Html.DisplayTextFor(model => model.Project.Name)
+                </div> 
+
+                <div class="field">
+                    @Html.LabelFor(model => model.Project.Objective, "Location/Additional details")
+                    @Html.DisplayTextFor(model => model.Project.Objective)
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Current Moderators</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                @Html.Grid(Model.CurrentModerators).RowAttributes(model => new MvcContrib.Hash(@id => "tblRow" + model.Item.Id)).Columns(column => {
+                    column.For(u => u.DisplayName).Attributes(@width => "35%");
+                    column.For(u => u.CreatedDate).Attributes(@width => "15%");
+                    column.Custom(GridHelper.ActionColumn).Named("Actions").Attributes(@width => "80px");
+                }).Attributes(@class => "list-table")
+                @Html.DeleteScript("DeleteOwner", true, new { moderationId = 322 })
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>User History</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                @Html.Grid(Model.ProjectUserHistory).Columns(column => {
+                        column.For(u => u.CommittingUser.DisplayName).Attributes(@width => "35%");
+                        column.For(u => u.AffectedUser.DisplayName).Attributes(@width => "35%");
+                        column.For(u => u.ProjectUserAction).Attributes(@width => "15%");
+                        column.For(u => u.CreatedDate).Attributes(@width => "15%");
+                    }).Attributes(@class => "list-table")
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,78 @@
+﻿@model Gather.Web.Areas.Admin.Models.Project.ProjectWithdrawalModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Project Withdrawal Moderation Request");
+    Html.Heading("Project Withdrawal Moderation Request");
+}
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        @if (Model.Project.CreatedBy != null)
+                        {
+                            <tr>
+                                <td>Created By:</td>
+                                <td>
+                                    @Html.ActionLink(Model.Project.CreatedBy.DisplayName, "edit", "user", new { id = Model.Project.CreatedBy.Id }, null)
+                                    @if (!string.IsNullOrEmpty(Model.Project.CreatedBy.TwitterProfile) && !string.IsNullOrEmpty(Model.Project.CreatedBy.TwitterDisplayName))
+                                    {
+                                        @:(@Html.Raw("@" + Model.Project.CreatedBy.TwitterDisplayName))
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>Complaint Date:</td>
+                            <td>@Model.ModerationQueue.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.ModerationQueue.Notes, "Author Message (this will be included on the response back to the project owners)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.ModerationQueue.Notes, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.VolunteersMessage, "Volunteer Message (this will be included on the response back to the volunteers who have signed up to the project if it's withdrawn)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.VolunteersMessage, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="Remove" value="Withdraw Project" class="button blue" />
+                    <input type="submit" name="Remove" value="Reject Withdrawal" class="button grey" />
+                </div>
+            </div>
+        </div>
+
+        @Html.Partial("_ProjectVolunteers", Model.Project)
+        
+        <div class="edit-panel">
+            <h2>Action Notes</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <div class="field">                        
+                        @Html.TextAreaFor(model => model.Project.ModerationNotes, new { cols = "42", rows = "10" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Information</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                <div class="field">
+                    @Html.LabelFor(model => model.ModerationQueue.CreatedByUser.DisplayName, "User Requesting Withdrawal")
+                    <a href="@Url.RouteUrl("Admin_default", new { Controller = "user", Action = "edit", id = @Model.ModerationQueue.CreatedBy })">@Html.DisplayTextFor(model => model.ModerationQueue.CreatedByUser.DisplayName)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Html.Partial("_ReadOnlyProject", Model.Project)
+}

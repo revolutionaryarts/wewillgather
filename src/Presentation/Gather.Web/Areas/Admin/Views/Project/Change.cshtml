@@ -1,0 +1,72 @@
+﻿@model Gather.Web.Areas.Admin.Models.Project.ProjectEditModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Action Content Change Request");
+    Html.Heading("Action Content Change Request");
+}
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        @if (Model.Project.CreatedBy != null)
+                        {
+                            <tr>
+                                <td>Created By:</td>
+                                <td>
+                                    @Html.ActionLink(Model.Project.CreatedBy.DisplayName, "edit", "user", new { id = Model.Project.CreatedBy.Id }, null)
+                                    @if (!string.IsNullOrEmpty(Model.Project.CreatedBy.TwitterProfile) && !string.IsNullOrEmpty(Model.Project.CreatedBy.TwitterDisplayName))
+                                    {
+                                        @:(@Html.Raw("@" + Model.Project.CreatedBy.TwitterDisplayName))
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>Creation Date:</td>
+                            <td>@Model.Project.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.AuthorMessage, "Author Message: (this will be included on the response back to the project owners)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.AuthorMessage, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">@Html.LabelFor(model => model.NotifyVolunteers, "Notify Volunteers of the project change:")</td>
+                            <td colspan="1">@Html.BooleanDropDownListFor(model => model.NotifyVolunteers)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.LabelFor(model => model.VolunteersMessage, "Volunteer Message: (this will be included on the response back to the volunteers who have signed up to the project.)")</td>                       
+                        </tr>
+                        <tr>
+                            <td colspan="2">@Html.TextAreaFor(model => model.VolunteersMessage, new { cols = "42", rows = "5" })</td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="change" value="Update and Approve" class="button blue" />
+                    <input type="submit" name="reject" value="Reject" class="button grey" />
+                </div>
+            </div>
+        </div>
+        
+        @Html.Partial("_ProjectCategories", Model.Project)
+
+        @Html.Partial("_ProjectVolunteers", Model.Project)
+
+        <div class="edit-panel">
+            <h2>Action Notes</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <div class="field">                        
+                        @Html.TextAreaFor(model => model.Project.ModerationNotes, new { cols = "42", rows = "10" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Html.Partial("_ChangeUpdate", Model)
+}

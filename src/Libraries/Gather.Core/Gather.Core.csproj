@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{11D9B153-FFBF-447D-8180-B156354745EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gather.Core</RootNamespace>
+    <AssemblyName>Gather.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stage|AnyCPU'">
+    <OutputPath>bin\Stage\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OpenSource|AnyCPU'">
+    <OutputPath>bin\OpenSource\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\packages\Autofac.2.6.1.841\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\..\packages\Autofac.Mvc3.2.6.1.841\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\twitterizer.2.4.1.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionResults\FeedResult.cs" />
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Cache\CacheExtensions.cs" />
+    <Compile Include="Cache\ICacheManager.cs" />
+    <Compile Include="Cache\MemoryCacheManager.cs" />
+    <Compile Include="CommonHelper.cs" />
+    <Compile Include="ComponentModel\GenericListTypeConverter.cs" />
+    <Compile Include="Configuration\ISettings.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Data\DataSettings.cs" />
+    <Compile Include="Data\DataSettingsHelper.cs" />
+    <Compile Include="Data\DataSettingsManager.cs" />
+    <Compile Include="Data\IDataProvider.cs" />
+    <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Domain\Api\ApiAuthentication.cs" />
+    <Compile Include="Domain\Categories\Category.cs" />
+    <Compile Include="Domain\Comments\Comment.cs" />
+    <Compile Include="Domain\Common\ApiAuthenticationType.cs" />
+    <Compile Include="Domain\Common\AuthenticationMethod.cs" />
+    <Compile Include="Domain\Common\AuthenticationResult.cs" />
+    <Compile Include="Domain\Common\OwnerSettings.cs" />
+    <Compile Include="Domain\Common\ProjectAction.cs" />
+    <Compile Include="Domain\Common\CoreSettings.cs" />
+    <Compile Include="Domain\Common\EntityType.cs" />
+    <Compile Include="Domain\Common\MapProvider.cs" />
+    <Compile Include="Domain\Common\MessageType.cs" />
+    <Compile Include="Domain\Common\ModerationRequestType.cs" />
+    <Compile Include="Domain\Common\ModerationStatusType.cs" />
+    <Compile Include="Domain\Common\ProjectCommentComplaintType.cs" />
+    <Compile Include="Domain\Common\ProjectComplaintType.cs" />
+    <Compile Include="Domain\Common\ProjectStatus.cs" />
+    <Compile Include="Domain\Common\DisclosureLevel.cs" />
+    <Compile Include="Domain\Common\RecurrenceInterval.cs" />
+    <Compile Include="Domain\Common\SiteSettings.cs" />
+    <Compile Include="Domain\Common\SlugLookupType.cs" />
+    <Compile Include="Domain\Locations\Location.cs" />
+    <Compile Include="Domain\Logging\Log.cs" />
+    <Compile Include="Domain\Logging\LogLevel.cs" />
+    <Compile Include="Domain\MediaFile\FileType.cs" />
+    <Compile Include="Domain\MediaFile\Media.cs" />
+    <Compile Include="Domain\Messages\MessageQueue.cs" />
+    <Compile Include="Domain\ModerationQueue\ProjectCommentModeration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Domain\ModerationQueue\ProjectWithdrawal.cs" />
+    <Compile Include="Domain\ModerationQueue\ModerationQueue.cs" />
+    <Compile Include="Domain\ModerationQueue\ProjectApproval.cs" />
+    <Compile Include="Domain\ModerationQueue\ProjectChangeRequest.cs" />
+    <Compile Include="Domain\ModerationQueue\ProjectModeration.cs" />
+    <Compile Include="Domain\Pages\Page.cs" />
+    <Compile Include="Domain\Profanity\Profanity.cs" />
+    <Compile Include="Domain\Projects\BaseProject.cs" />
+    <Compile Include="Domain\Projects\ProjectLocation.cs" />
+    <Compile Include="Domain\Projects\ProjectSortTypes.cs" />
+    <Compile Include="Domain\Projects\ProjectUserAction.cs" />
+    <Compile Include="Domain\Projects\ProjectUserHistory.cs" />
+    <Compile Include="Domain\Projects\Project.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Domain\Projects\ProjectSearchTypes.cs" />
+    <Compile Include="Domain\Security\DefaultPermissionRecord.cs" />
+    <Compile Include="Domain\Security\PermissionRecord.cs" />
+    <Compile Include="Domain\Settings\Setting.cs" />
+    <Compile Include="Domain\Slug\Slug.cs" />
+    <Compile Include="Domain\SuccessStories\SuccessStory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Domain\Tasks\ScheduledTask.cs" />
+    <Compile Include="Domain\Tweets\Tweet.cs" />
+    <Compile Include="Domain\Users\SystemUserRoleNames.cs" />
+    <Compile Include="Domain\Users\User.cs" />
+    <Compile Include="Domain\Users\UserRole.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Fakes\FakeHttpContext.cs" />
+    <Compile Include="Fakes\FakeHttpRequest.cs" />
+    <Compile Include="Fakes\FakeHttpResponse.cs" />
+    <Compile Include="Fakes\FakeHttpSessionState.cs" />
+    <Compile Include="GatherException.cs" />
+    <Compile Include="Infrastructure\AppDomainTypeFinder.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\AutofacRequestLifetimeHttpModule.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\ComponentLifeStyle.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\ContainerConfigurer.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\ContainerManager.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\IDependencyRegistrar.cs" />
+    <Compile Include="Infrastructure\Engine.cs" />
+    <Compile Include="Infrastructure\EngineContext.cs" />
+    <Compile Include="Infrastructure\IEngine.cs" />
+    <Compile Include="Infrastructure\ITypeFinder.cs" />
+    <Compile Include="Infrastructure\Singleton.cs" />
+    <Compile Include="Infrastructure\WebAppTypeFinder.cs" />
+    <Compile Include="IPaginatedList.cs" />
+    <Compile Include="IWebHelper.cs" />
+    <Compile Include="IWorkContext.cs" />
+    <Compile Include="PaginatedList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seo\SeoExtensions.cs" />
+    <Compile Include="WebHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

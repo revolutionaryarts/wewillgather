@@ -1,0 +1,83 @@
+﻿@model Gather.Web.Areas.Admin.Models.Setting.SiteOwnerModel
+@using Gather.Web.Framework.UI
+@{
+    Html.AddTitleParts("Site Owner Settings");
+    Html.Heading("Site Owner Settings");
+}
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Email Account</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.MailFromEmail)
+                    @Html.TextBoxFor(model => model.MailFromEmail)
+                    @Html.ValidationMessageFor(model => model.MailFromEmail)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.MailFromDisplayName)
+                    @Html.TextBoxFor(model => model.MailFromDisplayName)
+                    @Html.ValidationMessageFor(model => model.MailFromDisplayName)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.MailHost)
+                    @Html.TextBoxFor(model => model.MailHost)
+                    @Html.ValidationMessageFor(model => model.MailHost)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.MailPort)
+                    @Html.TextBoxFor(model => model.MailPort)
+                    @Html.ValidationMessageFor(model => model.MailPort)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.MailUsername)
+                    @Html.TextBoxFor(model => model.MailUsername)
+                    @Html.ValidationMessageFor(model => model.MailUsername)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.MailPassword)
+                    @Html.TextBoxFor(model => model.MailPassword)
+                    @Html.ValidationMessageFor(model => model.MailPassword)
+                </div>
+                <div class="field original">
+                    @Html.LabelFor(model => model.MailEnableSSL)
+                    @Html.BooleanDropDownListFor(model => model.MailEnableSSL)
+                </div>
+                <div class="field original">
+                    @Html.LabelFor(model => model.MailUseDefaultCredentials)
+                    @Html.BooleanDropDownListFor(model => model.MailUseDefaultCredentials)
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="edit-panel">
+        <h2>Twitter Account</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.TwitterAccessToken)
+                    @Html.TextBoxFor(model => model.TwitterAccessToken)
+                    @Html.ValidationMessageFor(model => model.TwitterAccessToken)
+                </div>
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.TwitterAccessTokenSecret)
+                    @Html.TextBoxFor(model => model.TwitterAccessTokenSecret)
+                    @Html.ValidationMessageFor(model => model.TwitterAccessTokenSecret)
+                </div>
+            </div>
+        </div>
+    </div>
+}

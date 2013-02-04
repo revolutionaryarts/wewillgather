@@ -1,0 +1,17 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+<div class="edit-panel">
+    <h2>Categories</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <ul class="checkbox-list">
+                @foreach (var category in Model.AvailableCategories)
+                {
+                    <li>
+                        <input type="checkbox" id="SelectedCategory_@category.Id" name="SelectedCategories" value="@category.Id" @(category.IsChecked ? "checked=checked" : null) /> 
+                        <label for="SelectedCategory_@category.Id">@category.Name</label>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

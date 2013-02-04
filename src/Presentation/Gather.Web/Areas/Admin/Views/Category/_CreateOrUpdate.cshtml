@@ -1,0 +1,15 @@
+﻿@model Gather.Web.Models.Category.CategoryModel
+@using Gather.Web.Framework.UI;
+
+<div class="edit-panel">
+    <h2>Info</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name, new { maxlength = 30 })
+                @Html.DescriptionFor(model => model.Name)
+            </div>
+        </div>
+    </div>
+</div>

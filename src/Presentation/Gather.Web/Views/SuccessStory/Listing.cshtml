@@ -1,0 +1,60 @@
+﻿@model Gather.Web.Models.SuccessStory.SuccessStoryListingModel
+@using Gather.Web.Framework.UI
+@using Gather.Web.Framework.UI.Paging  
+@{
+    if (Model.PageIndex > 1)
+    {
+        Html.AddCanonicalUrlParts(Url.RouteUrl("SuccessStoryListing"));
+        Html.AddTitleParts("#Volunteer Blog Page " + Model.PageIndex + " | #WeWillGather Blog with local community project news.");
+    } 
+    else
+    {
+        Html.AddTitleParts("#Volunteer Blog | #WeWillGather Blog with local community project news.");
+        Html.AddMetaDescriptionParts("The #WeWillGather Volunteer Blog provides tips, comments and news on the latest good things happening in your local area");
+        Html.AddAlternateTag("Success Story RSS 2.0 Feed", Url.RouteUrl("SuccessStoryRss", null, "http"), "application/rss+xml");
+    }
+}  
+
+<div class="row">
+    <div class="twelve columns" id="introPanel">
+        <div class="row">
+            <h1 class="h2 header-shaded panel-small">@Model.Hashtag Blog</h1>
+        </div>
+        <div class="bumped-down clearfix">
+            @if (Model.TotalCount > Model.PageSize)
+            {
+                <span class="pagination">
+                    @Html.Pager(Model.PageSize, Model.PageIndex, Model.TotalCount)
+                </span>
+            }
+            <a href="@Url.RouteUrl("SuccessStoryRss")" class="button button-rss right" id="rssLink">Subscribe via RSS</a>
+        </div>
+        @foreach (var story in Model.SuccessStories.Select((x, i) => new { Data = x, Index = i }))
+        {
+            if (story.Index % 2 == 0)
+            {
+                @:<ul class="row">
+            }
+            
+            <li class="six row columns bumped-down border-dashed success-listing">
+                <div class="four columns">
+                    <a href="@Url.RouteUrl("SuccessStory", new { story.Data.SeName })">
+                        <img src="@Html.ResizedImageUrl("/Uploads/Media/" + story.Data.Media.FileName, 300, 180)" alt="@story.Data.Title" />
+                    </a>
+                </div>
+                <div class="eight columns">
+                    <a href="@Url.RouteUrl("SuccessStory", new { story.Data.SeName })">
+                        <h4>@story.Data.Title</h4>
+                        <p>@Html.Raw(story.Data.ShortSummary)</p>
+                        <span class="button button-arrow bumped-down">Read more</span>
+                    </a>
+                </div>
+            </li>
+            
+            if (story.Index % 2 != 0 || story.Index.Equals(Model.SuccessStories.Count - 1))
+            {
+                @:</ul>
+            }
+        }                      
+    </div>
+</div>

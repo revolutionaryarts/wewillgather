@@ -1,0 +1,26 @@
+﻿@model string
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+
+    var redirect_url;
+
+    @if (!string.IsNullOrEmpty(Model))
+    {
+        @:redirect_url = '@Model';
+    }
+    else
+    {
+        @:redirect_url = '@Url.Action("Index", "Home")';
+    }
+
+    if (window.opener != null && !window.opener.closed) {
+        window.opener.location.href = redirect_url;
+        window.close();
+    } else {
+        window.location.href = redirect_url;
+    }
+
+</script>

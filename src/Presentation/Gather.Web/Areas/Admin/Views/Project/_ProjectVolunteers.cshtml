@@ -1,0 +1,17 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@if (Model.Volunteers.Count > 0)
+{
+    <div class="edit-panel">
+        <h2>Current Volunteers</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                @foreach (var volunteer in Model.Volunteers)
+                {
+                    <div class="field">                        
+                        <a href="@Url.RouteUrl("Admin_default", new { Controller = "user", Action = "edit", id = volunteer.Id })">@Html.DisplayTextFor(model => volunteer.DisplayName)</a>                
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

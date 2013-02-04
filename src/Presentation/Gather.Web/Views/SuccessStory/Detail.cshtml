@@ -1,0 +1,21 @@
+﻿@using Gather.Web.Framework.UI
+@model Gather.Web.Models.SuccessStory.SuccessStoryModel
+@{
+    ViewBag.CurrentMenuRoute = "SuccessStoryListing";
+    if (!Model.MetaTitle.IsEmpty()) { Html.AddTitleParts(Model.MetaTitle); }
+    if (!Model.MetaKeywords.IsEmpty()) { Html.AddMetaKeywordParts(Model.MetaKeywords); }
+    if (!Model.MetaDescription.IsEmpty()) { Html.AddMetaDescriptionParts(Model.MetaDescription); }
+}
+<div class="row bordered-top">
+    <div class="four column">
+        <img src="@Html.ResizedImageUrl("/Uploads/Media/" + Model.Media.FileName, 300, 180)" alt="@Model.Title" />
+    </div>
+    <div class="eight columns static">
+        <hgroup class="title">
+            <h1>@Model.Title</h1>            
+        </hgroup>
+        <article>
+            @Html.Raw(Model.Article)
+        </article>
+    </div>
+</div>

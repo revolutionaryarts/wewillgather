@@ -1,0 +1,67 @@
+﻿@model Gather.Web.Models.Contact.ContactModel
+@using Gather.Web.Framework.UI;
+@{
+    Html.AddTitleParts("Contact #WeWillGather");
+    Html.AddMetaDescriptionParts("Send a message to #WeWillGather or get in touch with a member of the team via Twitter or Facebook.");
+    ViewContext.ClientValidationEnabled = false;
+}
+
+@section HeaderScripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#contactForm').one('submit', function () { window._gaq.push(['_trackEvent', 'Forms', 'Submit: Contact Us']); window.WaitForSeconds(0.25); });
+            $('a[href^="http://www.twitter.com/artistsmakers"]').click(function () { window._gaq.push(['_trackEvent', 'Contact Team', 'Dan Thompson', 'Twitter']); window.WaitForSeconds(0.25); });
+            $('a[href^="http://www.twitter.com/sophontrack"]').click(function () { window._gaq.push(['_trackEvent', 'Contact Team', 'Sophie Collard', 'Twitter']); window.WaitForSeconds(0.25); });
+            $('a[href^="http://facebook.com/sophieridestrains"]').click(function () { window._gaq.push(['_trackEvent', 'Contact Team', 'Sophie Collard', 'Facebook']); window.WaitForSeconds(0.25); });
+            $('a[href^="http://www.twitter.com/LloydDavis"]').click(function () { window._gaq.push(['_trackEvent', 'Contact Team', 'Lloyd Davis', 'Twitter']); window.WaitForSeconds(0.25); });
+        });
+    </script>
+}
+
+<div class="row">
+    <h1 class="h2 header-shaded panel-small">Contact the good people at #wewillgather</h1>
+</div>
+
+<div class="row">
+    <div class="eight column">
+        <p class="h4 bumped-down">Need to reach us? Get in touch with the #wewillgather team below:</p>
+        <ul>
+            @foreach (var user in Model.Admins)
+            {
+                <li class="row border-dashed bumped-down">
+                    <a class="two phone-one columns">	
+                        <img src="@Html.ResizedImageUrl(user.ProfilePicture, 83, 83)" alt="@user.DisplayName" />
+                    </a>	
+                    <div class="ten phone-three columns">
+                        <h4>@user.DisplayName</h4>
+                        <p>@Html.Action("UserContact", new { user })</p>
+                        <p>@user.ContactUsBio</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+
+	@using (Html.BeginRouteForm("Contact", FormMethod.Post, new { id = "contactForm", @class = "four columns" }))
+    {
+        <p class="panel panel-green h4">Or fill out this lovely form and we'll make haste responding.</p>
+
+        if (Model.DisplayError)
+        {
+            <p class="alert-box alert">Please complete all highlighted fields below</p>
+        }
+     
+		<fieldset class="panel panel-yellow">
+            <div class="form-field">
+                @Html.GatherLabelFor(model => model.Email, new { @class = "required" }, "Your Email")
+                @Html.TextBoxFor(model => model.Email, new { @id = "Email", @class = "input-text", placeholder = "Your email" })
+            </div>
+            <div class="form-field">				
+                @Html.GatherLabelFor(model => model.Comments, new { @class = "required" }, "Your Message")
+                @Html.TextAreaFor(model => model.Comments, new { @id = "Comments", placeholder = "Your message", rows = 6 })
+            </div>
+            <input type="submit" value="Send message" class="blue button large radius" />
+		</fieldset>
+    }
+</div>

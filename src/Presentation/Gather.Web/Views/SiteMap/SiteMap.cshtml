@@ -1,0 +1,80 @@
+﻿@model Gather.Web.Models.SiteMap.SiteMapModel
+@using Gather.Web.Framework.UI 
+@{
+    if (!Model.MetaTitle.IsEmpty()) { Html.AddTitleParts(Model.MetaTitle); }
+    if (!Model.MetaKeywords.IsEmpty()) { Html.AddMetaKeywordParts(Model.MetaKeywords); }
+    if (!Model.MetaDescription.IsEmpty()) { Html.AddMetaDescriptionParts(Model.MetaDescription); }   
+    
+    if(Model.NoIndex)
+    {
+        Html.AddMetaTag("robots", "noindex,follow");
+    }
+}
+<div class="row">
+    <h1 class="header-shaded panel-small h2">@Model.TitleName</h1>
+</div>
+<div class="row">
+    <div class="four column">
+        <div class="panel panel-yellow">
+            <h2 class="h4">Other Pages</h2>
+            <ul>
+                <li>@Html.MenuItem("Home", "HomePage")</li>
+                <li>@Html.RouteLink("Site Map", "SiteMap")</li>
+                <li>@Html.MenuItem("Blog", "SuccessStoryListing")</li>
+                <li>@Html.MenuItem("Contact us", "Contact")</li>
+                @foreach (var page in Model.Pages)
+                {
+                    <li>
+                        <a class="underlined" href="@Url.Action("Detail", "Static", new {page.Id})">@page.Title</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="eight columns static">
+        <h3>Actions by location</h3>
+        @if (Model.BaseLocation)
+        {
+            if (Model.Projects.Count > 0)
+            {
+                <ul>
+                    @foreach (var project in Model.Projects)
+                    {
+                        var primaryLocation = project.Locations.First(l => l.Primary).Location;
+                        <li>
+                            <a class="underlined" href="@Url.RouteUrl("ProjectDetail", new {locationSeoName = primaryLocation.SeoName, seoName = project.SeoName, id = project.Id})">@project.Name</a> (@project.Volunteers.Count of @project.NumberOfVolunteers volunteers)
+                            <p>@project.Objective</p>
+                        </li>
+                    }
+                </ul>
+            } 
+            else
+            {
+                <p>No active projects have been found for this location.</p>
+            }
+        }
+        else
+        {
+            <ul>
+                @foreach (var location in Model.Locations)
+                {
+                    string locationUrl, sitemapUrl;
+                    if (location.ParentLocation != null && !string.IsNullOrEmpty(location.ParentLocation.SeoName))
+                    {
+                        locationUrl = Url.RouteUrl("ProjectListingLocationWithParent", new { locationSeoName = location.SeoName, parentSeoName = location.ParentLocation.SeoName });
+                        sitemapUrl = Url.RouteUrl("SiteMapParentLocation", new { locationSeoName = location.SeoName, parentSeoName = location.ParentLocation.SeoName });
+                    }
+                    else
+                    {
+                        locationUrl = Url.RouteUrl("ProjectListingLocation", new { locationSeoName = location.SeoName });
+                        sitemapUrl = Url.RouteUrl("SiteMapLocation", new { locationSeoName = location.SeoName });
+                    }
+                    <li>
+                        <a class="underlined" href="@locationUrl">@location.Name</a> (@location.ProjectCount volunteer project@(location.ProjectCount != 1 ? "s" : null))
+                        view the <a class="underlined" href="@sitemapUrl">@location.Name sitemap</a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@model Gather.Web.Models.Common.NotificationModel
+
+@foreach (var message in Model.SuccessMessages)
+{
+    <div class="row">
+        <p class="alert-box success">@message</p>
+    </div>
+}
+
+@foreach (var message in Model.WarningMessages)
+{
+    <div class="row">
+        <p class="alert-box warning">@message</p>
+    </div>
+}
+
+@foreach (var message in Model.ErrorMessages)
+{
+    <div class="row">
+        <p class="alert-box alert">@message</p>
+    </div>
+}

@@ -1,0 +1,199 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using Gather.Web.Framework.UI
+@{
+    var recurrenceTimes = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Select", Value = "0" }
+    };
+
+    for (int i = 1; i <= 10; i++)
+    {
+        recurrenceTimes.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+    }
+}
+
+<fieldset class="row panel-yellow add-details">
+    <div class="ten column centered">
+        <h4>Action details</h4>
+        <p>* = required fields</p>
+    </div>
+    <div class="ten column centered form-field">
+        @Html.GatherLabelFor(model => model.Name, new { @class = "required" }, "Name that action")
+        @Html.TextBoxFor(model => model.Name, new { @class = "input-text counter-input", maxlength = 80 })
+        @Html.ValidationMessageFor(model => model.Name)
+        <small class="hider">Characters left: <span class="counter" data-element="@Html.FieldIdFor(model => model.Name)" data-max-length="80">80</span></small>
+    </div>
+
+    <div class="ten column centered form-field border-dashed bumped-down">
+        @Html.GatherLabelFor(model => model.Objective, "Tell us about your action in 100 words")
+        @Html.TextAreaFor(model => model.Objective, new { @class = "expand" })
+    </div>
+
+    <div class="ten column centered form-field border-dashed">
+        @Html.GatherLabelFor(model => model.LocationInput, "And where is it? *")
+        @if (Model.Id == 0 || Model.Locations == null || Model.Locations.Count == 0)
+        {
+            @Html.TextBoxFor(model => model.LocationInput, new { @class = "input-text input-med", placeholder = "Location or postcode" })
+            <input type="submit" id="findLocation" class="button button-arrow bumped-down" value="Find location" style="display:none;" />
+            <div class="hider">
+                <img src="/content/images/spinner.gif" class="spinner" alt="" />
+                <p id="noLocationFound">We couldn't find a location for <strong id="searchedTerm"></strong>. Make sure the location is spelled correctly or try entering a postcode.</p>
+            </div>
+        }
+                
+        @Html.HiddenFor(model => model.Latitude)
+        @Html.HiddenFor(model => model.Longitude)
+        <div class="map-tip hider"><span>Tip - </span> Drag the marker around the map to select your location</div>
+        <div id="map" class="bumped-down hider"></div>
+
+        @Html.GatherLabelFor(model => model.GettingThere)
+        @Html.TextBoxFor(model => model.GettingThere, new { @class = "input-text counter-input", maxlength = 80 })   
+        <small class="hider">Characters left: <span class="counter" data-element="@Html.FieldIdFor(model => model.GettingThere)" data-max-length="80">80</span></small> 
+    </div>
+
+    <div class="ten column centered row form-field">
+        <p class="label">Choose action category:</p>
+        @foreach (var category in Model.AvailableCategories)
+        {
+            <div class="checkbox-list clearfix">
+                <input type="checkbox" id="Categories_@category.Id" name="SelectedCategories" value="@category.Id" @(category.IsChecked ? "checked=checked" : null) /> 
+                <label for="Categories_@category.Id">@category.Name</label>
+            </div>   
+        }
+    </div>
+             
+    <div class="ten column centered row">
+        @Html.GatherLabelFor(model => model.NumberOfVolunteers, "Roughly how many good people will you need?")
+        @Html.TextBoxFor(model => model.NumberOfVolunteers, new { @class = "input-text input-small" })
+        @Html.ValidationMessageFor(model => model.NumberOfVolunteers)
+                
+        @Html.GatherLabelFor(model => model.ChildFriendly, "Is the good thing child-friendly?")
+        @Html.BooleanDropDownListFor(model => model.ChildFriendly)
+    </div> 
+               
+    <div class="collapseMe ten column centered row" id="additionalDetails">
+        <div class="row bumped-down clearfix">                    
+            @Html.GatherLabelFor(model => model.Skills, "Do good people helping out need skills? If so list them.")
+            @Html.TextBoxFor(model => model.Skills, new { @class = "large input-text" })
+                    
+            @Html.GatherLabelFor(model => model.Equipment, "Do they need to bring stuff?")
+            @Html.TextBoxFor(model => model.Equipment, new { @class = "input-text" })
+                    
+            @Html.GatherLabelFor(model => model.VolunteerBenefits, "People like perks - if you're offering tea and biscuits or gold stars to good people helping out, list them.")
+            @Html.TextBoxFor(model => model.VolunteerBenefits, new { @class = "input-text" })
+        </div>
+        <div class="row cleared">
+            <div class="column five">
+                @Html.GatherLabelFor(model => model.EmailAddress, "Your email")
+                @Html.TextBoxFor(model => model.EmailAddress, new { @class = "input-text" })
+            </div>                    
+            <div class="column seven">
+                @Html.GatherLabelFor(model => model.EmailDisclosureId, "Display your email address to")
+                @Html.DropDownListFor(model => model.EmailDisclosureId, Model.AvailableDisclosureLevels, new { @class = "input-text" })
+            </div>
+        </div>
+        <div class="row cleared">
+            <div class="column five">
+                @Html.GatherLabelFor(model => model.Telephone, "Your phone number")
+                @Html.TextBoxFor(model => model.Telephone, new { @class = "input-text" })
+            </div>
+            <div class="column seven">
+                @Html.GatherLabelFor(model => model.TelephoneDisclosureId, "Display your phone number to")
+                @Html.DropDownListFor(model => model.TelephoneDisclosureId, Model.AvailableDisclosureLevels, new { @class = "input-text" })
+            </div>
+        </div>
+        <div class="row cleared">
+            <div class="column five">
+                @Html.GatherLabelFor(model => model.Website, "Your website address")
+                @Html.TextBoxFor(model => model.Website, new { @class = "input-text" })
+            </div>
+            <div class="column seven">
+                @Html.GatherLabelFor(model => model.WebsiteDisclosureId, "Display your website to")
+                @Html.DropDownListFor(model => model.WebsiteDisclosureId, Model.AvailableDisclosureLevels, new { @class = "input-text" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row reveal-toggle">
+        <a href="#additionalDetails" class="revealer centered seven" data-less="Fewer choices">Additional extra portions of information</a>
+    </div>
+
+</fieldset>
+
+<fieldset class="row panel-yellow add-date">
+            
+    <h4 class="ten column centered">Date and Time</h4>	
+            	
+    <div class="ten column centered row">
+        <div class="six columns">
+            @Html.GatherLabelFor(model => model.StartDate, new { @class = "required" }, "Starts")
+            @Html.TextBoxFor(model => model.StartDate, "{0:dd/MM/yyyy}", new { @class = "small input-text" })
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+        <div class="six columns">
+            <span class="label row">Start time</span>
+            <div class="row">
+                <div class="columns six phone-two">
+                	<label class="labelHidden" for="StartHour">Start hour</label>
+                	@Html.DropDownListFor(model => model.StartHour, Model.AvailableHours)
+                </div>
+                <div class="columns six phone-two">
+					<label class="labelHidden" for="StartMinutes">Start hour</label>
+                	@Html.DropDownListFor(model => model.StartMinutes, Model.AvailableMinutes)
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <div class="ten column centered row">
+        <div class="six columns">
+            @Html.GatherLabelFor(model => model.EndDate, new { @class = "required" }, "Ends")
+            @Html.TextBoxFor(model => model.EndDate, "{0:dd/MM/yyyy}", new { @class = "small input-text" })
+            @Html.ValidationMessageFor(model => model.EndDate)
+            <div class="checkbox-list hider">
+                <input type="checkbox" id="sameDayAsStart" /><label for="sameDayAsStart">Same day as start</label>
+            </div>
+        </div>
+        <div class="six columns">
+            <span class="label row">End time</span>
+            <div class="row">
+                <div class="columns six phone-two">
+                	<label class="labelHidden" for="EndHour">End hour</label>
+                	@Html.DropDownListFor(model => model.EndHour, Model.AvailableHours)
+                </div>
+                <div class="columns six phone-two">
+                	<label class="labelHidden" for="EndMinutes">End minute</label>
+                	@Html.DropDownListFor(model => model.EndMinutes, Model.AvailableMinutes)
+                </div>
+            </div>
+        </div>
+    </div>	
+
+    <div class="ten column centered collapseMe" id="recurrenceDetails">
+        <div class="row">
+            <div class="six columns">
+                @Html.LabelFor(model => model.IsRecurring, "Will the good thing recur?")
+                @Html.BooleanDropDownListFor(model => model.IsRecurring, "Yes it will", "Nope")
+            </div>
+        </div>
+        <div class="row collapseMe" id="recurrenceOptions">
+            <div class="six columns">
+                @Html.GatherLabelFor(model => model.RecurrenceIntervalId, "How often will it recur?")
+                @Html.DropDownListFor(model => model.RecurrenceIntervalId, Model.AvailableRecurrenceIntervals)
+                @Html.ValidationMessageFor(model => model.RecurrenceIntervalId)
+            </div>
+            <div class="six columns">
+                @Html.GatherLabelFor(model => model.Recurrence, "How many times will it recur?")
+                @Html.DropDownListFor(model => model.Recurrence, recurrenceTimes)
+                @Html.ValidationMessageFor(model => model.Recurrence)
+            </div>
+        </div>
+    </div>
+
+    <div class="reveal-toggle row">
+        <a href="#recurrenceDetails" id="recurrenceReveal" class="revealer centered ten" data-less="Hide recurrence details">
+            Will this good thing happen again? If so tell everyone about these follow-ons.
+        </a>
+    </div>
+
+</fieldset>

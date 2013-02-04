@@ -1,0 +1,83 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+@using Gather.Core.Domain.Common
+@using Gather.Web.Framework.UI;
+@{
+    if (Model.ModerationId != 0)
+    {
+        Html.AddTitleParts("Action Approval Request");
+        Html.Heading("Action Approval Request");
+    }
+    else
+    {
+        Html.AddTitleParts("Edit Action");
+        Html.Heading("Edit Action");
+    }
+}
+@using (Html.BeginForm(new { moderationId = Model.ModerationId }))
+{
+    @Html.ValidationSummary()
+
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        @if (Model.CreatedBy != null)
+                        {
+                            <tr>
+                                <td>Created By:</td>
+                                <td>
+                                    @Html.ActionLink(Model.CreatedBy.DisplayName, "edit", "user", new { id = Model.CreatedBy.Id }, null)
+                                    @if (!string.IsNullOrEmpty(Model.CreatedBy.TwitterProfile) && !string.IsNullOrEmpty(Model.CreatedBy.TwitterDisplayName))
+                                    {
+                                        @:(@Html.Raw("@" + Model.CreatedBy.TwitterDisplayName))
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>Creation Date:</td>
+                            <td>@Model.CreatedDate</td>
+                        </tr>
+                        @if (Model.ModerationId != 0)
+                        {
+                            <tr>
+                                <td colspan="2">@Html.LabelFor(model => model.ModerationComment, "Moderator Message (this will be included on the response back to the project creator)")</td>                       
+                            </tr>
+                            <tr>
+                                <td colspan="2">@Html.TextAreaFor(model => model.ModerationComment, new { cols = "42", rows = "5" })</td>
+                            </tr>
+                        }
+                    </table>
+                    <input type="submit" name="save" value="@(Model.ModerationId == 0 ? "Update" : "Approve")" class="button blue" />
+                    @if (Model.ModerationId != 0)
+                    {
+                        <input type="submit" name="hide" value="Reject" class="button grey" />
+                    }
+                    else
+                    {
+                        <input type="submit" name="hide" value="@(Model.Status == ProjectStatus.Closed ? "Open" : "Close")" class="button grey" />
+                    }
+                </div>
+            </div>
+        </div>
+        
+        @Html.Partial("_ProjectCategories", Model)
+
+        @Html.Partial("_ProjectVolunteers", Model)
+
+        <div class="edit-panel">
+            <h2>Action Notes</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <div class="field">                        
+                        @Html.TextAreaFor(model => model.ModerationNotes, new { cols = "42", rows = "10" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Html.Partial("_CreateOrUpdate", Model)
+}

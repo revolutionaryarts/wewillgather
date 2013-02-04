@@ -1,0 +1,78 @@
+﻿@model Gather.Web.Models.Comment.CommentModel
+@using Gather.Web.Framework.UI
+@using MvcContrib.UI.Grid
+@{
+    Html.Heading("Edit Comment");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        <tr>
+                            <td>Commented on:</td>
+                            <td>@Model.CreatedDate</td>
+                        </tr>
+                        <tr>
+                            <td>Status:</td>
+                            <td>@(Model.Active ? "Active" : "Inactive")</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                    <input type="submit" name="hide" value="@(Model.Active ? "Hide" : "Show")" class="button grey" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Info</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                <div class="field">
+                    <label>Author:</label>
+                    @Html.ActionLink(Model.Author.DisplayName, "edit", "user", new { id = Model.Author.Id }, new{})
+                </div>
+            
+                <div class="field">
+                    <label>Project:</label>
+                    @if (Model.InResponseTo == null)
+                    {
+                        @Html.ActionLink(Model.Project.Name, "edit", "project", new { id = Model.Project.Id }, new{})
+                    }
+                    else
+                    {
+                        @Html.ActionLink(Model.InResponseTo.Project.Name, "edit", "project", new { id = Model.InResponseTo.Project.Id }, new { })
+                    }
+                </div>
+
+                <div class="field">
+                    @Html.GatherLabelFor(model => model.UserComment)
+                    @Html.TextAreaFor(model => model.UserComment, new { cols = "64", rows = "5" })
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit-panel">
+        <h2>Responses</h2>
+        <div class="panel-content">
+            <div class="inner-content">
+                @Html.Grid(Model.Responses).Columns(column => {
+                    column.For(u => u.CreatedDate).Named("Commented on").Attributes(@width => "12%");
+                    column.Custom(@<text>
+
+                                        @Html.ActionLink(item.Author.DisplayName, "edit", "user", new {id = item.Author.Id}, new {})
+
+                                    </text>).Named("Author").Attributes(@width => "12%");
+                    column.For(u => u.UserComment);
+                }).Attributes(@class => "sub-item-table").Empty("There are no responses to this comment.")
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,148 @@
+﻿@model Gather.Web.Models.Project.ProjectModel
+<div class="edit-panel">
+    <h2>Project Details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.LabelFor(model => model.Owners, "Action Owners")
+                @if (Model.Owners.Count == 0)
+                {
+                    <text>There are no owners of this action</text>
+                }
+                @foreach (var owner in Model.Owners)
+                {
+                    <a href="@Url.RouteUrl("Admin_default", new {Controller = "user", Action = "edit", id = owner.Id})">@Html.DisplayTextFor(model => owner.DisplayName)</a><text>,</text>
+                }
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(model => model.Name, "Name")
+                @Html.DisplayTextFor(model => model.Name)
+            </div>
+
+            <div class="field">
+                <div>
+                    @Html.LabelFor(model => Model.Categories, "Assigned Categories")
+                    @foreach (var category in Model.Categories)
+                    {
+                        @Html.DisplayTextFor(model => category.Name)<text>,</text>
+                    }
+                </div>
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(model => model.Objective, "Location/Additional details")
+                @Html.DisplayTextFor(model => model.Objective)
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(model => model.NumberOfVolunteers, "Number of Good People")
+                @Html.DisplayTextFor(model => model.NumberOfVolunteers)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Optional action details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.LabelFor(model => model.ChildFriendly, "Child-friendly?")
+                @Html.DisplayTextFor(model => model.ChildFriendly)
+            </div>
+
+            <div class="field">          
+                @Html.LabelFor(model => model.Skills, "Special skills?")
+                @Html.DisplayTextFor(model => model.Skills)
+            </div>
+
+            <div class="field">            
+                @Html.LabelFor(model => model.Equipment, "Equipment?")
+                @Html.DisplayTextFor(model => model.Equipment)
+            </div>
+
+            <div class="field">                    
+                @Html.LabelFor(model => model.VolunteerBenefits, "List any perks?")
+                @Html.DisplayTextFor(model => model.VolunteerBenefits)
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(model => model.EmailAddress, "Email address")
+                @Html.DisplayTextFor(model => model.EmailAddress)
+            </div>
+
+            <div class="field">                    
+                @Html.LabelFor(model => model.EmailDisclosureLevel, "Email Disclosure")
+                @Html.DisplayTextFor(model => model.EmailDisclosureLevel)
+            </div>
+
+            <div class="field">           
+                @Html.LabelFor(model => model.Telephone)
+                @Html.DisplayTextFor(model => model.Telephone)
+            </div>
+
+            <div class="field">            
+                @Html.LabelFor(model => model.TelephoneDisclosureLevel, "Telephone Disclosure")
+                @Html.DisplayTextFor(model => model.TelephoneDisclosureLevel)
+            </div>
+
+            <div class="field">                    
+                @Html.LabelFor(model => model.Website)
+                @Html.DisplayTextFor(model => model.Website)
+            </div>
+
+            <div class="field">                    
+                @Html.LabelFor(model => model.WebsiteDisclosureLevel, "Website Disclosure")
+                @Html.DisplayTextFor(model => model.WebsiteDisclosureLevel)
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="edit-panel">
+    <h2>Date and Time</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.LabelFor(model => model.StartDate, "Starting date")
+                @Html.DisplayTextFor(model => model.StartDate)     
+            </div>  
+                  
+            <div class="field">
+                @Html.LabelFor(model => model.EndDate, "End date")
+                @Html.DisplayTextFor(model => model.EndDate)
+            </div>	
+
+        </div>	                
+    </div>   
+</div>
+
+<div class="edit-panel">
+    <h2>Recurrence details</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+            
+            <div class="field">
+                @Html.LabelFor(model => model.IsRecurring, "Will the action recur?")
+                @Html.DisplayTextFor(model => model.IsRecurring)
+            </div>  
+                             
+            <div class="field">
+                @Html.LabelFor(model => model.RecurrenceInterval, "How often will it recur?")
+                @Html.DisplayTextFor(model => model.RecurrenceInterval)
+            </div>	
+
+            <div class="field">
+                @Html.LabelFor(model => model.Recurrence, "How many times will it recur?")
+                @Html.DisplayTextFor(model => model.RecurrenceInterval)
+            </div>	
+
+        </div>
+    </div>
+</div>

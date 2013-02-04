@@ -1,0 +1,6 @@
+﻿@model Gather.Web.Models.User.UserModel
+
+<div id="user-bar">
+    <span>Hello, @Model.DisplayName</span>
+    <span class="align-right">@Html.ActionLink("Public Site", "Index", "Home", new { Area = "" }, new{}) | @Html.RouteLink("Log Off", "AuthenticationLogout", new { Area = "" })</span>
+</div> 

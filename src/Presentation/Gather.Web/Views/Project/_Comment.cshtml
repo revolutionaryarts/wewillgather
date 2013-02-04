@@ -1,0 +1,57 @@
+﻿@model Gather.Web.Models.Comment.CommentModel
+@using Gather.Core
+@using Gather.Core.Domain.Common
+@using Gather.Core.Infrastructure
+@using Gather.Web.Framework.UI
+@{
+    var replyToId = ViewData["replyToId"] ?? Model.Id;
+    var workContext = EngineContext.Current.Resolve<IWorkContext>();
+    var siteSettings = EngineContext.Current.Resolve<SiteSettings>();
+
+    int commentModerationRequestLimit;
+    int.TryParse(siteSettings.CommentModerationRequestLimit, out commentModerationRequestLimit);
+}
+
+<div class="row" id="comment-@Model.Id">
+    <a class="two columns blocked" href="@Url.RouteUrl("UserProfile", new { userName = Model.Author.UserName })">
+        <img src="@Html.ResizedImageUrl(Model.Author.ProfilePicture, 83, 83)" alt="@Model.Author.DisplayName" class="phone-one" />
+        <div class="phone-three">
+            <span>@Model.Author.DisplayName.ToLower()</span><br />
+            <small>@Html.DateTimeFormat("d~ MMMM yyyy, h:mmTT", Model.CreatedDate)</small>
+        </div>
+    </a>
+    <article class="nine offset-by-one columns">
+        <div class="panel">
+            @if (commentModerationRequestLimit > 0 && Model.ModerationRequestCount >= commentModerationRequestLimit)
+            {
+                @:<em>This comment has been flagged too many times and has been hidden automatically while it awaits moderation.</em>
+            }
+            else if (!Model.Active || Model.Deleted)
+            {
+                @:<em>This comment has been deleted from the site by the user.</em>
+            }
+            else
+            {
+                @Html.BreakRuled(Model.UserComment)<br />
+                <small>
+                    @if (workContext.CurrentUser != null)
+                    {
+                        @:<a href="#" class="comment-reply" data-id="@replyToId">Reply</a>
+                        if (Model.Author.Id == workContext.CurrentUser.Id)
+                        {
+                            @:| <a href="#" data-delete-comment-id="@Model.Id" data-animation="fade">Delete</a>
+                        } else
+                        {
+                            @:| <a href="#" data-comment-id="@Model.Id" data-animation="fade">Flag</a>
+                        }
+                    }
+                    else
+                    {
+                        @Html.RouteLink("Login to reply", "AuthenticationLogin", new { returnUrl = Request.RawUrl }, null)
+                        @:| @Html.RouteLink("Login to flag", "AuthenticationLogin", new { returnUrl = Request.RawUrl }, null)
+                    }
+                </small>
+            }
+        </div>
+    </article>
+</div>

@@ -1,0 +1,29 @@
+﻿@model Gather.Web.Models.Category.CategoryModel
+@using Gather.Web.Framework.UI;
+@{    
+    Html.Heading("Edit Category: " + Model.Name);
+}
+
+@using (Html.BeginForm("edit", "category"))
+{
+    <div class="side-edit-panel">
+        <div class="edit-panel">
+            <h2>Save</h2>
+            <div class="panel-content">
+                <div class="inner-content">
+                    <table class="info-table">
+                        <tr>
+                            <td>Created Date:</td>
+                            <td>@Model.CreatedDate</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="save" value="Update" class="button blue" />
+                    <input type="submit" name="hide" value="@(Model.Active ? "Hide" : "Show")" class="button grey" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @Html.Partial("_CreateOrUpdate", Model);
+}

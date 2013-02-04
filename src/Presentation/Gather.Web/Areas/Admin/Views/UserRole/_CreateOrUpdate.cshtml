@@ -1,0 +1,41 @@
+﻿@model Gather.Web.Models.User.UserRoleModel
+@using Gather.Web.Framework.UI
+
+<div class="edit-panel">
+    <h2>Info</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+
+            <div class="field">
+                @Html.GatherLabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+            
+            <div class="field">
+                @Html.GatherLabelFor(model => model.SystemName)
+                @Html.TextBoxFor(model => model.SystemName)
+                @Html.ValidationMessageFor(model => model.SystemName)
+            </div>
+            
+        </div>
+    </div>
+</div>
+    
+<div class="edit-panel">
+    <h2>Permissions</h2>
+    <div class="panel-content">
+        <div class="inner-content">
+
+            @foreach(var permission in Model.AvailablePermissionRecords)
+            {
+                var allowed = Model.PermissionRecords.Any(x => x.SystemName == permission.SystemName);
+                <div class="field">
+                    <label for="allow_@permission.SystemName">@permission.Name</label>
+                    <input id="allow_@permission.SystemName" name="allow" type="checkbox" class="checkbox" value="@permission.SystemName" @(allowed ? " checked=checked" : null) />
+                </div>
+            }
+        
+        </div>
+    </div>
+</div>

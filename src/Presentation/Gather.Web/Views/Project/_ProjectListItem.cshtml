@@ -1,0 +1,74 @@
+﻿@model Gather.Web.Models.Project.BaseProjectModel
+@using Gather.Web.Framework.UI
+@{
+    var primaryLocation = Model.Locations.First(l => l.Primary).Location;
+}
+<li>
+    <div class="row">
+        <div class="eight columns">
+            <h3>
+                <a href="@Url.RouteUrl("ProjectDetail", new { locationSeoName = primaryLocation.SeoName, seoName = Model.SeoName, id = Model.Id })" itemprop="url">@Model.Name</a>
+            </h3>
+        </div>
+        <div class="four columns">
+            <a href="@Url.RouteUrl("ProjectDetail", new { locationSeoName = primaryLocation.SeoName, seoName = Model.SeoName, id = Model.Id })" class="button button-arrow bumped-down">See all the info</a>
+        </div>        
+    </div>
+    
+    <div class="row">
+        <div class="panel">
+            <p class="three columns phone-two">
+                @if(Model.StartDate != null)
+                {
+                    @:<strong>Starts on:</strong><br /> @Html.DateTimeFormat("d~ MMMM", Model.StartDate.Value)
+                }
+             </p>
+            <p class="three columns phone-two">
+                @if(Model.StartDate != null)
+                {
+                    @:<strong>Time:</strong><br /> @Html.DateTimeFormat("h:mmTT", Model.StartDate.Value)
+                    if(Model.EndDate != null && Model.EndDate.Value.Subtract(Model.StartDate.Value).Days < 1)
+                    {
+                         @:- @Html.DateTimeFormat("h:mmTT", Model.EndDate.Value)
+                    }
+                }
+            </p>
+            <p class="three columns phone-two">
+                <strong>Location:</strong><br /> @primaryLocation.Name
+            </p>    
+            <p class="three columns phone-two">
+                @if (Model.Categories.Count > 0)
+                {
+                    <strong>Category:</strong><br />
+                    @Model.Categories.Aggregate("", (current, category) => current + " " + category.Name + ",").TrimEnd(',')
+                }
+            </p>
+        </div>
+    </div> 
+
+    <div class="row">
+        <p class="project-highlight">
+
+            @if(Model.Volunteers.Count == 0)
+            {
+                @:We need <strong>@Model.NumberOfVolunteers</strong>  @(Model.Volunteers.Count == 1 ? "good person" : "good people"). Be the first to join!                
+            } 
+            else
+            {
+                @:We have <strong>@Model.Volunteers.Count</strong> @(Model.Volunteers.Count == 1 ? "good person" : "good people") so far. Join us!
+                if (Model.Owners.Count > 0)
+                {
+                    <strong>Started by:</strong>
+                    foreach (var owner in Model.Owners.Select((x, i) => new { Data = x, Index = i }))
+                    {
+                        <a href="@Url.RouteUrl("UserProfile", new { userName = owner.Data.UserName })">@owner.Data.DisplayName</a>@(owner.Index < Model.Owners.Count - 1 ? ", " : null)
+                    }
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl("ProjectDetail", new { locationSeoName = primaryLocation.SeoName, seoName = Model.SeoName, id = Model.Id })" itemprop="url">Want to organise this action?</a>
+                }
+            }
+        </p>
+    </div>
+</li>
